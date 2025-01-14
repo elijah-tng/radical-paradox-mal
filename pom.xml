@@ -20,7 +20,7 @@
         <maven-javadoc-plugin.version>3.0.0-M1</maven-javadoc-plugin.version>
         <jdeferred.version>2.0.0</jdeferred.version>
         <scala.version>2.12</scala.version>
-        <activej.version>6.0-beta2</activej.version>
+        <activej.version>6.0-rc2</activej.version>
     </properties>
 
     <dependencies>
