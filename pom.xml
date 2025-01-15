@@ -46,7 +46,7 @@
         <dependency>
             <groupId>com.uwyn.rife2</groupId>
             <artifactId>rife2-core</artifactId>
-            <version>1.9.0</version>
+            <version>1.9.1</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-pcollections -->
         <dependency>
