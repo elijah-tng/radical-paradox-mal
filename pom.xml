@@ -27,7 +27,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>2.0.54</version>
+            <version>2.0.55</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.uwyn.rife2/bld -->
