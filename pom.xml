@@ -40,7 +40,7 @@
         <dependency>
             <groupId>com.uwyn.rife2</groupId>
             <artifactId>rife2-renderers</artifactId>
-            <version>1.1.6</version>
+            <version>1.2.0</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.uwyn.rife2/rife2-core -->
         <dependency>
