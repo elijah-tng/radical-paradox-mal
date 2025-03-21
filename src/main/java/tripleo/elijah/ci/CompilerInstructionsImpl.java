@@ -8,7 +8,7 @@
  */
 package tripleo.elijah.ci;
 
-import antlr.Token;
+import tripleo.vendor.antlr277.Token;
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.lang.IExpression;
 import tripleo.elijah.lang.StringExpression;

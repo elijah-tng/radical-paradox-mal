@@ -16,8 +16,8 @@ class WlDeduceFunction implements WorkJob {
     public WlDeduceFunction(
             final WorkJob aWorkJob, final List<BaseGeneratedFunction> aColl, final DeduceTypes2 aDeduceTypes2) {
         workJob = aWorkJob;
-        coll = aColl;
-        dt2 = aDeduceTypes2;
+        coll    = aColl;
+        dt2     = aDeduceTypes2;
     }
 
     @Override
@@ -52,7 +52,9 @@ class WlDeduceFunction implements WorkJob {
                 }
                 generatedConstructor.deducedAlready = true;
             }
-        } else throw new NotImplementedException();
+        } else {
+            throw new NotImplementedException();
+        }
 
         assert coll.size() == 1;
 

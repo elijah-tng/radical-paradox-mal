@@ -1,13 +1,13 @@
 package tripleo.elijah.lang;
 
-import antlr.Token;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.diagnostic.Locatable;
 import tripleo.elijah.lang2.ElElementVisitor;
+import tripleo.elijah_fluffy.diagnostic.ElLocatable;
 import tripleo.elijah_fluffy.util.Helpers;
 import tripleo.elijah_fluffy.util.NotImplementedException;
 import tripleo.elijah_fluffy.util.SimplePrintLoggerToRemoveSoon;
+import tripleo.vendor.antlr277.Token;
 
 import java.io.File;
 
@@ -15,7 +15,7 @@ import java.io.File;
  * @author Tripleo(sb)
  *
  */
-public class IdentExpression implements IExpression, OS_Element, Resolvable, Locatable {
+public class IdentExpression implements IExpression, OS_Element, Resolvable, ElLocatable {
 
     public final Attached _a;
     private final Token text;

@@ -8,8 +8,8 @@
  */
 package tripleo.elijah_fluffy.util;
 
-import antlr.CommonToken;
-import antlr.Token;
+import tripleo.vendor.antlr277.CommonToken;
+import tripleo.vendor.antlr277.Token;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

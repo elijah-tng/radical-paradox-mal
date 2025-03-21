@@ -8,17 +8,12 @@
  */
 package tripleo.elijah.comp;
 
-import org.jdeferred2.DoneCallback;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.ci.CompilerInstructions;
 import tripleo.elijah.comp.i.CompilerController;
 import tripleo.elijah.comp.i.ErrSink;
 import tripleo.elijah.comp.i.ICompilationAccess;
-import tripleo.elijah.comp.i._Inputter2;
-import tripleo.elijah.comp.internal.EDR_CIS;
-import tripleo.elijah.comp.internal.EDR_CompilationBus;
-import tripleo.elijah.comp.internal.EDR_CompilationRunner;
-import tripleo.elijah.comp.internal.EDR_MOD;
+import tripleo.elijah.comp.internal.*;
 import tripleo.elijah.lang.ClassStatement;
 import tripleo.elijah.lang.OS_Module;
 import tripleo.elijah.lang.OS_Package;
@@ -27,9 +22,9 @@ import tripleo.elijah.nextgen.outputtree.EOT_OutputTree;
 import tripleo.elijah.stages.deduce.DeducePhase;
 import tripleo.elijah.stages.deduce.FunctionMapHook;
 import tripleo.elijah.stages.deduce.fluffy.i.FluffyComp;
-import tripleo.elijah.stages.gen_fn.GeneratedNode;
 import tripleo.elijah.stages.logging.ElLog;
 import tripleo.elijah.testing.comp.IFunctionMapHook;
+import tripleo.elijah.world.i.LivingRepo;
 import tripleo.elijah.world.impl.DefaultLivingRepo;
 import tripleo.elijah_fluffy.comp.CM_Prelude;
 import tripleo.elijah_fluffy.comp.CM_Preludes;
@@ -114,8 +109,8 @@ public interface Compilation {
 
     ElValue<EDR_CompilationBus> get_cb();
 
-    @NotNull
-    List<GeneratedNode> getLGC();
+    // @NotNull
+    // List<GeneratedNode> getLGC();
 
     boolean isPackage(String aPackageName);
 
@@ -129,7 +124,7 @@ public interface Compilation {
 
     void register(Object registerable);
 
-    World world();
+    LivingRepo world();
 
     Operation<CM_Prelude> findPrelude2(@NotNull CM_Preludes aPreludeTag);
 
@@ -137,8 +132,8 @@ public interface Compilation {
 
     ICompilationAccess _compilationAccess();
 
-    @SuppressWarnings("UnusedReturnValue")
-    <T, U> File inputFile(File aDirectory, String aFileName, _Inputter2<CompilerInstructions> func);
+    // @SuppressWarnings("UnusedReturnValue")
+    // <T, U> File inputFile(File aDirectory, String aFileName, _Inputter2<CompilerInstructions> func);
 
     List<ElLog> getElLogs();
 
@@ -160,17 +155,15 @@ public interface Compilation {
 
     EDR_CompilationRunner get__cr();
 
-    void set__cr(EDR_CompilationRunner a__cr);
+    // void set__cr(EDR_CompilationRunner a__cr);
 
     void writeLogs(final @NotNull List<ElLog> aLogs);
 
     void hasInstructions(List<CompilerInstructions> l);
 
-    class World {
-        public void subscribeLgc(DoneCallback<CWS_LGC> consumer) {
-            //		lgcsub.
-        }
-    }
+    void pushItem(OptCompilerInstructions aOptCI);
+
+    EDR_Compilation.ExecutorService_ newExecutor();
 }
 
 //

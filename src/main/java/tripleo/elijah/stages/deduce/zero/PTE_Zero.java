@@ -5,7 +5,6 @@ import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.comp.i.ErrSink;
-import tripleo.elijah.diagnostic.Diagnostic;
 import tripleo.elijah.lang.BaseFunctionDef;
 import tripleo.elijah.lang.LookupResultList;
 import tripleo.elijah.lang.OS_Element;
@@ -13,10 +12,11 @@ import tripleo.elijah.stages.deduce.DeduceLookupUtils;
 import tripleo.elijah.stages.deduce.DeduceTypes2;
 import tripleo.elijah.stages.deduce.ResolveError;
 import tripleo.elijah.stages.gen_fn.*;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
 
 public class PTE_Zero {
-    private final ProcTableEntry procTableEntry;
-    private final DeferredObject<IElementHolder, Diagnostic, Void> _foundCounstructorDef2Promise =
+    private final ProcTableEntry                                     procTableEntry;
+    private final DeferredObject<IElementHolder, ElDiagnostic, Void> _foundCounstructorDef2Promise =
             new DeferredObject<>();
 
     public PTE_Zero(final ProcTableEntry aProcTableEntry) {
@@ -41,7 +41,7 @@ public class PTE_Zero {
         }
     }
 
-    public Promise<IElementHolder, Diagnostic, Void> foundCounstructorPromise() {
+    public Promise<IElementHolder, ElDiagnostic, Void> foundCounstructorPromise() {
         return _foundCounstructorDef2Promise.promise();
     }
 

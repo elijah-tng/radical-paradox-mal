@@ -1,6 +1,6 @@
 package tripleo.elijah;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import tripleo.elijah.comp.Compilation;
@@ -12,10 +12,10 @@ import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("NewClassNamingConvention")
 public class TestBasic_fact1_Verification2 {
-	private Compilation c;
+	private static Compilation c;
 
-	@Before
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		final String s = "test/basic/fact1/main2";
 		c = CompilationFactory.mkCompilation();
 		c.reports().turnAllOutputOff();
@@ -32,9 +32,10 @@ public class TestBasic_fact1_Verification2 {
 		assertTrue(c.reports().containsInput("test/basic/fact1/main2/main2.elijah"));
 	}
 
+	@Ignore
 	@Test
 	public void testInputs_main2_ez() {
-//        assertTrue(c.reports().containsInput("test/basic/fact1/main2/main2.ez"))
+        assertTrue(c.reports().containsInput("test/basic/fact1/main2/main2.ez"));
 	}
 
 	@Test
@@ -47,7 +48,7 @@ public class TestBasic_fact1_Verification2 {
 		assertTrue(c.reports().containsCodeOutput("/main2/Main.c"));
 	}
 
-	@Ignore
+	// @Ignore
 	@Test
 	public void test1() {
 		assertTrue(c.reports().contains401b(_401bMatcher.ofFull("/COMP/2408d3e32dc3f2d0d6254141917fa7629c71352a506a0edd17a007d1e3baa781/<date>/sww/modules-sw-writer")));

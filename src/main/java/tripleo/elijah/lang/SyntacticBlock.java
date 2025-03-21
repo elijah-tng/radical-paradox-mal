@@ -8,7 +8,7 @@
  */
 package tripleo.elijah.lang;
 
-import antlr.Token;
+import tripleo.vendor.antlr277.Token;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;

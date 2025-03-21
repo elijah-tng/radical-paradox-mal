@@ -3,7 +3,7 @@ package tripleo.elijah.stages.deduce.zero;
 import org.jetbrains.annotations.Contract;
 import tripleo.elijah.stages.gen_fn.GenType;
 
-class Zero_Type {
+class Zero_Type implements IZero /*technically*/ {
 
     private final GenType gt;
 

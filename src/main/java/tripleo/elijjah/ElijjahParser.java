@@ -2,8 +2,7 @@
 
 package tripleo.elijjah;
 
-import antlr.*;
-import antlr.collections.impl.BitSet;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.Out;
 import tripleo.elijah.contexts.*;
 import tripleo.elijah.lang.*;
@@ -14,11 +13,13 @@ import tripleo.elijah.lang.imports.QualifiedImportStatement;
 import tripleo.elijah.lang.imports.RootedImportStatement;
 import tripleo.elijah.lang.types.OS_BuiltinType;
 import tripleo.elijah.lang2.BuiltInTypes;
+import tripleo.vendor.antlr277.*;
+import tripleo.vendor.antlr277.collections.impl.BitSet;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes {
+public class ElijjahParser extends LLkParser implements ElijjahTokenTypes {
 
     public static final String[] _tokenNames = {
         "<0>",
@@ -8282,7 +8283,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
         return tn;
     }
 
-    public final NormalTypeName normalTypeName2() throws RecognitionException, TokenStreamException {
+    public final @NotNull NormalTypeName normalTypeName2() throws RecognitionException, TokenStreamException {
         final NormalTypeName tn;
 
         tn = new RegularTypeName(cur);

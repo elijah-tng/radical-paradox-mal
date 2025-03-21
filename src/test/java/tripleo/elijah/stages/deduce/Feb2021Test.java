@@ -8,6 +8,7 @@
  */
 package tripleo.elijah.stages.deduce;
 
+import org.junit.Assert;
 import org.junit.Test;
 import tripleo.elijah.comp.Compilation;
 import tripleo.elijah.factory.comp.CompilationFactory;
@@ -24,6 +25,8 @@ public class Feb2021Test {
 		final Compilation c = CompilationFactory.mkCompilation();
 
 		c.feedCmdLine(List_of("test/feb2021/property/"));
+
+		Assert.assertEquals(-1, c.errorCount());
 	}
 
 	@Test
@@ -31,6 +34,8 @@ public class Feb2021Test {
 		final Compilation c = CompilationFactory.mkCompilation();
 
 		c.feedCmdLine(List_of("test/feb2021/function/"));
+
+		Assert.assertEquals(-1, c.errorCount());
 	}
 
 	@Test
@@ -38,6 +43,8 @@ public class Feb2021Test {
 		final Compilation c = CompilationFactory.mkCompilation();
 
 		c.feedCmdLine(List_of("test/feb2021/hier/"));
+
+		Assert.assertEquals(-1, c.errorCount());
 	}
 
 }

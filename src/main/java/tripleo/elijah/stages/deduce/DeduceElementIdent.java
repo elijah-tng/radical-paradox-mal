@@ -11,20 +11,20 @@ package tripleo.elijah.stages.deduce;
 
 import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.diagnostic.Diagnostic;
 import tripleo.elijah.lang.Context;
 import tripleo.elijah.lang.OS_Element;
 import tripleo.elijah.stages.gen_fn.BaseGeneratedFunction;
 import tripleo.elijah.stages.gen_fn.IdentTableEntry;
 import tripleo.elijah.stages.instructions.IdentIA;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
 
 /**
  * Created 11/22/21 8:23 PM
  */
 public class DeduceElementIdent {
-    private final IdentTableEntry identTableEntry;
-    private final DeferredObject<OS_Element, Diagnostic, Void> _resolvedElementPromise = new DeferredObject<>();
-    private DeduceTypes2 deduceTypes2;
+    private final IdentTableEntry                                identTableEntry;
+    private final DeferredObject<OS_Element, ElDiagnostic, Void> _resolvedElementPromise = new DeferredObject<>();
+    private       DeduceTypes2                                   deduceTypes2;
     private Context context;
     private BaseGeneratedFunction generatedFunction;
 
@@ -88,7 +88,7 @@ public class DeduceElementIdent {
         ria.action();
     }
 
-    private DeferredObject<OS_Element, Diagnostic, Void> resolvedElementPromise() {
+    private DeferredObject<OS_Element, ElDiagnostic, Void> resolvedElementPromise() {
         return _resolvedElementPromise;
     }
 

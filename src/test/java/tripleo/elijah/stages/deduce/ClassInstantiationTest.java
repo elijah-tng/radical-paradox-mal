@@ -12,6 +12,7 @@ import org.junit.Test;
 import tripleo.elijah.comp.Compilation;
 import tripleo.elijah.factory.comp.CompilationFactory;
 
+import static org.junit.Assert.assertEquals;
 import static tripleo.elijah_fluffy.util.Helpers.List_of;
 
 /**
@@ -25,6 +26,8 @@ public class ClassInstantiationTest {
 		final Compilation c = CompilationFactory.mkCompilation();
 
 		c.feedCmdLine(List_of(f));
+
+		assertEquals(0, c.errorCount());
 	}
 
 	@Test
@@ -33,6 +36,8 @@ public class ClassInstantiationTest {
 		final Compilation c = CompilationFactory.mkCompilation();
 
 		c.feedCmdLine(List_of(f));
+
+		assertEquals(0, c.errorCount());
 	}
 
 	@Test
@@ -41,6 +46,8 @@ public class ClassInstantiationTest {
 		final Compilation c = CompilationFactory.mkCompilation();
 
 		c.feedCmdLine(List_of(f));
+
+		assertEquals(0, c.errorCount());
 	}
 }
 

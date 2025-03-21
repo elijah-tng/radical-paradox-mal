@@ -8,7 +8,7 @@
  */
 package tripleo.elijah.lang;
 
-import antlr.Token;
+import tripleo.vendor.antlr277.Token;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.contexts.FunctionContext;
 

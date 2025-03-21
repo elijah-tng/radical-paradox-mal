@@ -17,15 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 // TODO is this right, or should be interface??
+//  nope
 public abstract class Context {
-
-    //	private OS_Container attached;
-
     public Context() {}
-
-    //	public Context(OS_Container attached) {
-    //		this.attached = attached;
-    //	}
 
     public LookupResultList lookup(@NotNull final String name) {
         final LookupResultList Result = new LookupResultList();
@@ -40,37 +34,14 @@ public abstract class Context {
         return module.parent;
     }
 
-    //	@Deprecated public void add(OS_Element element, String name) {
-    //		add(element, new IdentExpression(Helpers.makeToken(name)));
-    //	}
-    //
-    //	@Deprecated public void add(OS_Element element, String name, OS_Type dtype) {
-    //		add(element, new IdentExpression(Helpers.makeToken(name)), dtype);
-    //	}
-    //
-    //	public void add(OS_Element element, IExpression name) {
-    //		tripleo.elijah.util.Stupidity.println2(String.format("104 Context.add: %s %s %s", this, element, name));
-    //		members.put(name, element);
-    //	}
-
-    //
-    //	Map<IExpression, OS_Element> members = new HashMap<IExpression, OS_Element>();
-    //	private NameTable nameTable = new NameTable();
-    //
-    //	public void add(OS_Element element, IExpression name, OS_Type dtype) {
-    //		tripleo.elijah.util.Stupidity.println2(String.format("105 Context.add: %s %s %s %s", this, element, name,
-    // dtype));
-    ////		element.setType(dtype);
-    //		members.put(name, element);
-    //	}
-    //
-    //	public NameTable nameTable() {
-    //		return this.nameTable ;
-    //	}
-
     public @NotNull OS_Module module() {
         Context ctx = this; // getParent();
-        while (!(ctx instanceof ModuleContext)) ctx = ctx.getParent();
+        while (!(ctx instanceof ModuleContext)) {
+            if (ctx == null) {
+                throw new AssertionError();
+            }
+            ctx = ctx.getParent();
+        }
         return ((ModuleContext) ctx).getCarrier();
     }
 

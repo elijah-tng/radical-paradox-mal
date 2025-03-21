@@ -8,8 +8,9 @@
  */
 package tripleo.elijah.ci;
 
-import antlr.Token;
+import com.google.gson.annotations.Expose;
 import tripleo.elijah.lang.IExpression;
+import tripleo.vendor.antlr277.Token;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,11 @@ import java.util.List;
  * Created 9/6/20 12:06 PM
  */
 public class LibraryStatementPartImpl implements LibraryStatementPart {
+    @Expose
     private String name;
+    @Expose
     private String dirName;
+    @Expose
     private List<Directive> dirs = null;
 
     private CompilerInstructions ci;
@@ -46,7 +50,9 @@ public class LibraryStatementPartImpl implements LibraryStatementPart {
 
     @Override
     public void addDirective(final Token token, final IExpression iExpression) {
-        if (dirs == null) dirs = new ArrayList<Directive>();
+        if (dirs == null) {
+            dirs = new ArrayList<Directive>();
+        }
         dirs.add(new Directive(token, iExpression));
     }
 
@@ -66,7 +72,7 @@ public class LibraryStatementPartImpl implements LibraryStatementPart {
         private final String name;
 
         public Directive(final Token token_, final IExpression expression_) {
-            name = token_.getText();
+            name       = token_.getText();
             expression = expression_;
         }
     }

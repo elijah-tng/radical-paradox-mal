@@ -1,420 +1,345 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>tripleo.elijah</groupId>
-    <artifactId>elijah-prolific-remnant</artifactId>
-    <packaging>jar</packaging>
-    <version>0.1-prolific-remnant</version>
-    <name>eljc-prolific-remnant</name>
-    <url>http://github.com/elijah-team/prolific-remnant/</url>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>tripleo.elijah</groupId>
+	<artifactId>elijah-prolific-remnant</artifactId>
+	<packaging>jar</packaging>
+	<version>0.1-prolific-remnant</version>
+	<name>eljc-prolific-remnant</name>
+	<url>http://github.com/elijah-team/prolific-remnant/</url>
 
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <jacoco.version>0.8.6</jacoco.version>
-        <downloadSources>true</downloadSources>
-        <guava.version>33.4.0-jre</guava.version>
-        <buffers.version>0.0.3</buffers.version>
-        <range.version>0.0.3b</range.version>
-        <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
-        <maven-javadoc-plugin.version>3.0.0-M1</maven-javadoc-plugin.version>
-        <jdeferred.version>2.0.0</jdeferred.version>
-        <scala.version>2.12</scala.version>
-        <activej.version>6.0-rc2</activej.version>
-    </properties>
+	<properties>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<jacoco.version>0.8.6</jacoco.version>
+		<downloadSources>true</downloadSources>
+		<guava.version>33.4.0-jre</guava.version>
+		<buffers.version>0.0.3</buffers.version>
+		<range.version>0.0.3b</range.version>
+		<maven-site-plugin.version>3.7.1</maven-site-plugin.version>
+		<maven-javadoc-plugin.version>3.0.0-M1</maven-javadoc-plugin.version>
+		<scala.version>2.12</scala.version>
+		<activej.version>6.0-rc2</activej.version>
+	</properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>2.0.55</version>
-        </dependency>
+	<dependencies>
+		<dependency>
+			<groupId>tripleo.elijah</groupId>
+			<artifactId>elijah-cegont-upper</artifactId>
+			<version>0.1-prolific-remnant</version>
+		</dependency>
+		<dependency>
+			<groupId>io.vavr</groupId>
+			<artifactId>vavr</artifactId>
+			<version>0.10.6</version>
+		</dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.uwyn.rife2/bld -->
-        <dependency>
-            <groupId>com.uwyn.rife2</groupId>
-            <artifactId>bld</artifactId>
-            <version>2.2.0</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/com.uwyn.rife2/rife2-renderers -->
-        <dependency>
-            <groupId>com.uwyn.rife2</groupId>
-            <artifactId>rife2-renderers</artifactId>
-            <version>1.2.0</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/com.uwyn.rife2/rife2-core -->
-        <dependency>
-            <groupId>com.uwyn.rife2</groupId>
-            <artifactId>rife2-core</artifactId>
-            <version>1.9.1</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-pcollections -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-pcollections</artifactId>
-            <version>2.18.2</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.pcollections/pcollections -->
-        <dependency>
-            <groupId>org.pcollections</groupId>
-            <artifactId>pcollections</artifactId>
-            <version>4.0.2</version>
-        </dependency>
+		<!--
+				&lt;!&ndash; https://mvnrepository.com/artifact/com.uwyn.rife2/bld &ndash;&gt;
+				<dependency>
+					<groupId>com.uwyn.rife2</groupId>
+					<artifactId>bld</artifactId>
+					<version>2.2.0</version>
+				</dependency>
+				&lt;!&ndash; https://mvnrepository.com/artifact/com.uwyn.rife2/rife2-renderers &ndash;&gt;
+				<dependency>
+					<groupId>com.uwyn.rife2</groupId>
+					<artifactId>rife2-renderers</artifactId>
+					<version>1.2.0</version>
+				</dependency>
+				&lt;!&ndash; https://mvnrepository.com/artifact/com.uwyn.rife2/rife2-core &ndash;&gt;
+				<dependency>
+					<groupId>com.uwyn.rife2</groupId>
+					<artifactId>rife2-core</artifactId>
+					<version>1.9.1</version>
+				</dependency>
+				&lt;!&ndash; https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-pcollections &ndash;&gt;
+				<dependency>
+					<groupId>com.fasterxml.jackson.datatype</groupId>
+					<artifactId>jackson-datatype-pcollections</artifactId>
+					<version>2.18.2</version>
+				</dependency>
+		-->
+		<!-- https://mvnrepository.com/artifact/org.pcollections/pcollections -->
+		<dependency>
+			<groupId>org.pcollections</groupId>
+			<artifactId>pcollections</artifactId>
+			<version>4.0.2</version>
+		</dependency>
 
-        <dependency>
-            <groupId>io.activej</groupId>
-            <artifactId>activej-net</artifactId>
-            <version>6.0-rc2</version>
-        </dependency>
 
-        <dependency>
-            <groupId>io.activej</groupId>
-            <artifactId>activej-inject</artifactId>
-            <version>${activej.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.activej</groupId>
-            <artifactId>activej-launcher</artifactId>
-            <version>${activej.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.activej</groupId>
-            <artifactId>activej-csp</artifactId>
-            <version>${activej.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.activej</groupId>
-            <artifactId>activej-test</artifactId>
-            <version>${activej.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.activej</groupId>
-            <artifactId>activej-common</artifactId>
-            <version>${activej.version}</version>
-        </dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.12.1</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>io.activej</groupId>
+			<artifactId>activej-net</artifactId>
+			<version>${activej.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.activej</groupId>
+			<artifactId>activej-inject</artifactId>
+			<version>${activej.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.activej</groupId>
+			<artifactId>activej-launcher</artifactId>
+			<version>${activej.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.activej</groupId>
+			<artifactId>activej-csp</artifactId>
+			<version>${activej.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.activej</groupId>
+			<artifactId>activej-test</artifactId>
+			<version>${activej.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.activej</groupId>
+			<artifactId>activej-common</artifactId>
+			<version>${activej.version}</version>
+		</dependency>
+		<!--
+						<dependency>
+								<groupId>io.activej</groupId>
+								<artifactId>activej-net</artifactId>
+								<version>${activej.version}</version>
+						</dependency>
+		-->
+		<dependency>
+			<groupId>io.activej</groupId>
+			<artifactId>activej-http</artifactId>
+			<version>${activej.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.activej</groupId>
+			<artifactId>activej-eventloop</artifactId>
+			<version>${activej.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.activej</groupId>
+			<artifactId>activej-launchers-http</artifactId>
+			<version>${activej.version}</version>
+		</dependency>
+		<!--
+				<dependency>
+					<groupId>io.activej</groupId>
+					<artifactId>activej-jmxapi</artifactId>
+					<version>${activej.version}</version>
+					<optional>true</optional>
+				</dependency>
+		-->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.5.16</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.18.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.java.dev.jna</groupId>
+			<artifactId>jna</artifactId>
+			<version>5.16.0</version>
+		</dependency>
+
+		<!-- https://search.maven.org/artifact/io.reactivex.rxjava3/rxjava/3.1.0/jar -->
+		<dependency>
+			<groupId>io.reactivex.rxjava3</groupId>
+			<artifactId>rxjava</artifactId>
+			<version>3.1.10</version>
+		</dependency>
+
+		<!--
+				<dependency>
+					<groupId>me.friwi</groupId>
+					<artifactId>jcefmaven</artifactId>
+					<version>127.3.1</version>
+				</dependency>
+		-->
+
+		<!-- https://mvnrepository.com/artifact/org.reactivestreams/reactive-streams -->
+		<dependency>
+			<groupId>org.reactivestreams</groupId>
+			<artifactId>reactive-streams</artifactId>
+			<version>1.0.4</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.18.0</version> <!-- Use 1.6 for java 1.5 -->
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>2.0.16</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>5.5.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.jetbrains/annotations -->
+		<dependency>
+			<groupId>org.jetbrains</groupId>
+			<artifactId>annotations</artifactId>
+			<version>26.0.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/junit/junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.spotbugs</groupId>
+			<artifactId>spotbugs-annotations</artifactId>
+			<version>4.9.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
+
 <!--
-        <dependency>
-            <groupId>io.activej</groupId>
-            <artifactId>activej-net</artifactId>
-            <version>${activej.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.jboss.forge.roaster</groupId>
+			<artifactId>roaster-api</artifactId>
+			<version>2.30.1.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.forge.roaster</groupId>
+			<artifactId>roaster-jdt</artifactId>
+			<version>2.30.1.Final</version>
+			<scope>compile</scope>
+		</dependency>
 -->
-        <dependency>
-            <groupId>io.activej</groupId>
-            <artifactId>activej-http</artifactId>
-            <version>${activej.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.activej</groupId>
-            <artifactId>activej-eventloop</artifactId>
-            <version>${activej.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.activej</groupId>
-            <artifactId>activej-launchers-http</artifactId>
-            <version>${activej.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.activej</groupId>
-            <artifactId>activej-jmxapi</artifactId>
-            <version>${activej.version}</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.5.16</version>
-            <scope>test</scope>
-        </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.18.2</version>
-        </dependency>
+	</dependencies>
 
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.17.0</version>
-        </dependency>
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna</artifactId>
-            <version>5.16.0</version>
-        </dependency>
+	<repositories>
+		<repository>
+			<id>central</id>
+			<url>https://repo1.maven.org/maven2/</url>
+		</repository>
+		<!--
+				<repository>
+					<id>jitpack.io</id>
+					<url>https://jitpack.io</url>
+				</repository>
+		-->
+	</repositories>
 
-        <!-- https://search.maven.org/artifact/io.reactivex.rxjava3/rxjava/3.1.0/jar -->
-        <dependency>
-            <groupId>io.reactivex.rxjava3</groupId>
-            <artifactId>rxjava</artifactId>
-            <version>3.1.10</version>
-        </dependency>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.6.0</version>
 
-        <dependency>
-            <groupId>me.friwi</groupId>
-            <artifactId>jcefmaven</artifactId>
-            <version>127.3.1</version>
-        </dependency>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src-mal/java/</source>
+								<source>src-cef/java/</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>3.8.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.5.2</version>
+			</plugin>
 
-        <!-- https://mvnrepository.com/artifact/org.reactivestreams/reactive-streams -->
-        <dependency>
-            <groupId>org.reactivestreams</groupId>
-            <artifactId>reactive-streams</artifactId>
-            <version>1.0.4</version>
-        </dependency>
+			<!-- To use the plugin goals in your POM or parent POM -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>3.5.2</version>
+			</plugin>
 
-        <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.18.0</version> <!-- Use 1.6 for java 1.5 -->
-        </dependency>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.3.1</version>
+				<configuration>
+					<!--
+					<outputDirectory>/absolute/path/to/the/output/directory</outputDirectory>
+					<finalName>filename-of-generated-jar-file</finalName>
+					-->
+					<attach>true</attach>
+				</configuration>
+				<executions>
+					<execution>
+						<id>package</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
 
-        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>2.0.16</version>
-        </dependency>
+				<version>3.13.0</version>
 
-        <dependency>
-            <groupId>org.jdeferred.v2</groupId>
-            <artifactId>jdeferred-core</artifactId>
-            <version>${jdeferred.version}</version>
-        </dependency>
+				<configuration>
+					<source>17</source>
+					<target>17</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
-        <dependency>
-            <groupId>org.easymock</groupId>
-            <artifactId>easymock</artifactId>
-            <version>5.5.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.eclipse.jdt/org.eclipse.jdt.annotation -->
-        <dependency>
-            <groupId>org.eclipse.jdt</groupId>
-            <artifactId>org.eclipse.jdt.annotation</artifactId>
-            <version>2.3.100</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.jetbrains/annotations -->
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>26.0.2</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/junit/junit -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/javassist/javassist -->
-        <!--
-            <dependency>
-              <groupId>javassist</groupId>
-              <artifactId>javassist</artifactId>
-              <version>3.1</version>
-            </dependency>
-        -->
-
-        <!-- https://mvnrepository.com/artifact/antlr/antlr -->
-        <dependency>
-            <groupId>antlr</groupId>
-            <artifactId>antlr</artifactId>
-            <version>2.7.7</version>
-        </dependency>
-
-
-        <!-- https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream -->
-        <!--
-        <dependency>
-            <groupId>com.thoughtworks.xstream</groupId>
-            <artifactId>xstream</artifactId>
-            <version>1.4.11.1</version>
-        </dependency>
-        -->
-
-        <!-- https://mvnrepository.com/artifact/org.apache.bcel/bcel -->
-        <!--
-            <dependency>
-              <groupId>org.apache.bcel</groupId>
-              <artifactId>bcel</artifactId>
-              <version>6.3.1</version>
-            </dependency>
-        -->
-
-        <!-- https://mvnrepository.com/artifact/commons-cli/commons-cli -->
-        <dependency>
-            <groupId>commons-cli</groupId>
-            <artifactId>commons-cli</artifactId>
-            <version>1.6.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.spotbugs</groupId>
-            <artifactId>spotbugs-annotations</artifactId>
-            <version>4.9.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>tripleo.buffers</groupId>
-            <artifactId>buffers-v1</artifactId>
-            <version>${buffers.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>tripleo.util.range</groupId>
-            <artifactId>range-v1</artifactId>
-            <version>${range.version}</version>
-        </dependency>
-
-    </dependencies>
-
-    <repositories>
-        <repository>
-            <id>central</id>
-            <url>https://repo1.maven.org/maven2/</url>
-        </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <!--
-        <repository>
-            <id>gitlab-maven</id>
-            <url>https://gitlab.com/api/v4/projects/${env.CI_PROJECT_ID}/packages/maven</url>
-        </repository>
-        -->
-        <repository>
-            <id>gitlab-maven-buffers</id>
-            <url>https://gitlab.com/api/v4/projects/20346374/packages/maven</url>
-        </repository>
-        <repository>
-            <id>gitlab-maven-range</id>
-            <url>https://gitlab.com/api/v4/projects/21223510/packages/maven</url>
-        </repository>
-    </repositories>
-
-    <distributionManagement>
-<!--
-        <repository>
-            <id>github</id>
-            <name>GitHub elijah-team/fluffy-umbrella Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/elijah-team/prolific-remnant</url>
-        </repository>
--->
-<!--
-        <repository>
-            <id>gitlab-maven</id>
-            <url>https://gitlab.com/api/v4/projects/${env.CI_PROJECT_ID}/packages/maven</url>
-        </repository>
--->
-    </distributionManagement>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.6.0</version>
-
-                <executions>
-                    <execution>
-                        <id>add-source</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>src-mal/java/</source>
-                                <source>src-cef/java/</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.8.0</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.2</version>
-            </plugin>
-
-            <!-- To use the plugin goals in your POM or parent POM -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>3.5.2</version>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.3.1</version>
-                <configuration>
-                    <!--
-                    <outputDirectory>/absolute/path/to/the/output/directory</outputDirectory>
-                    <finalName>filename-of-generated-jar-file</finalName>
-                    -->
-                    <attach>true</attach>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>package</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-
-
-
-
-                <version>3.13.0</version>
-
-
-
-
-                <configuration>
-                    <source>17</source>
-                    <target>17</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-                <version>3.6.0</version>
-            </plugin>
-        </plugins>
-    </reporting>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>3.6.0</version>
+			</plugin>
+		</plugins>
+	</reporting>
 
 </project>

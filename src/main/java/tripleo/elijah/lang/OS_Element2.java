@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Contract;
 
 /**
  * @author Tripleo
- *
+ * <p/>
  * Created Mar 23, 2020 at 12:40:27 AM
  */
 public interface OS_Element2 {

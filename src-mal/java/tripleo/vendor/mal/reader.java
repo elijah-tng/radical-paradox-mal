@@ -1,10 +1,11 @@
 package tripleo.vendor.mal;
 
-import org.apache.commons.lang3.*;
 import tripleo.vendor.mal.types.*;
+import tripleo.vendor.org.apache.commons.lang3.StringEscapeUtils;
 
-import java.util.*;
-import java.util.regex.*;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class reader {
 	public static ArrayList<String> tokenize(final String str) {

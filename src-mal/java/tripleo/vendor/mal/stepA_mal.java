@@ -1,10 +1,13 @@
 package tripleo.vendor.mal;
 
-import tripleo.vendor.mal.env.*;
+import tripleo.vendor.mal.env.Env;
 import tripleo.vendor.mal.types.*;
 
-import java.io.*;
-import java.util.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class stepA_mal {
 	// read
@@ -344,8 +347,8 @@ public class stepA_mal {
 			}
 		}
 
-		public void re(final String str) throws MalThrowable {
-			RE(repl_env, str);
+		public MalVal re(final String str) throws MalThrowable {
+			return RE(repl_env, str);
 		}
 
 		public void set(final MalSymbol aSymbol, final MalFunction aFunction) {

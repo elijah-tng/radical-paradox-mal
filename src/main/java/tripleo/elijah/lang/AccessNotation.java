@@ -8,7 +8,7 @@
  */
 package tripleo.elijah.lang;
 
-import antlr.Token;
+import tripleo.vendor.antlr277.Token;
 import tripleo.elijah.lang2.ElElementVisitor;
 import tripleo.elijah_fluffy.util.NotImplementedException;
 import tripleo.elijjah.ElijjahTokenTypes;

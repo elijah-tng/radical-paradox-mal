@@ -10,10 +10,11 @@ import java.util.List;
 
 public interface GenerateFiles extends CodeGenerator {
 
-    GenerateResult generateCode(
-            final @NotNull Collection<GeneratedNode> aNodeCollection, final @NotNull WorkManager aWorkManager);
-
     void forNode(final SM_Node aNode);
 
-    GenerateResult resultsFromNodes(List<GeneratedNode> aNodes, WorkManager aWm);
+    GenerateResult generateCode(
+            final @NotNull Collection<GeneratedNode> aNodeCollection,
+            final @NotNull WorkManager aWorkManager);
+
+    GenerateResult resultsFromNodes(List<GeneratedNode> aNodes, WorkManager aWorkManager);
 }

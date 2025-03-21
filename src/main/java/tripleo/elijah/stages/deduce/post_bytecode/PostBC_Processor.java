@@ -6,7 +6,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.comp.i.ErrSink;
-import tripleo.elijah.diagnostic.Diagnostic;
 import tripleo.elijah.lang.Context;
 import tripleo.elijah.lang.OS_Type;
 import tripleo.elijah.stages.deduce.CantDecideType;
@@ -14,6 +13,7 @@ import tripleo.elijah.stages.deduce.DeduceTypes2;
 import tripleo.elijah.stages.deduce.ResolveError;
 import tripleo.elijah.stages.gen_fn.GenType;
 import tripleo.elijah.stages.gen_fn.VariableTableEntry;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
 import tripleo.elijah_fluffy.util.NotImplementedException;
 import tripleo.elijah_fluffy.util.SimplePrintLoggerToRemoveSoon;
 
@@ -47,7 +47,7 @@ public interface PostBC_Processor {
 
     void doSetType(DeduceType3 aDeduceType3, ErrSink aErrSink1);
 
-    Promise<DeduceType3, Diagnostic, Void> getType(final ErrSink aErrSink1);
+    Promise<DeduceType3, ElDiagnostic, Void> getType(final ErrSink aErrSink1);
 
     @Nullable
     DeduceType3 doNoTypeAttached(final ErrSink errSink1);
@@ -106,8 +106,8 @@ public interface PostBC_Processor {
         protected abstract DeduceTypes2.DeduceClient1 deduceTypes2();
 
         @Override
-        public Promise<DeduceType3, Diagnostic, Void> getType(final ErrSink aErrSink) {
-            final Promise<DeduceType3, Diagnostic, Void> dty = postBC_getTypeFor_VTE(vte(), ctx(), aErrSink);
+        public Promise<DeduceType3, ElDiagnostic, Void> getType(final ErrSink aErrSink) {
+            final Promise<DeduceType3, ElDiagnostic, Void> dty = postBC_getTypeFor_VTE(vte(), ctx(), aErrSink);
             return dty;
         }
 
@@ -162,14 +162,14 @@ public interface PostBC_Processor {
             return r;
         }
 
-        private Promise<DeduceType3, Diagnostic, Void> postBC_getTypeFor_VTE(
+        private Promise<DeduceType3, ElDiagnostic, Void> postBC_getTypeFor_VTE(
                 final @NotNull VariableTableEntry vte, final Context fd_ctx, final ErrSink errSink) {
             final DeduceType3 r;
             final DeduceTypes2.DeduceClient1 deduceClient1 = deduceTypes2();
             final OS_Type vte_type_attached = vte.type.getAttached();
 
-            final DeferredObject<DeduceType3, Diagnostic, Void> rr =
-                    new DeferredObject<DeduceType3, Diagnostic, Void>();
+            final DeferredObject<DeduceType3, ElDiagnostic, Void> rr =
+                    new DeferredObject<DeduceType3, ElDiagnostic, Void>();
 
             if (vte_type_attached == null) {
                 final DeduceType3 r2 =

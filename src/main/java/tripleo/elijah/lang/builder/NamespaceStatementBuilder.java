@@ -8,7 +8,7 @@
  */
 package tripleo.elijah.lang.builder;
 
-import antlr.Token;
+import tripleo.vendor.antlr277.Token;
 import tripleo.elijah.lang.*;
 
 import java.util.ArrayList;

@@ -1,5 +1,6 @@
 package tripleo.elijah.stages.deduce.post_bytecode;
 
+import com.google.gson.annotations.Expose;
 import org.jdeferred2.DoneCallback;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -15,10 +16,13 @@ import tripleo.elijah_fluffy.util.SimplePrintLoggerToRemoveSoon;
 
 public class DeduceElement3_IdentTableEntry extends DefaultStateful implements IDeduceElement3 {
 
-    public final IdentTableEntry principal;
-    public BaseGeneratedFunction generatedFunction;
+    @Expose
+    public final IdentTableEntry       principal;
+    @Expose
+    public       BaseGeneratedFunction generatedFunction;
     public DeduceTypes2 deduceTypes2;
-    private GenType genType;
+    @Expose
+    private      GenType               genType;
     private Context fdCtx;
     private Context context;
 
@@ -87,7 +91,7 @@ public class DeduceElement3_IdentTableEntry extends DefaultStateful implements I
     }
 
     public void _ctxts(final Context aFdCtx, final Context aContext) {
-        fdCtx = aFdCtx;
+        fdCtx   = aFdCtx;
         context = aContext;
     }
 
@@ -130,8 +134,9 @@ public class DeduceElement3_IdentTableEntry extends DefaultStateful implements I
 
                         @Override
                         public void foundElement(final OS_Element x) {
-                            if (ite.getResolvedElement() != x)
+                            if (ite.getResolvedElement() != x) {
                                 ite.setStatus(BaseTableEntry.Status.KNOWN, new GenericElementHolder(x));
+                            }
                             if (ite.type != null && ite.type.getAttached() != null) {
                                 switch (ite.type.getAttached().getType()) {
                                     case USER:

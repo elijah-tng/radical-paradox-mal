@@ -2,27 +2,27 @@ package tripleo.elijah.stages.deduce.post_bytecode;
 
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.comp.i.ErrSink;
-import tripleo.elijah.diagnostic.Diagnostic;
 import tripleo.elijah.lang.OS_Type;
 import tripleo.elijah.stages.deduce.DeduceTypes2;
 import tripleo.elijah.stages.gen_fn.BaseGeneratedFunction;
 import tripleo.elijah.stages.gen_fn.GenType;
 import tripleo.elijah.stages.gen_fn.IdentTableEntry;
 import tripleo.elijah.stages.gen_fn.VariableTableEntry;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
 
 class DeduceType3 implements DED {
-    private final OS_Type osType;
-    private final Diagnostic diagnostic;
+    private final OS_Type      osType;
+    private final ElDiagnostic diagnostic;
     private final IDeduceElement3 deduceElement3;
     private GenType _genType;
 
-    public DeduceType3(final OS_Type aOSType, final Diagnostic aDiagnostic) {
+    public DeduceType3(final OS_Type aOSType, final ElDiagnostic aDiagnostic) {
         deduceElement3 = null;
         osType = aOSType;
         diagnostic = aDiagnostic;
     }
 
-    public DeduceType3(final IDeduceElement3 aDeduceElement3, final OS_Type aOSType, final Diagnostic aDiagnostic1) {
+    public DeduceType3(final IDeduceElement3 aDeduceElement3, final OS_Type aOSType, final ElDiagnostic aDiagnostic1) {
         deduceElement3 = aDeduceElement3;
         osType = aOSType;
         diagnostic = aDiagnostic1;

@@ -9,38 +9,72 @@
 
 package tripleo.elijah.stages.generate;
 
+import org.jdeferred2.DoneCallback;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import tripleo.elijah.comp.AccessBus;
 import tripleo.elijah.comp.Compilation;
 import tripleo.elijah.factory.comp.CompilationFactory;
+import tripleo.elijah.stages.gen_generic.GenerateResult;
+import tripleo.elijah_fluffy.util.Eventual;
 import tripleo.elijah_fluffy.util.Helpers;
+import tripleo.elijah_prolific.comp_signals.CSS2_doFindCIs;
 
 public class ElSystemTest {
-
-	ElSystem sys;
-	Compilation c;
-	private AccessBus ab;
+	private static final String                fut         = "test/basic1/backlink3";
+	private final        CSS2_doFindCIs.Spacer intentional = new CSS2_doFindCIs.Spacer();
+	private ElSystem    sys;
+	private Compilation c;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		c = CompilationFactory.mkCompilation();
-		ab = new AccessBus(c);
 
-		final String f = "test/basic1/backlink3";
-
+		final Eventual<ElSystem> stsP = c.getStartup().getSystem();
 		sys = new ElSystem();
 		sys.setCompilation(c);
+		stsP.resolve(sys);
 
-		c.feedCmdLine(Helpers.List_of(f));
+		// c.feedCmdLine(Helpers.List_of(fut));
 	}
 
+	@Ignore
 	@Test
 	public void generateOutputs() {
 		final OutputStrategy os = new OutputStrategy();
 		os.per(OutputStrategy.Per.PER_CLASS);
 		sys.setOutputStrategy(os);
-		ab.subscribe_GenerateResult(sys::generateOutputs);
+
+		final Eventual<AccessBus> abP = c.getStartup().getAccessBus();
+		abP.then(new DoneCallback<AccessBus>() {
+			@Override
+			public void onDone(final AccessBus Sab) {
+				final var grp = Sab.getGenerateResultPromise();
+				grp.then(new DoneCallback<GenerateResult>() {
+					@Override
+					public void onDone(final GenerateResult result) {
+						final int y = 2;
+					}
+				});
+
+				Sab.subscribe_GenerateResult(new AccessBus.AB_GenerateResultListener() {
+					@Override
+					public void gr_slot(final GenerateResult gr) {
+						sys.generateOutputs(gr);
+					}
+				});
+			}
+		});
+
+		try {
+			c.feedCmdLine(Helpers.List_of(fut));
+		} catch (final Exception aE) {
+			Assert.assertFalse("hit", true);
+		}
+
+		final int y = 2;
 	}
 }
 

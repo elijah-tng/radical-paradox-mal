@@ -1,11 +1,8 @@
 package tripleo.elijah_prolific.v;
 
 import com.google.common.io.Files;
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.comp.Compilation;
 import tripleo.elijah.comp.StdErrSink;
@@ -19,6 +16,8 @@ import tripleo.elijah.nextgen.outputtree.EOT_OutputFile;
 import tripleo.elijah.nextgen.outputtree.EOT_OutputType;
 import tripleo.elijah.stages.gen_generic.GenerateResult;
 import tripleo.elijah.stages.gen_generic.GenerateResultItem;
+import tripleo.elijah_prolific.u.U;
+import tripleo.vendor.org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +42,7 @@ public class V {
     public static void gri(final GenerateResult gr) {
         final PrintStream stream = System.out;
 
-        for (GenerateResultItem ab : gr.results()) {
+        for (final GenerateResultItem ab : gr.results()) {
             // stream.println(ab.counter);
             final String ty = "" + ab.ty;
             // stream.println(ty);
@@ -62,7 +61,7 @@ public class V {
         }
     }
 
-    public static void exit(Compilation c) {
+    public static void exit(final Compilation c) {
         final String x = "{{V.exit}}";
         addLog(x);
         addJsonLog("exit", "", List_of(""));
@@ -75,7 +74,7 @@ public class V {
     }
 
     private static void finishJsonLog(final Compilation c) {
-        final Gson gson = getGson();
+        final Gson gson = U.getGson();
 
         final String jsonString = gson.toJson(jsonLogs);
         // noinspection unused
@@ -96,7 +95,7 @@ public class V {
                             @Override
                             public File get() {
                                 // noinspection UnnecessaryLocalVariable
-                                File f = new F203(c.getErrSink(), c).chooseDirectory();
+                                final File f = new F203(c.getErrSink(), c).chooseDirectory();
                                 return f;
                             }
                         }.get());
@@ -107,25 +106,12 @@ public class V {
 
                 final List<Pair<StdErrSink.Desc, Object>> err = c.getErrSink()._errors();
                 Files.write((gson.toJson(err)).getBytes(), new File(f, "stdErrSink.json"));
-            } catch (IOException aE) {
+            } catch (final IOException aE) {
                 throw new RuntimeException(aE);
             }
         });
 
         // System.err.println("[240914 0088] error-report.json"+jsonString);
-    }
-
-    private static @NotNull Gson getGson() {
-        final Gson gson = new GsonBuilder()
-                // .registerTypeAdapter(_JsonLog.class, new _JsonLog_TypeAdapter())
-                .enableComplexMapKeySerialization()
-                // .serializeNulls()
-                // .setDateFormat(DateFormat.LONG)
-                .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
-                .setPrettyPrinting()
-                .setVersion(1.0)
-                .create();
-        return gson;
     }
 
     @NotNull

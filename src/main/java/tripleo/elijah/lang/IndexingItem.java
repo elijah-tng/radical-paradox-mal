@@ -11,7 +11,7 @@
  */
 package tripleo.elijah.lang;
 
-import antlr.Token;
+import tripleo.vendor.antlr277.Token;
 
 /**
  * @author Tripleo(sb)

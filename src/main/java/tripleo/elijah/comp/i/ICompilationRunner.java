@@ -6,8 +6,6 @@ import tripleo.elijah.comp.internal.EDR_CompilationRunner;
 import tripleo.elijah.comp.specs.EzCache;
 import tripleo.elijah.comp.specs.EzSpec;
 
-import java.util.List;
-
 public interface ICompilationRunner {
     void start(CompilerInstructions ci, boolean do_out);
 
@@ -15,10 +13,10 @@ public interface ICompilationRunner {
 
     EzCache ezCache();
 
-    interface CR_Process {
-        List<ICompilationBus.CB_Action> steps();
-    }
-
+    /*
+     * Whoever said this is wrong is right
+     */
+    @Deprecated
     interface CR_Action {
         void attach(EDR_CompilationRunner cr);
 

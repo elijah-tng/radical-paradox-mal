@@ -8,28 +8,28 @@ import org.jdeferred2.DoneCallback;
 import org.jdeferred2.Promise;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tripleo.elijah.diagnostic.Diagnostic;
 import tripleo.elijah.lang.BaseFunctionDef;
 import tripleo.elijah.lang.ClassStatement;
 import tripleo.elijah.lang.ConstructorDef;
 import tripleo.elijah.lang.OS_Module;
 import tripleo.elijah.nextgen.ClassDefinition;
 import tripleo.elijah.stages.gen_fn.*;
+import tripleo.elijah.work.DefaultWorkManager;
 import tripleo.elijah.work.WorkJob;
 import tripleo.elijah.work.WorkList;
-import tripleo.elijah.work.WorkManager;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class Dependencies {
-    final WorkList wl = new WorkList();
-    final WorkManager wm;
-    private final DeduceTypes2 deduceTypes2;
+    final         WorkList           wl = new WorkList();
+    final         DefaultWorkManager wm;
+    private final DeduceTypes2       deduceTypes2;
 
-    Dependencies(final DeduceTypes2 aDeduceTypes2, final WorkManager aWm) {
+    Dependencies(final DeduceTypes2 aDeduceTypes2, final DefaultWorkManager aWm) {
         deduceTypes2 = aDeduceTypes2;
-        wm = aWm;
+        wm           = aWm;
     }
 
     public void subscribeTypes(final Subject<GenType> aDependentTypesSubject) {
@@ -94,7 +94,7 @@ class Dependencies {
                 ci = (ClassInvocation) genType.getCi();
             }
 
-            final Promise<ClassDefinition, Diagnostic, Void> pcd = deduceTypes2.phase.generateClass(gf, ci);
+            final Promise<ClassDefinition, ElDiagnostic, Void> pcd = deduceTypes2.phase.generateClass(gf, ci);
 
             pcd.then(new DoneCallback<ClassDefinition>() {
                 @Override

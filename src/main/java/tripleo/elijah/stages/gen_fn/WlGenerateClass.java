@@ -8,7 +8,6 @@
  */
 package tripleo.elijah.stages.gen_fn;
 
-import org.jdeferred2.DoneCallback;
 import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.lang.ClassStatement;
@@ -24,24 +23,24 @@ import tripleo.elijah_fluffy.util.NotImplementedException;
  * Created 5/16/21 12:41 AM
  */
 public class WlGenerateClass implements WorkJob {
-    private final ClassStatement classStatement;
-    private final GenerateFunctions generateFunctions;
-    private final ClassInvocation classInvocation;
+    private final ClassStatement               classStatement;
+    private final GenerateFunctions            generateFunctions;
+    private final ClassInvocation              classInvocation;
     private final DeducePhase.GeneratedClasses coll;
-    private final ICodeRegistrar codeRegistrar;
-    private boolean _isDone = false;
-    private GeneratedClass Result;
+    private final ICodeRegistrar               codeRegistrar;
+    private       boolean                      _isDone = false;
+    private       GeneratedClass               Result;
 
     public WlGenerateClass(
             final GenerateFunctions aGenerateFunctions,
-            final ClassInvocation aClassInvocation,
-            final DeducePhase.GeneratedClasses coll,
+            final @NotNull ClassInvocation aClassInvocation,
+            final DeducePhase.GeneratedClasses aColl,
             final ICodeRegistrar aCodeRegistrar) {
-        classStatement = aClassInvocation.getKlass();
+        classStatement    = aClassInvocation.getKlass();
         generateFunctions = aGenerateFunctions;
-        classInvocation = aClassInvocation;
-        this.coll = coll;
-        codeRegistrar = aCodeRegistrar;
+        classInvocation   = aClassInvocation;
+        coll              = aColl;
+        codeRegistrar     = aCodeRegistrar;
     }
 
     @Override
@@ -49,22 +48,18 @@ public class WlGenerateClass implements WorkJob {
         final DeferredObject<GeneratedClass, Void, Void> resolvePromise = classInvocation.resolveDeferred();
         switch (resolvePromise.state()) {
             case PENDING:
-                @NotNull final GeneratedClass kl = generateFunctions.generateClass(classStatement, classInvocation);
+                final @NotNull GeneratedClass kl = generateFunctions.generateClass(classStatement, classInvocation);
                 codeRegistrar.registerClass(kl);
-                if (coll != null) coll.add(kl);
+                if (coll != null) {
+                    coll.add(kl);
+                }
 
                 resolvePromise.resolve(kl);
                 Result = kl;
                 break;
             case RESOLVED:
                 final Holder<GeneratedClass> hgc = new Holder<GeneratedClass>();
-                resolvePromise.then(new DoneCallback<GeneratedClass>() {
-                    @Override
-                    public void onDone(final GeneratedClass result) {
-                        //					assert result == kl;
-                        hgc.set(result);
-                    }
-                });
+                resolvePromise.then(hgc::set);
                 Result = hgc.get();
                 break;
             case REJECTED:

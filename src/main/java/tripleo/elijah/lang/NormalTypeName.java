@@ -8,16 +8,9 @@
  */
 package tripleo.elijah.lang;
 
-// Referenced classes of package pak2:
-//			TypeNameList
-
 import java.util.Collection;
 
 public interface NormalTypeName extends TypeName, Resolvable {
-
-    //	@Override
-    //	boolean isNull();
-
     boolean getConstant();
 
     void setConstant(boolean flag);
@@ -49,6 +42,7 @@ public interface NormalTypeName extends TypeName, Resolvable {
 
     TypeNameList getGenericPart();
 
+    // forget about that
     Qualident getRealName();
 }
 

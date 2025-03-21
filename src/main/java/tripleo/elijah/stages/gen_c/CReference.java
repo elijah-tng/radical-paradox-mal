@@ -17,6 +17,7 @@ import tripleo.elijah.lang.RegularTypeName;
 import tripleo.elijah.lang.types.OS_FuncType;
 import tripleo.elijah.lang.types.OS_UserType;
 import tripleo.elijah.stages.deduce.ClassInvocation;
+import tripleo.elijah.stages.deduce.FunctionInvocation;
 import tripleo.elijah.stages.deduce.post_bytecode.IDeduceElement3;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.instructions.IdentIA;
@@ -59,7 +60,9 @@ public class CReference {
                 //				final ProcTableEntry prte = ((ProcIA)oo).getEntry();
                 s.add(0, oo);
                 oo = null;
-            } else throw new IllegalStateException("Invalid InstructionArgument");
+            } else {
+                throw new IllegalStateException("Invalid InstructionArgument");
+            }
         }
         return s;
     }
@@ -127,7 +130,9 @@ public class CReference {
             } else {
                 throw new NotImplementedException();
             }
-            if (text != null) sl.add(text);
+            if (text != null) {
+                sl.add(text);
+            }
         }
         rtext = Helpers.String_join(".", sl);
         return rtext;
@@ -138,11 +143,17 @@ public class CReference {
     }
 
     public String getIdentIAPath_Proc(final @NotNull ProcTableEntry aPrte) {
-        final String[] text = new String[1];
-        final BaseGeneratedFunction generated = aPrte.getFunctionInvocation().getGenerated();
-        final IDeduceElement3 de_pte = aPrte.getDeduceElement3();
+        final String[]           text               = new String[1];
+        final FunctionInvocation functionInvocation = aPrte.getFunctionInvocation();
+        if (functionInvocation == null) {
+            throw new AssertionError();
+        }
+        final BaseGeneratedFunction generated = functionInvocation.getGenerated();
+        final IDeduceElement3       de_pte    = aPrte.getDeduceElement3();
 
-        if (generated == null) throw new IllegalStateException();
+        if (generated == null) {
+            throw new IllegalStateException();
+        }
 
         if (generated instanceof GeneratedConstructor) {
             NotImplementedException.raise();
@@ -209,7 +220,9 @@ public class CReference {
 
         final StringBuilder sb = st.sb;
 
-        if (st.needs_comma && args != null && args.size() > 0) sb.append(", ");
+        if (st.needs_comma && args != null && args.size() > 0) {
+            sb.append(", ");
+        }
 
         if (st.open) {
             if (args != null) {
@@ -295,7 +308,9 @@ public class CReference {
                 final @NotNull String s = sb.toString();
                 text = String.format("%s(%s", ref.text, s);
                 sb.open = false;
-                if (!s.equals("")) sb.needs_comma = true;
+                if (!s.equals("")) {
+                    sb.needs_comma = true;
+                }
                 sb.appendText(text + ")", true);
             }
         },
@@ -331,7 +346,9 @@ public class CReference {
                 final String s = sb.toString();
                 text = String.format("%s(%s", ref.text, s);
                 sb.open = true;
-                if (!s.equals("")) sb.needs_comma = true;
+                if (!s.equals("")) {
+                    sb.needs_comma = true;
+                }
                 sb.appendText(text, true);
             }
         };
@@ -357,14 +374,14 @@ public class CReference {
         final String value;
 
         public Reference(final String aText, final Ref aType, final String aValue) {
-            text = aText;
-            type = aType;
+            text  = aText;
+            type  = aType;
             value = aValue;
         }
 
         public Reference(final String aText, final Ref aType) {
-            text = aText;
-            type = aType;
+            text  = aText;
+            type  = aType;
             value = null;
         }
 
@@ -378,7 +395,9 @@ public class CReference {
         boolean open = false, needs_comma = false;
 
         public void appendText(final String text, final boolean erase) {
-            if (erase) sb = new StringBuilder();
+            if (erase) {
+                sb = new StringBuilder();
+            }
 
             sb.append(text);
         }

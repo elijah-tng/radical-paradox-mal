@@ -2,8 +2,6 @@ package tripleo.elijah.stages.deduce.post_bytecode;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 import org.jdeferred2.DoneCallback;
 import org.jdeferred2.Promise;
 import org.jdeferred2.impl.DeferredObject;
@@ -11,8 +9,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.comp.i.ErrSink;
-import tripleo.elijah.diagnostic.Diagnostic;
-import tripleo.elijah.diagnostic.Locatable;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.lang.types.OS_UserType;
 import tripleo.elijah.stages.deduce.*;
@@ -23,8 +19,12 @@ import tripleo.elijah.stages.instructions.InstructionArgument;
 import tripleo.elijah.stages.instructions.VariableTableType;
 import tripleo.elijah.stages.logging.ElLog;
 import tripleo.elijah.util.Operation2;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
+import tripleo.elijah_fluffy.diagnostic.ElLocatable;
 import tripleo.elijah_fluffy.util.Eventual;
 import tripleo.elijah_fluffy.util.NotImplementedException;
+import tripleo.vendor.org.apache.commons.lang3.tuple.ImmutablePair;
+import tripleo.vendor.org.apache.commons.lang3.tuple.Pair;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -103,7 +103,7 @@ public class DeduceElement3_VariableTableEntry extends DefaultStateful implement
 
         final OS_Type x = vte.type.getAttached();
         if (x == null && vte.potentialTypes().isEmpty()) {
-            final Diagnostic diag;
+            final ElDiagnostic diag;
             if (vte.vtt == VariableTableType.TEMP) {
                 diag = new Diagnostic_8884(vte, gf);
             } else {
@@ -130,12 +130,12 @@ public class DeduceElement3_VariableTableEntry extends DefaultStateful implement
                 }
 
                 @Override
-                public @NotNull Locatable primary() {
+                public @NotNull ElLocatable primary() {
                     return null;
                 }
 
                 @Override
-                public @NotNull List<Locatable> secondary() {
+                public @NotNull List<ElLocatable> secondary() {
                     return null;
                 }
 
@@ -207,7 +207,7 @@ public class DeduceElement3_VariableTableEntry extends DefaultStateful implement
             case 0:
                 // README moved up here to elimiate work
                 if (p.isResolved()) {
-                    var s = String.format(
+                    final var s = String.format(
                             "890-1 Already resolved type: vte1.type = %s, gf = %s %n", vte1.type, generatedFunction);
                     LOG.info(s);
                     break;
@@ -258,7 +258,7 @@ public class DeduceElement3_VariableTableEntry extends DefaultStateful implement
                 @Nullable final OS_Element best = lrl2.chooseBest(null);
                 if (best != null) {
                     ite.setStatus(BaseTableEntry.Status.KNOWN, new GenericElementHolder(best));
-                    Eventual<ClassInvocation> ev = new Eventual<>();
+                    final Eventual<ClassInvocation> ev = new Eventual<>();
                     ev.then(new DoneCallback<ClassInvocation>() {
                         @Override
                         public void onDone(final ClassInvocation Sci) {
@@ -383,7 +383,7 @@ public class DeduceElement3_VariableTableEntry extends DefaultStateful implement
             assert vte2_ia != null;
             @NotNull final VariableTableEntry vte2 = generatedFunction.getVarTableEntry(to_int(vte2_ia));
             if (p.isResolved()) {
-                var s = String.format(
+                final var s = String.format(
                         "915 Already resolved type: vte2.type = %s, gf = %s %n", vte1.type, generatedFunction);
                 LOG.info(s);
             } else {
@@ -586,12 +586,12 @@ public class DeduceElement3_VariableTableEntry extends DefaultStateful implement
         }
 
         @Override
-        public @NotNull Locatable primary() {
+        public @NotNull ElLocatable primary() {
             return null;
         }
 
         @Override
-        public @NotNull List<Locatable> secondary() {
+        public @NotNull List<ElLocatable> secondary() {
             return null;
         }
 
@@ -625,12 +625,12 @@ public class DeduceElement3_VariableTableEntry extends DefaultStateful implement
         }
 
         @Override
-        public @NotNull Locatable primary() {
+        public @NotNull ElLocatable primary() {
             return null;
         }
 
         @Override
-        public @NotNull List<Locatable> secondary() {
+        public @NotNull List<ElLocatable> secondary() {
             return null;
         }
 

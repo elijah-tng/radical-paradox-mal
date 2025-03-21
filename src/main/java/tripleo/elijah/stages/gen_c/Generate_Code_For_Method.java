@@ -14,8 +14,6 @@ import com.google.common.collect.Collections2;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.ci.LibraryStatementPart;
-import tripleo.elijah.diagnostic.Diagnostic;
-import tripleo.elijah.diagnostic.Locatable;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.lang.types.OS_GenericTypeNameType;
 import tripleo.elijah.lang.types.OS_UnitType;
@@ -34,6 +32,8 @@ import tripleo.elijah.stages.logging.ElLog;
 import tripleo.elijah.util.Mode;
 import tripleo.elijah.util.Operation2;
 import tripleo.elijah.work.WorkList;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
+import tripleo.elijah_fluffy.diagnostic.ElLocatable;
 import tripleo.elijah_fluffy.util.BufferTabbedOutputStream;
 import tripleo.elijah_fluffy.util.Helpers;
 import tripleo.elijah_fluffy.util.NotImplementedException;
@@ -516,8 +516,8 @@ public class Generate_Code_For_Method {
         final Operation2<OS_Type> diag1 = de_vte.decl_test_001(gf);
 
         if (diag1.mode() == Mode.FAILURE) {
-            final Diagnostic diag_ = diag1.failure();
-            final GCFM_Diagnostic diag = (GCFM_Diagnostic) diag_;
+            final ElDiagnostic    diag_ = diag1.failure();
+            final GCFM_Diagnostic diag  = (GCFM_Diagnostic) diag_;
 
             switch (diag.severity()) {
                 case INFO:
@@ -1166,12 +1166,12 @@ public class Generate_Code_For_Method {
         }
 
         @Override
-        public @NotNull Locatable primary() {
+        public @NotNull ElLocatable primary() {
             return null;
         }
 
         @Override
-        public @NotNull List<Locatable> secondary() {
+        public @NotNull List<ElLocatable> secondary() {
             return null;
         }
 
@@ -1205,12 +1205,12 @@ public class Generate_Code_For_Method {
         }
 
         @Override
-        public @NotNull Locatable primary() {
+        public @NotNull ElLocatable primary() {
             return null;
         }
 
         @Override
-        public @NotNull List<Locatable> secondary() {
+        public @NotNull List<ElLocatable> secondary() {
             return null;
         }
 

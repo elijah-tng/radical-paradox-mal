@@ -15,7 +15,7 @@ import tripleo.elijah.stages.gen_generic.GenerateResult;
 import tripleo.elijah.stages.gen_generic.OutputFileFactory;
 import tripleo.elijah.stages.gen_generic.OutputFileFactoryParams;
 import tripleo.elijah.stages.logging.ElLog;
-import tripleo.elijah.work.WorkManager;
+import tripleo.elijah.work.DefaultWorkManager;
 import tripleo.elijah_fluffy.util.Eventual;
 import tripleo.elijah_fluffy.util.EventualExtract;
 import tripleo.elijah_fluffy.util.SimplePrintLoggerToRemoveSoon;
@@ -28,158 +28,163 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class AccessBus {
-    private final Compilation _c;
-    private final GenerateResult gr = new GenerateResult();
-    private final Eventual<GenerateResult> generateResultPromise = new Eventual<>();
-    private final Eventual<PipelineLogic> pipeLineLogicPromise = new Eventual<>();
-    private final Eventual<List<GeneratedNode>> lgcPromise = new Eventual<>();
-    private final Eventual<EIT_ModuleList> moduleListPromise = new Eventual<>();
-    private final Map<String, EDR_ProcessRecord.PipelinePlugin> pipelinePlugins = new HashMap<>();
-    private PipelineLogic ____pl;
+	private final Compilation                                   _c;
+	private final GenerateResult                                gr                    = new GenerateResult();
+	private final Map<String, EDR_ProcessRecord.PipelinePlugin> pipelinePlugins       = new HashMap<>();
+	private final Eventual<GenerateResult>                      generateResultPromise = new Eventual<>("AccessBus::GenerateResult");
+	private final Eventual<PipelineLogic>                       pipeLineLogicPromise  = new Eventual<>("AccessBus::pipeLineLogic");
+	private final Eventual<List<GeneratedNode>>                 lgcPromise            = new Eventual<>("AccessBus::lgc");
+	private final Eventual<EIT_ModuleList>                      moduleListPromise     = new Eventual<>("AccessBus::moduleList");
+	private       PipelineLogic                                 ____pl;
 
-    public AccessBus(final Compilation aC) {
-        _c = aC;
-    }
+	public AccessBus(final Compilation aC) {
+		_c = aC;
+	}
 
-    public void subscribePipelineLogic(final DoneCallback<PipelineLogic> aPipelineLogicDoneCallback) {
-        pipeLineLogicPromise.then(aPipelineLogicDoneCallback);
-    }
+	public void subscribePipelineLogic(final DoneCallback<PipelineLogic> aPipelineLogicDoneCallback) {
+		pipeLineLogicPromise.then(aPipelineLogicDoneCallback);
+	}
 
-    @Deprecated
-    public void resolveModuleList(final List<OS_Module> aModuleList) {
-        resolveModuleList(new EIT_ModuleList(aModuleList)); // TODO
-    }
+	@Deprecated
+	public void resolveModuleList(final List<OS_Module> aModuleList) {
+		resolveModuleList(new EIT_ModuleList(aModuleList)); // TODO
+	}
 
-    public void resolveModuleList(final EIT_ModuleList aModuleList) {
-        moduleListPromise.resolve(aModuleList);
-    }
+	public void resolveModuleList(final EIT_ModuleList aModuleList) {
+		moduleListPromise.resolve(aModuleList);
+	}
 
-    public void resolveGenerateResult(final GenerateResult aGenerateResult) {
-        generateResultPromise.resolve(aGenerateResult);
-    }
+	public void resolveGenerateResult(final GenerateResult aGenerateResult) {
+		generateResultPromise.resolve(aGenerateResult);
+	}
 
-    public void resolveLgc(final List<GeneratedNode> lgc) {
-        lgcPromise.resolve(lgc);
-    }
+	public void resolveLgc(final List<GeneratedNode> lgc) {
+		lgcPromise.resolve(lgc);
+	}
 
-    public void add(final @NotNull Function<AccessBus, PipelineMember> aCr) {
-        final PipelineMember x = aCr.apply(this);
-        _c.getPipelines().add(x);
-    }
+	public void add(final @NotNull Function<AccessBus, PipelineMember> aCr) {
+		final PipelineMember x = aCr.apply(this);
+		_c.getPipelines().add(x);
+	}
 
-    public void addPipelineLogic(final @NotNull Function<AccessBus, PipelineLogic> aPlr) {
-        final PipelineLogic x = aPlr.apply(this);
+	// NOTE why r??
+	public void addPipelineLogic(final @NotNull Function<AccessBus, PipelineLogic> aPlr) {
+		final PipelineLogic x = aPlr.apply(this);
 
-        ____pl = x;
+		____pl = x;
 
-        resolvePipelineLogic(x);
+		resolvePipelineLogic(x);
 
-        _c.getStartup().resolvePipelineLogic(x);
-    }
+		_c.getStartup().resolvePipelineLogic(x);
+	}
 
-    private void resolvePipelineLogic(final PipelineLogic pl) {
-        pipeLineLogicPromise.resolve(pl);
-    }
+	private void resolvePipelineLogic(final PipelineLogic pl) {
+		pipeLineLogicPromise.resolve(pl);
+	}
 
-    public void subscribe_lgc(@NotNull final AB_LgcListener aLgcListener) {
-        lgcPromise.then(aLgcListener::lgc_slot);
-    }
+	public void subscribe_lgc(@NotNull final AB_LgcListener aLgcListener) {
+		lgcPromise.then(aLgcListener::lgc_slot);
+	}
 
-    public void subscribe_moduleList(@NotNull final AB_ModuleListListener aModuleListListener) {
-        moduleListPromise.then(aModuleListListener::mods_slot);
-    }
+	public void subscribe_moduleList(@NotNull final AB_ModuleListListener aModuleListListener) {
+		moduleListPromise.then(aModuleListListener::mods_slot);
+	}
 
-    public void subscribe_GenerateResult(@NotNull final AB_GenerateResultListener aGenerateResultListener) {
-        generateResultPromise.then(aGenerateResultListener::gr_slot);
-    }
+	public void subscribe_GenerateResult(@NotNull final AB_GenerateResultListener aGenerateResultListener) {
+		generateResultPromise.then(aGenerateResultListener::gr_slot);
+	}
 
-    void doModule(
-            final @NotNull List<GeneratedNode> lgc,
-            final @NotNull WorkManager wm,
-            final @NotNull OS_Module mod,
-            final @NotNull PipelineLogic aPipelineLogic,
-            final @NotNull ErrSink aErrSink) {
-        final ErrSink errSink = mod.parent.getErrSink();
-        final ElLog.Verbosity verbosity = aPipelineLogic.getVerbosity();
+	void doModule(
+			final @NotNull List<GeneratedNode> lgc,
+			final @NotNull DefaultWorkManager wm,
+			final @NotNull OS_Module mod,
+			final @NotNull PipelineLogic aPipelineLogic,
+			final @NotNull ErrSink aErrSink) {
+		final ErrSink         errSink   = mod.parent.getErrSink();
+		final ElLog.Verbosity verbosity = aPipelineLogic.getVerbosity();
 
-        final OutputFileFactoryParams p = new OutputFileFactoryParams(mod, aErrSink, verbosity, aPipelineLogic);
-        final GenerateFiles generateC = OutputFileFactory.create(CompilationAlways.defaultPrelude(), p);
+		final OutputFileFactoryParams p         = new OutputFileFactoryParams(mod, aErrSink, verbosity, aPipelineLogic);
+		final GenerateFiles           generateC = OutputFileFactory.create(CompilationAlways.defaultPrelude(), p);
 
-        final Compilation ccc = mod.parent;
-        @NotNull final EOT_OutputTree cot = ccc.getOutputTree();
+		final Compilation             ccc = mod.parent;
+		@NotNull final EOT_OutputTree cot = ccc.getOutputTree();
 
-        for (final GeneratedNode generatedNode : lgc) {
-            if (generatedNode.module() != mod) continue; // README curious
+		for (final GeneratedNode generatedNode : lgc) {
+			if (generatedNode.module() != mod) {
+				continue; // README curious
+			}
 
-            if (generatedNode instanceof final GeneratedContainerNC nc) {
+			if (generatedNode instanceof final GeneratedContainerNC nc) {
 
-                // 1.
-                nc.generateCode(generateC, gr);
+				// 1.
+				nc.generateCode(generateC, gr);
 
-                // 2.
-                final @NotNull Collection<GeneratedNode> gn1 = (nc.functionMap.values())
-                        .stream().map(x -> (GeneratedNode) x).collect(Collectors.toList());
-                final GenerateResult gr2 = generateC.generateCode(gn1, wm);
-                gr.additional(gr2);
+				// 2.
+				final @NotNull Collection<GeneratedNode> gn1 = (nc.functionMap.values())
+						.stream().map(x -> (GeneratedNode) x).collect(Collectors.toList());
+				final GenerateResult gr2 = generateC.generateCode(gn1, wm);
+				gr.additional(gr2);
 
-                // 3.
-                final @NotNull Collection<GeneratedNode> gn2 = (nc.classMap.values())
-                        .stream().map(x -> (GeneratedNode) x).collect(Collectors.toList());
-                final GenerateResult gr3 = generateC.generateCode(gn2, wm);
-                gr.additional(gr3);
-            } else {
-                SimplePrintLoggerToRemoveSoon.println_out(
-                        "2009 " + generatedNode.getClass().getName());
-            }
-        }
+				// 3.
+				final @NotNull Collection<GeneratedNode> gn2 = (nc.classMap.values())
+						.stream().map(x -> (GeneratedNode) x).collect(Collectors.toList());
+				final GenerateResult gr3 = generateC.generateCode(gn2, wm);
+				gr.additional(gr3);
+			} else {
+				SimplePrintLoggerToRemoveSoon.println_out(
+						"2009 " + generatedNode.getClass().getName());
+			}
+		}
 
-        wm.drain();
+		wm.drain();
 
-        //		gr.additional(grx);
-    }
+		//		gr.additional(grx);
+	}
 
-    public void writeLogs() {
-        @NotNull final Compilation comp = getCompilation(); // this._c
+	public void writeLogs() {
+		@NotNull final Compilation comp = getCompilation(); // this._c
 
-        comp.writeLogs(comp.getElLogs());
-    }
+		comp.writeLogs(comp.getElLogs());
+	}
 
-    public @NotNull Compilation getCompilation() {
-        return _c;
-    }
+	public @NotNull Compilation getCompilation() {
+		return _c;
+	}
 
-    public PipelineLogic __getPL() {
-        final Eventual<PipelineLogic> ep = getCompilation().getStartup().getPipelineLogic();
-        return EventualExtract.of(ep);
-    }
+	public PipelineLogic __getPL() {
+		final Eventual<PipelineLogic> ep = getCompilation().getStartup().getPipelineLogic();
+		return EventualExtract.of(ep);
+	}
 
-    public void addPipelinePlugin(final EDR_ProcessRecord.PipelinePlugin aPlugin) {
-        pipelinePlugins.put(aPlugin.name(), aPlugin);
-    }
+	public void addPipelinePlugin(final EDR_ProcessRecord.PipelinePlugin aPlugin) {
+		pipelinePlugins.put(aPlugin.name(), aPlugin);
+	}
 
-    public EDR_ProcessRecord.PipelinePlugin getPipelinePlugin(final String aPipelineName) {
-        if (!(pipelinePlugins.containsKey(aPipelineName))) return null;
+	public EDR_ProcessRecord.PipelinePlugin getPipelinePlugin(final String aPipelineName) {
+		if (!(pipelinePlugins.containsKey(aPipelineName))) {
+			return null;
+		}
 
-        return pipelinePlugins.get(aPipelineName);
-    }
+		return pipelinePlugins.get(aPipelineName);
+	}
 
-    public GenerateResult getGr() {
-        return gr;
-    }
+	public @NotNull GenerateResult getGr() {
+		return gr;
+	}
 
-    public Eventual<GenerateResult> getGenerateResultPromise() {
-        return generateResultPromise;
-    }
+	public Eventual<GenerateResult> getGenerateResultPromise() {
+		return generateResultPromise;
+	}
 
-    public interface AB_ModuleListListener {
-        void mods_slot(final EIT_ModuleList aModuleList);
-    }
+	public interface AB_ModuleListListener {
+		void mods_slot(final EIT_ModuleList aModuleList);
+	}
 
-    public interface AB_LgcListener {
-        void lgc_slot(List<GeneratedNode> lgc);
-    }
+	public interface AB_LgcListener {
+		void lgc_slot(List<GeneratedNode> lgc);
+	}
 
-    public interface AB_GenerateResultListener {
-        void gr_slot(GenerateResult gr);
-    }
+	public interface AB_GenerateResultListener {
+		void gr_slot(GenerateResult gr);
+	}
 }

@@ -11,12 +11,12 @@ package tripleo.elijah.stages.gen_fn;
 import org.jdeferred2.DoneCallback;
 import org.jdeferred2.FailCallback;
 import org.jdeferred2.Promise;
-import tripleo.elijah.diagnostic.Diagnostic;
 import tripleo.elijah.lang.AliasStatement;
 import tripleo.elijah.lang.OS_Element;
 import tripleo.elijah.stages.deduce.DeduceTypeResolve;
 import tripleo.elijah.stages.deduce.ResolveError;
 import tripleo.elijah.stages.deduce.ResolveUnknown;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +27,9 @@ import java.util.List;
 public abstract class BaseTableEntry {
     // region resolved_element
 
-    private final DeferredObject2<OS_Element, Diagnostic, Void> elementPromise =
-            new DeferredObject2<OS_Element, Diagnostic, Void>();
-    private final List<StatusListener> statusListenerList = new ArrayList<StatusListener>();
+    private final DeferredObject2<OS_Element, ElDiagnostic, Void> elementPromise     =
+            new DeferredObject2<OS_Element, ElDiagnostic, Void>();
+    private final List<StatusListener>                            statusListenerList = new ArrayList<StatusListener>();
     protected OS_Element resolved_element;
     // region status
     protected Status status = Status.UNCHECKED;
@@ -37,7 +37,7 @@ public abstract class BaseTableEntry {
 
     // endregion resolved_element
 
-    public void elementPromise(final DoneCallback<OS_Element> dc, final FailCallback<Diagnostic> fc) {
+    public void elementPromise(final DoneCallback<OS_Element> dc, final FailCallback<ElDiagnostic> fc) {
         if (dc != null) elementPromise.then(dc);
         if (fc != null) elementPromise.fail(fc);
     }

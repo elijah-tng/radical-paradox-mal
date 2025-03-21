@@ -8,7 +8,7 @@
  */
 package tripleo.elijah.lang;
 
-import antlr.Token;
+import tripleo.vendor.antlr277.Token;
 import tripleo.elijah_fluffy.util.SimplePrintLoggerToRemoveSoon;
 
 public class VariableReference extends AbstractExpression implements OS_Expression {

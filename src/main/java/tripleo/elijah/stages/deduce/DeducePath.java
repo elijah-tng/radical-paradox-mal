@@ -15,7 +15,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.DebugFlags;
-import tripleo.elijah.diagnostic.Diagnostic;
 import tripleo.elijah.lang.Context;
 import tripleo.elijah.lang.LookupResultList;
 import tripleo.elijah.lang.OS_Element;
@@ -24,6 +23,7 @@ import tripleo.elijah.stages.instructions.IdentIA;
 import tripleo.elijah.stages.instructions.InstructionArgument;
 import tripleo.elijah.stages.instructions.IntegerIA;
 import tripleo.elijah.stages.instructions.ProcIA;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
 
 import java.util.List;
 
@@ -113,7 +113,7 @@ public class DeducePath {
     public void getElementPromise(
             final int aIndex,
             final DoneCallback<OS_Element> aOS_elementDoneCallback,
-            final FailCallback<Diagnostic> aDiagnosticFailCallback) {
+            final FailCallback<ElDiagnostic> aDiagnosticFailCallback) {
         getEntry(aIndex).elementPromise(aOS_elementDoneCallback, aDiagnosticFailCallback);
     }
 

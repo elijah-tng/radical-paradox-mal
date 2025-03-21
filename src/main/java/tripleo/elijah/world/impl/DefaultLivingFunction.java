@@ -1,5 +1,6 @@
 package tripleo.elijah.world.impl;
 
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.lang.BaseFunctionDef;
 import tripleo.elijah.stages.gen_fn.BaseGeneratedFunction;
 import tripleo.elijah.world.i.LivingFunction;
@@ -10,12 +11,12 @@ public class DefaultLivingFunction implements LivingFunction {
 
     public DefaultLivingFunction(final BaseFunctionDef aElement) {
         _element = aElement;
-        _gf = null;
+        _gf      = null;
     }
 
-    public DefaultLivingFunction(final BaseGeneratedFunction aFunction) {
+    public DefaultLivingFunction(final @NotNull BaseGeneratedFunction aFunction) {
         _element = aFunction.getFD();
-        _gf = aFunction;
+        _gf      = aFunction;
     }
 
     @Override

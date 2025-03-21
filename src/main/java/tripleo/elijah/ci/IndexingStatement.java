@@ -8,30 +8,34 @@
  */
 package tripleo.elijah.ci;
 
-import antlr.Token;
+import com.google.gson.annotations.Expose;
 import tripleo.elijah.lang.ExpressionList;
+import tripleo.vendor.antlr277.Token;
 
 /**
  * @author Tripleo
  * <p>
- * Created Apr 15, 2020 at 4:59:21 AM Created 1/8/21 7:19 AM
+ * Created 04/15/20 04:59:21 AM
+ * <p>
+ * Created 1/8/21 07:19 AM
  */
 public class IndexingStatement {
-
     private final CompilerInstructions parent;
-    private Token name;
-    private ExpressionList exprs;
+    @Expose
+    private       Token                name;
+    @Expose
+    private       ExpressionList       exprs;
 
     public IndexingStatement(final CompilerInstructions module) {
-        this.parent = module;
+        parent = module;
     }
 
     public void setName(final Token i1) {
-        this.name = i1;
+        name = i1;
     }
 
     public void setExprs(final ExpressionList el) {
-        this.exprs = el;
+        exprs = el;
     }
 }
 

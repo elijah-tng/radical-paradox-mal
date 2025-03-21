@@ -1,6 +1,6 @@
 package tripleo.elijah.util;
 
-import tripleo.elijah.diagnostic.Diagnostic;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
 
 /**
  * An emulation of Rust's Result type
@@ -8,11 +8,11 @@ import tripleo.elijah.diagnostic.Diagnostic;
  * @param <T> the success type
  */
 public class Operation2<T> {
-    private final T succ;
-    private final Diagnostic exc;
-    private final Mode mode;
+    private final T            succ;
+    private final ElDiagnostic exc;
+    private final Mode         mode;
 
-    public Operation2(final T aSuccess, final Diagnostic aException, final Mode aMode) {
+    public Operation2(final T aSuccess, final ElDiagnostic aException, final Mode aMode) {
         succ = aSuccess;
         exc = aException;
         mode = aMode;
@@ -20,7 +20,7 @@ public class Operation2<T> {
         assert succ != exc;
     }
 
-    public static <T> Operation2<T> failure(final Diagnostic aException) {
+    public static <T> Operation2<T> failure(final ElDiagnostic aException) {
         final Operation2<T> op = new Operation2<>(null, aException, tripleo.elijah.util.Mode.FAILURE);
         return op;
     }
@@ -38,7 +38,7 @@ public class Operation2<T> {
         return succ;
     }
 
-    public Diagnostic failure() {
+    public ElDiagnostic failure() {
         return exc;
     }
 }

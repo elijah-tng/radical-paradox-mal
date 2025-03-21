@@ -1,5 +1,6 @@
 package tripleo.elijah_fluffy.comp;
 
+import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.stages.gen_c.GenerateC;
 import tripleo.elijah.stages.gen_generic.GenerateFiles;
 import tripleo.elijah.stages.gen_generic.OutputFileFactoryParams;
@@ -30,7 +31,7 @@ public enum CM_Preludes {
         }
     };
 
-    public static _Creator dispatch(final String lang) {
+    public static @Nullable _Creator dispatch(final String lang) {
         for (CM_Preludes cmPreludes : CM_Preludes.values()) {
             if (Objects.equals(lang, cmPreludes.getName()))
                 return new _Creator() {

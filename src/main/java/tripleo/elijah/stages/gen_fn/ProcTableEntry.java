@@ -89,7 +89,7 @@ public class ProcTableEntry extends BaseTableEntry implements TableEntryIV {
             });
         }
 
-        elementPromise(p -> _p_resolvedElement.resolve(new __DT_Element3(p)), _p_resolvedElement::fail);
+        elementPromise(p -> _p_resolvedElement.resolve(new __DT_Element3(p)), d -> _p_resolvedElement.reject(d));
 
         setupResolve();
     }

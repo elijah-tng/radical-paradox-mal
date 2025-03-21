@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.comp.internal.EDR_USE;
 import tripleo.elijah.lang.OS_Module;
 import tripleo.elijah.util.Mode;
+import tripleo.elijah_fluffy.diagnostic.ExceptionDiagnostic;
 import tripleo.elijah_fluffy.util.Eventual;
 
 import java.io.File;
@@ -35,9 +36,9 @@ public class CM_Module {
         try {
             final Operation<OS_Module> osModuleOperation = use1.realParseElijjahFile(f, file, doOut);
             if (osModuleOperation.mode() == Mode.SUCCESS) ev.resolve(this); // osModuleOperation.success());
-            if (osModuleOperation.mode() == Mode.FAILURE) ev.reject(osModuleOperation.failure());
+            if (osModuleOperation.mode() == Mode.FAILURE) ev.reject(new ExceptionDiagnostic(osModuleOperation.failure()));
             this.operation = osModuleOperation;
-        } catch (Exception aE) {
+        } catch (final Exception aE) {
             this.exception = aE;
         }
     }

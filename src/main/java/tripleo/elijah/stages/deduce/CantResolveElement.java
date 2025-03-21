@@ -1,15 +1,15 @@
 package tripleo.elijah.stages.deduce;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.diagnostic.Diagnostic;
-import tripleo.elijah.diagnostic.Locatable;
 import tripleo.elijah.stages.gen_fn.BaseGeneratedFunction;
 import tripleo.elijah.stages.gen_fn.IdentTableEntry;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
+import tripleo.elijah_fluffy.diagnostic.ElLocatable;
 
 import java.io.PrintStream;
 import java.util.List;
 
-public class CantResolveElement implements Diagnostic {
+public class CantResolveElement implements ElDiagnostic {
     private final String message;
     private final IdentTableEntry identTableEntry;
     private final BaseGeneratedFunction generatedFunction;
@@ -34,12 +34,12 @@ public class CantResolveElement implements Diagnostic {
     }
 
     @Override
-    public @NotNull Locatable primary() {
+    public @NotNull ElLocatable primary() {
         return null;
     }
 
     @Override
-    public @NotNull List<Locatable> secondary() {
+    public @NotNull List<ElLocatable> secondary() {
         return null;
     }
 

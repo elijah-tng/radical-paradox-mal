@@ -29,7 +29,9 @@ public class EntryPointList {
 
     private void generateFromEntryPoints(
             final DeducePhase deducePhase, final GenerateFunctions aGenerateFunctions, final WorkManager wm) {
-        if (eps.size() == 0) return; // short circuit
+        if (eps.size() == 0) {
+            return; // short circuit
+        }
 
         final WorkList wl = new WorkList();
 

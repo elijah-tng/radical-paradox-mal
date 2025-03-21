@@ -3,18 +3,22 @@ package tripleo.elijah.comp.internal;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.ci.*;
-import tripleo.elijah.comp.*;
+import tripleo.elijah.comp.Compilation;
+import tripleo.elijah.comp.CompilationAlways;
+import tripleo.elijah.comp.Finally;
+import tripleo.elijah.comp.Operation;
 import tripleo.elijah.comp.caches.DefaultElijahCache;
-import tripleo.elijah.comp.diagnostic.ExceptionDiagnostic;
 import tripleo.elijah.comp.diagnostic.FileNotFoundDiagnostic;
+import tripleo.elijah.comp.diagnostic.UnknownExceptionDiagnostic;
 import tripleo.elijah.comp.i.ErrSink;
 import tripleo.elijah.comp.specs.ElijahCache;
 import tripleo.elijah.comp.specs.ElijahSpec;
-import tripleo.elijah.diagnostic.Diagnostic;
 import tripleo.elijah.lang.OS_Module;
 import tripleo.elijah.lang.StringExpression;
 import tripleo.elijah.util.Mode;
 import tripleo.elijah.util.Operation2;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
+import tripleo.elijah_fluffy.diagnostic.ExceptionDiagnostic;
 import tripleo.elijah_fluffy.util.Helpers;
 import tripleo.elijah_remnant.value.ElValue;
 
@@ -39,26 +43,31 @@ public class EDR_USE {
 
     @Contract(pure = true)
     public EDR_USE(final Compilation aCompilation) {
-        c = aCompilation;
+        c       = aCompilation;
         errSink = c.getErrSink();
-        cb = c.get_cb();
+        cb      = c.get_cb();
     }
 
     public void use(final @NotNull CompilerInstructions compilerInstructions, final boolean do_out) throws Exception {
         // TODO
 
-        cb.whenSet((EDR_CompilationBus cb) -> {
+        cb.whenSet((final EDR_CompilationBus cb) -> {
             System.err.println("4949 " + cb.cs);
         });
 
-        if (compilerInstructions.getFilename() == null) return;
+        if (compilerInstructions.getFilename() == null) {
+            return;
+        }
 
         final File instruction_dir = new File(compilerInstructions.getFilename()).getParentFile();
         for (final LibraryStatementPart lsp : compilerInstructions.getLibraryStatementParts()) {
             final String dir_name = Helpers.remove_single_quotes_from_string(lsp.getDirName());
             final File dir; // = new File(dir_name);
-            if (dir_name.equals("..")) dir = instruction_dir /* .getAbsoluteFile() */.getParentFile();
-            else dir = new File(instruction_dir, dir_name);
+            if (dir_name.equals("..")) {
+                dir = instruction_dir /* .getAbsoluteFile() */.getParentFile();
+            } else {
+                dir = new File(instruction_dir, dir_name);
+            }
             use_internal(dir, do_out, lsp);
         }
         final LibraryStatementPart lsp = new LibraryStatementPartImpl();
@@ -128,11 +137,11 @@ public class EDR_USE {
 
                 return Operation2.success(mm);
             } else {
-                final Diagnostic e = new UnknownExceptionDiagnostic(om);
+                final ElDiagnostic e = new UnknownExceptionDiagnostic(om);
                 return Operation2.failure(e);
             }
         } else {
-            final Diagnostic e = new FileNotFoundDiagnostic(f);
+            final ElDiagnostic e = new FileNotFoundDiagnostic(f);
 
             return Operation2.failure(e);
         }
@@ -205,7 +214,6 @@ public class EDR_USE {
         }
 
         final var calm = CX_ParseElijahFile.parseAndCache(spec, elijahCache, absolutePath, c);
-
         return calm;
     }
 }

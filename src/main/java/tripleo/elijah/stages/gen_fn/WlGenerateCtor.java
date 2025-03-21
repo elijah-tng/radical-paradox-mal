@@ -41,10 +41,10 @@ public class WlGenerateCtor implements WorkJob {
             @NotNull final FunctionInvocation aFunctionInvocation,
             @Nullable final IdentExpression aConstructorName,
             final ICodeRegistrar aCodeRegistrar) {
-        generateFunctions = aGenerateFunctions;
+        generateFunctions  = aGenerateFunctions;
         functionInvocation = aFunctionInvocation;
-        constructorName = aConstructorName;
-        codeRegistrar = aCodeRegistrar;
+        constructorName    = aConstructorName;
+        codeRegistrar      = aCodeRegistrar;
     }
 
     @Override
@@ -91,7 +91,9 @@ public class WlGenerateCtor implements WorkJob {
                         }
                     }
                 }
-            } else cd = ccc;
+            } else {
+                cd = ccc;
+            }
 
             final OS_Element classStatement_ = cd.getParent();
             assert classStatement_ instanceof ClassStatement;

@@ -39,9 +39,9 @@ public class PipelineLogic implements AccessBus.AB_ModuleListListener {
 
         final boolean sil = __ab.getCompilation().getSilence(); // ca.testSilence
 
-        verbosity = sil ? ElLog.Verbosity.SILENT : ElLog.Verbosity.VERBOSE;
+        verbosity     = sil ? ElLog.Verbosity.SILENT : ElLog.Verbosity.VERBOSE;
         generatePhase = new GeneratePhase(verbosity, this, __ab.getCompilation());
-        dp = new DeducePhase(generatePhase, this, verbosity, __ab.getCompilation());
+        dp            = new DeducePhase(generatePhase, this, verbosity, __ab.getCompilation());
 
         // FIXME examine if this is necessary and possibly or actually elsewhere
         // and/or just another section
@@ -122,14 +122,8 @@ public class PipelineLogic implements AccessBus.AB_ModuleListListener {
 
     @Override
     public void mods_slot(final @NotNull EIT_ModuleList aModuleList) {
-        //
-        //		__ab.subscribePipelineLogic((x) -> aModuleList._set_PL(x));
-
-        //
         aModuleList.process__PL(this::getGenerateFunctions, this);
-
         dp.finish(dp.getGeneratedClasses());
-        //		dp.generatedClasses.addAll(lgc);
     }
 
     @NotNull
@@ -141,16 +135,16 @@ public class PipelineLogic implements AccessBus.AB_ModuleListListener {
         return __ab.getGr();
     }
 
-    public List<GeneratedNode> generatedClassesCopy() {
+    public Iterable<GeneratedNode> generatedClassesCopy() {
         return dp.getGeneratedClasses().copy();
     }
 
     public EIT_ModuleList mods() {
-        return this.mods;
+        return mods;
     }
 
     public DeducePhase getDp() {
-        return this.dp;
+        return dp;
     }
 
     public GeneratePhase getGeneratePhase() {
@@ -158,7 +152,7 @@ public class PipelineLogic implements AccessBus.AB_ModuleListListener {
     }
 
     public AccessBus getAccessBus() {
-        return this.__ab;
+        return __ab;
     }
 
     public AccessBus get__ab() {

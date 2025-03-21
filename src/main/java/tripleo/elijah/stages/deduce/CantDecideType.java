@@ -12,11 +12,11 @@ import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tripleo.elijah.diagnostic.Diagnostic;
-import tripleo.elijah.diagnostic.Locatable;
 import tripleo.elijah.lang.VariableStatement;
 import tripleo.elijah.stages.gen_fn.TypeTableEntry;
 import tripleo.elijah.stages.gen_fn.VariableTableEntry;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
+import tripleo.elijah_fluffy.diagnostic.ElLocatable;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Created 4/13/21 5:46 AM
  */
-public class CantDecideType implements Diagnostic {
+public class CantDecideType implements ElDiagnostic {
     private final VariableTableEntry vte;
     private final @NotNull Collection<TypeTableEntry> types;
 
@@ -46,33 +46,32 @@ public class CantDecideType implements Diagnostic {
     }
 
     @Override
-    public @NotNull Locatable primary() {
+    public @NotNull ElLocatable primary() {
         @NotNull final VariableStatement vs = (VariableStatement) vte.getResolvedElement();
         return vs;
     }
 
     @Override
-    public @NotNull List<Locatable> secondary() {
-        @NotNull
-        final Collection<Locatable> c = Collections2.transform(types, new Function<TypeTableEntry, Locatable>() {
+    public @NotNull List<ElLocatable> secondary() {
+        @NotNull final Collection<ElLocatable> c = Collections2.transform(types, new Function<TypeTableEntry, ElLocatable>() {
 
             @Nullable
             @Override
-            public Locatable apply(@org.jetbrains.annotations.Nullable final TypeTableEntry input) {
+            public ElLocatable apply(@org.jetbrains.annotations.Nullable final TypeTableEntry input) {
                 //				return input.attached.getElement(); // TODO All elements should be Locatable
                 //				return (TypeName)input.attached.getTypename();
                 return null;
             }
         });
 
-        return new ArrayList<Locatable>(c);
+        return new ArrayList<ElLocatable>(c);
     }
 
     @Override
     public void report(@NotNull final PrintStream stream) {
         stream.printf("---[%s]---: %s%n", code(), message());
         // linecache.print(primary);
-        for (final Locatable sec : secondary()) {
+        for (final ElLocatable sec : secondary()) {
             // linecache.print(sec)
         }
         stream.flush();

@@ -50,7 +50,7 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
 
     public GenerateC(final @NotNull OutputFileFactoryParams p) {
         errSink = p.getErrSink();
-        LOG = new ElLog(p.getModFileName(), p.getVerbosity(), PHASE);
+        LOG     = new ElLog(p.getModFileName(), p.getVerbosity(), PHASE);
         //
         p.addLog(LOG);
     }
@@ -76,13 +76,17 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
     }
 
     private static boolean isValue(final BaseGeneratedFunction gf, final @NotNull String name) {
-        if (!name.equals("Value")) return false;
+        if (!name.equals("Value")) {
+            return false;
+        }
         //
         final FunctionDef fd = (FunctionDef) gf.getFD();
         switch (fd.getSpecies()) {
             case REG_FUN:
             case DEF_FUN:
-                if (!(fd.getParent() instanceof ClassStatement)) return false;
+                if (!(fd.getParent() instanceof ClassStatement)) {
+                    return false;
+                }
                 for (final AnnotationPart anno : ((ClassStatement) fd.getParent()).annotationIterable()) {
                     if (anno.annoClass().equals(Helpers.string_to_qualident("Primitive"))) {
                         return true;
@@ -97,20 +101,25 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
         }
     }
 
-    public GenerateResult generateCode(final Collection<GeneratedNode> lgn, final WorkManager wm) {
+    @Override
+    public GenerateResult generateCode(final Collection<GeneratedNode> lgn, final @NotNull WorkManager wm) {
         final GenerateResult gr = new GenerateResult();
 
         for (final GeneratedNode generatedNode : lgn) {
             if (generatedNode instanceof final GeneratedFunction generatedFunction) {
                 final WorkList wl = new WorkList();
                 generate_function(generatedFunction, gr, wl);
-                if (!wl.isEmpty()) wm.addJobs(wl);
+                if (!wl.isEmpty()) {
+                    wm.addJobs(wl);
+                }
             } else if (generatedNode instanceof final GeneratedContainerNC containerNC) {
                 containerNC.generateCode(this, gr);
             } else if (generatedNode instanceof final GeneratedConstructor generatedConstructor) {
                 final WorkList wl = new WorkList();
                 generate_constructor(generatedConstructor, gr, wl);
-                if (!wl.isEmpty()) wm.addJobs(wl);
+                if (!wl.isEmpty()) {
+                    wm.addJobs(wl);
+                }
             }
         }
 
@@ -119,8 +128,12 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
 
     @NotNull
     public String getTypeName(final GeneratedNode aNode) {
-        if (aNode instanceof GeneratedClass) return getTypeName((GeneratedClass) aNode);
-        if (aNode instanceof GeneratedNamespace) return getTypeName((GeneratedNamespace) aNode);
+        if (aNode instanceof GeneratedClass) {
+            return getTypeName((GeneratedClass) aNode);
+        }
+        if (aNode instanceof GeneratedNamespace) {
+            return getTypeName((GeneratedNamespace) aNode);
+        }
         throw new IllegalStateException("Must be class or namespace.");
     }
 
@@ -202,7 +215,9 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
 
     @Override
     public void generate_namespace(final GeneratedNamespace x, final GenerateResult gr) {
-        if (x.generatedAlready) return;
+        if (x.generatedAlready) {
+            return;
+        }
         // TODO do we need `self' parameters for namespace?
         final BufferTabbedOutputStream tosHdr = new BufferTabbedOutputStream();
         final BufferTabbedOutputStream tos = new BufferTabbedOutputStream();
@@ -282,14 +297,20 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
                 typeName = getTypeName((GeneratedClass) xx);
             } else if (xx instanceof GeneratedNamespace) {
                 typeName = getTypeName((GeneratedNamespace) xx);
-            } else throw new NotImplementedException();
+            } else {
+                throw new NotImplementedException();
+            }
         } else {
-            if (o.varType != null) typeName = getTypeName(o.varType);
-            else typeName = "void*/*null*/";
+            if (o.varType != null) {
+                typeName = getTypeName(o.varType);
+            } else {
+                typeName = "void*/*null*/";
+            }
         }
         return typeName;
     }
 
+    @Override
     public GenerateResult resultsFromNodes(final List<GeneratedNode> aNodes, final WorkManager wm) {
         final GenerateC ggc = this;
 
@@ -320,14 +341,18 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
 
     private void generateCodeForMethod(
             final BaseGeneratedFunction gf, final GenerateResult gr, final WorkList aWorkList) {
-        if (gf.getFD() == null) return;
+        if (gf.getFD() == null) {
+            return;
+        }
         final Generate_Code_For_Method gcfm = new Generate_Code_For_Method(this, LOG);
         gcfm.generateCodeForMethod(gf, gr, aWorkList);
     }
 
     private void generateCodeForConstructor(
             final GeneratedConstructor gf, final GenerateResult gr, final WorkList aWorkList) {
-        if (gf.getFD() == null) return;
+        if (gf.getFD() == null) {
+            return;
+        }
         final Generate_Code_For_Method gcfm = new Generate_Code_For_Method(this, LOG);
         gcfm.generateCodeForConstructor(gf, gr, aWorkList);
     }
@@ -346,7 +371,9 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
 
     @Override
     public void generate_class(final GeneratedClass x, final GenerateResult gr) {
-        if (x.generatedAlready) return;
+        if (x.generatedAlready) {
+            return;
+        }
         switch (x.getKlass().getType()) {
                 // Don't generate class definition for these three
             case INTERFACE:
@@ -393,8 +420,11 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
                 tos.put_string_ln(String.format("R->_tag = %d;", class_code));
                 if (decl.prim) {
                     // TODO consider NULL, and floats and longs, etc
-                    if (!decl.prim_decl.equals("bool")) tos.put_string_ln("R->vsv = 0;");
-                    else if (decl.prim_decl.equals("bool")) tos.put_string_ln("R->vsv = false;");
+                    if (!decl.prim_decl.equals("bool")) {
+                        tos.put_string_ln("R->vsv = 0;");
+                    } else if (decl.prim_decl.equals("bool")) {
+                        tos.put_string_ln("R->vsv = false;");
+                    }
                 } else {
                     for (final GeneratedClass.VarTableEntry o : x.varTable) {
                         //					final String typeName = getTypeNameForVarTableEntry(o);
@@ -582,8 +612,9 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
                 default:
                     throw new IllegalStateException("Can't be here");
             }
-        } else
+        } else {
             ls.add(Emit.emit("/*872*/") + "vm" + text); // TODO blindly adding "vm" might not always work, also put in
+        }
         // loop
         while (backlink != null) {
             if (backlink instanceof final IntegerIA integerIA) {
@@ -597,7 +628,9 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
                 ls.addFirst(Emit.emit("/*885*/") + "vm" + identTableEntryName); // TODO blindly adding "vm" might not
                 // always be right
                 backlink = identTableEntry1.getBacklink();
-            } else throw new IllegalStateException("Invalid InstructionArgument for backlink");
+            } else {
+                throw new IllegalStateException("Invalid InstructionArgument for backlink");
+            }
         }
         final CReference reference = new CReference();
         reference.getIdentIAPath(target, aog, value);
@@ -607,8 +640,11 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
         LOG.info("933 " + s);
         if (identTableEntry.getResolvedElement() instanceof ConstructorDef
                 || identTableEntry.getResolvedElement() instanceof PropertyStatement
-                || value != null) return path;
-        else return s;
+                || value != null) {
+            return path;
+        } else {
+            return s;
+        }
     }
 
     static class WlGenerateFunctionC implements WorkJob {
@@ -624,16 +660,19 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
                 final GenerateResult aGr,
                 final WorkList aWl,
                 final GenerateC aGenerateC) {
-            gf = aGf;
-            gr = aGr;
-            wl = aWl;
+            gf        = aGf;
+            gr        = aGr;
+            wl        = aWl;
             generateC = aGenerateC;
         }
 
         @Override
         public void run(final WorkManager aWorkManager) {
-            if (gf instanceof GeneratedFunction) generateC.generate_function((GeneratedFunction) gf, gr, wl);
-            else generateC.generate_constructor((GeneratedConstructor) gf, gr, wl);
+            if (gf instanceof GeneratedFunction) {
+                generateC.generate_function((GeneratedFunction) gf, gr, wl);
+            } else {
+                generateC.generate_constructor((GeneratedConstructor) gf, gr, wl);
+            }
             _isDone = true;
         }
 
@@ -646,22 +685,30 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
     static class GetTypeName {
         static String forVTE(@NotNull final VariableTableEntry input) {
             final OS_Type attached = input.type.getAttached();
-            if (attached == null) return Emit.emit("/*390*/") + "Z__Unresolved*"; // TODO remove this ASAP
+            if (attached == null) {
+                return Emit.emit("/*390*/") + "Z__Unresolved*"; // TODO remove this ASAP
+            }
             //
             // special case
             //
-            if (input.type.genType.getNode() != null)
+            if (input.type.genType.getNode() != null) {
                 return Emit.emit("/*395*/") + getTypeNameForGenClass(input.type.genType.getNode()) + "*";
+            }
             //
-            if (input.getStatus() == BaseTableEntry.Status.UNCHECKED) return "Error_UNCHECKED_Type";
+            if (input.getStatus() == BaseTableEntry.Status.UNCHECKED) {
+                return "Error_UNCHECKED_Type";
+            }
             switch (attached.getType()) {
                 case USER_CLASS:
                     return attached.getClassOf().name();
                 case USER:
                     final TypeName typeName = attached.getTypeName();
                     final String name;
-                    if (typeName instanceof NormalTypeName) name = ((NormalTypeName) typeName).getName();
-                    else name = typeName.toString();
+                    if (typeName instanceof NormalTypeName) {
+                        name = ((NormalTypeName) typeName).getName();
+                    } else {
+                        name = typeName.toString();
+                    }
                     return String.format(Emit.emit("/*543*/") + "Z<%s>*", name);
                 default:
                     throw new NotImplementedException();
@@ -670,9 +717,13 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
 
         static String getTypeNameForGenClass(@NotNull final GeneratedNode aGenClass) {
             final String ty;
-            if (aGenClass instanceof GeneratedClass) ty = forGenClass((GeneratedClass) aGenClass);
-            else if (aGenClass instanceof GeneratedNamespace) ty = forGenNamespace((GeneratedNamespace) aGenClass);
-            else ty = "Error_Unknown_GenClass";
+            if (aGenClass instanceof GeneratedClass) {
+                ty = forGenClass((GeneratedClass) aGenClass);
+            } else if (aGenClass instanceof GeneratedNamespace) {
+                ty = forGenNamespace((GeneratedNamespace) aGenClass);
+            } else {
+                ty = "Error_Unknown_GenClass";
+            }
             return ty;
         }
 
@@ -693,20 +744,27 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
             if (res instanceof final GeneratedContainerNC nc) {
                 final int code = nc.getCode();
                 return "Z" + code;
-            } else return "Z<-1>";
+            } else {
+                return "Z<-1>";
+            }
         }
 
         @Deprecated
         static String forOSType(final @NotNull OS_Type ty, final ElLog LOG) {
-            if (ty == null) throw new IllegalArgumentException("ty is null");
+            if (ty == null) {
+                throw new IllegalArgumentException("ty is null");
+            }
             //
             final String z;
             switch (ty.getType()) {
                 case USER_CLASS:
                     final ClassStatement el = ty.getClassOf();
                     final String name;
-                    if (ty instanceof NormalTypeName) name = ((NormalTypeName) ty).getName();
-                    else name = el.getName();
+                    if (ty instanceof NormalTypeName) {
+                        name = ((NormalTypeName) ty).getName();
+                    } else {
+                        name = el.getName();
+                    }
                     z = Emit.emit("/*443*/") + String.format("Z%d/*%s*/", el._a.getCode(), name); // .getName();
                     break;
                 case FUNCTION:
@@ -723,8 +781,11 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
                     final TypeName typeName = ty.getTypeName();
                     LOG.err("Warning: USER TypeName in GenerateC " + typeName);
                     final String s = typeName.toString();
-                    if (s.equals("Unit")) z = "void";
-                    else z = String.format("Z<Unknown_USER_Type /*%s*/>", s);
+                    if (s.equals("Unit")) {
+                        z = "void";
+                    } else {
+                        z = String.format("Z<Unknown_USER_Type /*%s*/>", s);
+                    }
                     break;
                 case BUILT_IN:
                     LOG.err("Warning: BUILT_IN TypeName in GenerateC");
@@ -814,8 +875,9 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
                                 sb.append(Emit.emit("/*829*/") + path);
                             } else {
                                 final BaseGeneratedFunction pte_generated = functionInvocation.getGenerated();
-                                if (idte.resolvedType() == null && pte_generated != null)
+                                if (idte.resolvedType() == null && pte_generated != null) {
                                     idte.resolveTypeToClass(pte_generated);
+                                }
                                 reference.getIdentIAPath(ia2, Generate_Code_For_Method.AOG.GET, null);
                                 final List<String> sll = getAssignmentValueArgs(inst, gf, LOG);
                                 reference.args(sll);
@@ -925,8 +987,11 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
                     return const_to_string(cte.initialValue);
                 case IDENT:
                     final String text = ((IdentExpression) cte.initialValue).getText();
-                    if (BuiltInTypes.isBooleanText(text)) return text;
-                    else throw new NotImplementedException();
+                    if (BuiltInTypes.isBooleanText(text)) {
+                        return text;
+                    } else {
+                        throw new NotImplementedException();
+                    }
                 default:
                     throw new NotImplementedException();
             }

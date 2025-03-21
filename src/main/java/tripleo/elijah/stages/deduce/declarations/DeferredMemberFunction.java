@@ -14,7 +14,6 @@ import org.jdeferred2.Promise;
 import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tripleo.elijah.diagnostic.Diagnostic;
 import tripleo.elijah.lang.BaseFunctionDef;
 import tripleo.elijah.lang.OS_Element;
 import tripleo.elijah.stages.deduce.DeduceTypes2;
@@ -23,6 +22,7 @@ import tripleo.elijah.stages.deduce.IInvocation;
 import tripleo.elijah.stages.gen_fn.BaseGeneratedFunction;
 import tripleo.elijah.stages.gen_fn.GenType;
 import tripleo.elijah.stages.gen_fn.GeneratedFunction;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
 import tripleo.elijah_fluffy.util.SimplePrintLoggerToRemoveSoon;
 
 /**
@@ -30,9 +30,9 @@ import tripleo.elijah_fluffy.util.SimplePrintLoggerToRemoveSoon;
  */
 public class DeferredMemberFunction {
     private final OS_Element parent;
-    private final BaseFunctionDef functionDef;
-    private final DeferredObject<GenType, Diagnostic, Void> typePromise =
-            new DeferredObject<GenType, Diagnostic, Void>();
+    private final BaseFunctionDef                             functionDef;
+    private final DeferredObject<GenType, ElDiagnostic, Void> typePromise =
+            new DeferredObject<GenType, ElDiagnostic, Void>();
     private final DeferredObject<BaseGeneratedFunction, Void, Void> externalRef =
             new DeferredObject<BaseGeneratedFunction, Void, Void>();
     private final DeduceTypes2 deduceTypes2;
@@ -80,7 +80,7 @@ public class DeferredMemberFunction {
         });
     }
 
-    public @NotNull Promise<GenType, Diagnostic, Void> typePromise() {
+    public @NotNull Promise<GenType, ElDiagnostic, Void> typePromise() {
         return typePromise;
     }
 
@@ -102,7 +102,7 @@ public class DeferredMemberFunction {
     }
 
     // for DeducePhase
-    public @NotNull DeferredObject<GenType, Diagnostic, Void> typeResolved() {
+    public @NotNull DeferredObject<GenType, ElDiagnostic, Void> typeResolved() {
         return typePromise;
     }
 

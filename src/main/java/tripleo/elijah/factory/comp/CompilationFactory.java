@@ -13,7 +13,7 @@ import java.util.List;
 
 public class CompilationFactory {
 
-    public static EDR_Compilation mkCompilation2(final List<IFunctionMapHook> aMapHooks) {
+    public static @NotNull EDR_Compilation mkCompilation2(final List<IFunctionMapHook> aMapHooks) {
         final StdErrSink errSink = new StdErrSink();
         final IO io = new IO();
 
@@ -29,7 +29,8 @@ public class CompilationFactory {
         return new EDR_Compilation(eee, io);
     }
 
-    public static Compilation mkCompilation() {
+    @Contract(" -> new")
+    public static @NotNull Compilation mkCompilation() {
         return mkCompilation(new StdErrSink(), new IO());
     }
 }

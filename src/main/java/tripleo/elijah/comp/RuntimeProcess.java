@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.DebugFlags;
 import tripleo.elijah.comp.i.ICompilationAccess;
 import tripleo.elijah.comp.internal.EDR_ProcessRecord;
+import tripleo.elijah.lang.OS_Module;
 import tripleo.vendor.mal.stepA_mal;
 import tripleo.vendor.mal.types;
 
@@ -63,7 +64,9 @@ public interface RuntimeProcess {
 
         public void run_better() throws Exception {
             // do nothing. job over
-            if (ca.getStage() == Stages.E) return;
+            if (ca.getStage() == Stages.E) {
+                return;
+            }
 
             // rt.prepare();
             if (DebugFlags.lgJan25) {
@@ -172,8 +175,11 @@ public interface RuntimeProcess {
 
             final AccessBus ab = pr.ab;
 
-            //		env.re("(def! GeneratePipeline 'native)");
-            env.re("(add-pipeline 'DeducePipeline)"); // FIXME note moved from ...
+            // env.re("(def! GeneratePipeline 'native)");
+
+            // FIXME note moved from ...
+            final var xx = env.re("(add-pipeline 'DeducePipeline)");
+            System.err.println("(add-pipeline 'DeducePipeline) --> " + xx);
 
             env.re("(add-pipeline 'GeneratePipeline)");
             env.re("(add-pipeline 'WritePipeline)");
@@ -182,7 +188,9 @@ public interface RuntimeProcess {
             ab.subscribePipelineLogic(pl -> {
                 final Compilation comp = ca.getCompilation();
 
-                comp.getMod().modules.stream().forEach(pl::addModule);
+                for (final OS_Module module : comp.getMod().modules) {
+                    pl.addModule(module);
+                }
             });
         }
 
@@ -193,6 +201,7 @@ public interface RuntimeProcess {
                 ab = aAb;
             }
 
+            @Override
             public types.MalVal apply(final types.MalList args) {
                 final types.MalVal a0 = args.nth(0);
 
@@ -202,7 +211,9 @@ public interface RuntimeProcess {
 
                     // 1. observe side effect
                     final EDR_ProcessRecord.PipelinePlugin pipelinePlugin = ab.getPipelinePlugin(pipelineName);
-                    if (pipelinePlugin == null) return types.False;
+                    if (pipelinePlugin == null) {
+                        return types.False;
+                    }
 
                     // 2. produce effect
                     ab.add(pipelinePlugin::instance);

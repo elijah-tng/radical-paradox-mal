@@ -37,11 +37,11 @@ public class WlGenerateNamespace implements WorkJob {
             @NotNull final NamespaceInvocation aNamespaceInvocation,
             @Nullable final DeducePhase.GeneratedClasses aColl,
             final ICodeRegistrar aCodeRegistrar) {
-        generateFunctions = aGenerateFunctions;
-        namespaceStatement = aNamespaceInvocation.getNamespace();
+        generateFunctions   = aGenerateFunctions;
+        namespaceStatement  = aNamespaceInvocation.getNamespace();
         namespaceInvocation = aNamespaceInvocation;
-        coll = aColl;
-        codeRegistrar = aCodeRegistrar;
+        coll                = aColl;
+        codeRegistrar       = aCodeRegistrar;
     }
 
     @Override
@@ -51,7 +51,9 @@ public class WlGenerateNamespace implements WorkJob {
             case PENDING:
                 @NotNull final GeneratedNamespace ns = generateFunctions.generateNamespace(namespaceStatement);
                 codeRegistrar.registerNamespace(ns);
-                if (coll != null) coll.add(ns);
+                if (coll != null) {
+                    coll.add(ns);
+                }
 
                 resolvePromise.resolve(ns);
                 Result = ns;

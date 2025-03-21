@@ -12,12 +12,12 @@ import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tripleo.elijah.diagnostic.Diagnostic;
-import tripleo.elijah.diagnostic.Locatable;
 import tripleo.elijah.lang.IdentExpression;
 import tripleo.elijah.lang.LookupResult;
 import tripleo.elijah.lang.LookupResultList;
 import tripleo.elijah.lang.TypeName;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
+import tripleo.elijah_fluffy.diagnostic.ElLocatable;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Created 12/26/20 5:08 AM
  */
-public class ResolveError extends Exception implements Diagnostic {
+public class ResolveError extends Exception implements ElDiagnostic {
     final @org.jetbrains.annotations.Nullable IdentExpression ident;
     private final @org.jetbrains.annotations.Nullable TypeName typeName;
     private final LookupResultList lrl;
@@ -55,33 +55,32 @@ public class ResolveError extends Exception implements Diagnostic {
     }
 
     @Override
-    public @NotNull Locatable primary() {
+    public @NotNull ElLocatable primary() {
         if (typeName == null) {
             return ident;
         } else return typeName;
     }
 
     @Override
-    public @NotNull List<Locatable> secondary() {
-        @NotNull
-        final Collection<Locatable> x = Collections2.transform(resultsList(), new Function<LookupResult, Locatable>() {
+    public @NotNull List<ElLocatable> secondary() {
+        @NotNull final Collection<ElLocatable> x = Collections2.transform(resultsList(), new Function<LookupResult, ElLocatable>() {
             @Nullable
             @Override
-            public Locatable apply(@Nullable final LookupResult input) {
-                if (input.getElement() instanceof Locatable) {
-                    return (Locatable) input.getElement();
+            public ElLocatable apply(@Nullable final LookupResult input) {
+                if (input.getElement() instanceof ElLocatable) {
+                    return (ElLocatable) input.getElement();
                 }
                 return null;
             }
         });
-        return new ArrayList<Locatable>();
+        return new ArrayList<ElLocatable>();
     }
 
     @Override
     public void report(@NotNull final PrintStream stream) {
         stream.printf("---[%s]---: %s%n", code(), message());
         // linecache.print(primary);
-        for (final Locatable sec : secondary()) {
+        for (final ElLocatable sec : secondary()) {
             // linecache.print(sec)
         }
         stream.flush();

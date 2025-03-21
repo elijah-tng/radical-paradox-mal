@@ -1,6 +1,5 @@
 package tripleo.elijah.comp;
 
-import org.apache.commons.lang3.tuple.Pair;
 import tripleo.elijah.comp.i.CompilerController;
 import tripleo.elijah.comp.i.ICompilationBus;
 import tripleo.elijah.comp.i.ICompilationRunner;
@@ -8,6 +7,7 @@ import tripleo.elijah.comp.i.OptionsProcessor;
 import tripleo.elijah.comp.internal.EDR_CompilationBus;
 import tripleo.elijah.comp.internal.EDR_CompilationRunner;
 import tripleo.elijah_prolific.comp_signals.CSS2_doFindCIs;
+import tripleo.vendor.org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public abstract class _CompilerControllerBase implements CompilerController {
         final OptionsProcessor op = new ApacheOptionsProcessor();
         final CompilerInstructionsObserver cio = new CompilerInstructionsObserver(c, c.get_cis());
 
-        var cbp = c.getStartup().getCompilationBus();
+        final var cbp = c.getStartup().getCompilationBus();
         cb = new EDR_CompilationBus(c);
         cbp.resolve(cb);
 
@@ -42,7 +42,7 @@ public abstract class _CompilerControllerBase implements CompilerController {
     @Override
     public void runner() {
         try {
-            ICompilationRunner __cr = new EDR_CompilationRunner(c, cb);
+            final ICompilationRunner __cr = new EDR_CompilationRunner(c, cb);
             c.register(__cr);
             c.signal(new CSS2_doFindCIs(), Pair.of(args2, cb));
         } catch (final Exception e) {

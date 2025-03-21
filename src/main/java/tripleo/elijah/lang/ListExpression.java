@@ -8,8 +8,8 @@
  */
 package tripleo.elijah.lang;
 
-import antlr.Token;
-import tripleo.elijah.diagnostic.Locatable;
+import tripleo.elijah_fluffy.diagnostic.ElLocatable;
+import tripleo.vendor.antlr277.Token;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
  * $Id$
  *
  */
-public class ListExpression extends AbstractExpression implements Locatable {
+public class ListExpression extends AbstractExpression implements ElLocatable {
 
     public final Syntax syntax = new Syntax();
     ExpressionList contents;

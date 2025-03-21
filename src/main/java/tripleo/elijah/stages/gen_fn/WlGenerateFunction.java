@@ -25,88 +25,85 @@ import tripleo.elijah_fluffy.util.SimplePrintLoggerToRemoveSoon;
  * Created 5/16/21 12:46 AM
  */
 public class WlGenerateFunction implements WorkJob {
-    private final FunctionDef functionDef;
-    private final GenerateFunctions generateFunctions;
-    private final FunctionInvocation functionInvocation;
-    private final ICodeRegistrar codeRegistrar;
-    private boolean _isDone = false;
-    private GeneratedFunction result;
+	private final FunctionDef        functionDef;
+	private final GenerateFunctions  generateFunctions;
+	private final FunctionInvocation functionInvocation;
+	private final ICodeRegistrar     codeRegistrar;
+	private       boolean            _isDone = false;
+	private       GeneratedFunction  result;
 
-    public WlGenerateFunction(
-            final GenerateFunctions aGenerateFunctions,
-            @NotNull final FunctionInvocation aFunctionInvocation,
-            final ICodeRegistrar aCodeRegistrar) {
-        functionDef = (FunctionDef) aFunctionInvocation.getFunction();
-        generateFunctions = aGenerateFunctions;
-        functionInvocation = aFunctionInvocation;
-        codeRegistrar = aCodeRegistrar;
-    }
+	public WlGenerateFunction(
+			final GenerateFunctions aGenerateFunctions,
+			final @NotNull FunctionInvocation aFunctionInvocation,
+			final ICodeRegistrar aCodeRegistrar) {
+		functionDef        = (FunctionDef) aFunctionInvocation.getFunction();
+		generateFunctions  = aGenerateFunctions;
+		functionInvocation = aFunctionInvocation;
+		codeRegistrar      = aCodeRegistrar;
+	}
 
-    @Override
-    public void run(final WorkManager aWorkManager) {
-        //		if (_isDone) return;
+	@Override
+	public void run(final WorkManager aWorkManager) {
+		if (functionInvocation.getGenerated() == null) {
+			final @NotNull OS_Element        parent = functionDef.getParent();
+			final @NotNull GeneratedFunction gf     = generateFunctions.generateFunction(functionDef, parent, functionInvocation);
 
-        if (functionInvocation.getGenerated() == null) {
-            final OS_Element parent = functionDef.getParent();
-            @NotNull
-            final GeneratedFunction gf = generateFunctions.generateFunction(functionDef, parent, functionInvocation);
+			{
+				int i = 0;
+				for (final TypeTableEntry tte : functionInvocation.getArgs()) {
+					i = i + 1;
+					if (tte.getAttached() == null) {
+						final String s = String.format("4949 null tte #%d %s in %s%n", i, tte, gf);
+						SimplePrintLoggerToRemoveSoon.println_err2(s);
+					}
+				}
+			}
 
-            {
-                int i = 0;
-                for (final TypeTableEntry tte : functionInvocation.getArgs()) {
-                    i = i + 1;
-                    if (tte.getAttached() == null) {
-                        final String s = String.format("4949 null tte #%d %s in %s%n", i, tte, gf);
-                        SimplePrintLoggerToRemoveSoon.println_err2(s);
-                    }
-                }
-            }
+			//			lgf.add(gf);
 
-            //			lgf.add(gf);
+			if (parent instanceof NamespaceStatement) {
+				final NamespaceInvocation nsi = functionInvocation.getNamespaceInvocation();
+				assert nsi != null;
+				nsi.resolveDeferred().done(new DoneCallback<GeneratedNamespace>() {
+					@Override
+					public void onDone(final GeneratedNamespace result) {
+						if (result.getFunction(functionDef) == null) {
+							codeRegistrar.registerFunction(gf);
+							result.addFunction(functionDef, gf);
+						}
+						gf.setClass(result);
+					}
+				});
+			} else {
+				final ClassInvocation ci = functionInvocation.getClassInvocation();
+				ci.resolvePromise().done(new DoneCallback<GeneratedClass>() {
+					@Override
+					public void onDone(final GeneratedClass result) {
+						if (result.getFunction(functionDef) == null) {
+							codeRegistrar.registerFunction(gf);
+							result.addFunction(functionDef, gf);
+						}
+						gf.setClass(result);
+					}
+				});
+			}
+			result = gf;
+			functionInvocation.setGenerated(result);
+			functionInvocation.generateDeferred().resolve(result);
+		} else {
+			result = (GeneratedFunction) functionInvocation.getGenerated();
+		}
+		_isDone = true;
+	}
 
-            if (parent instanceof NamespaceStatement) {
-                final NamespaceInvocation nsi = functionInvocation.getNamespaceInvocation();
-                assert nsi != null;
-                nsi.resolveDeferred().done(new DoneCallback<GeneratedNamespace>() {
-                    @Override
-                    public void onDone(final GeneratedNamespace result) {
-                        if (result.getFunction(functionDef) == null) {
-                            codeRegistrar.registerFunction(gf);
-                            result.addFunction(functionDef, gf);
-                        }
-                        gf.setClass(result);
-                    }
-                });
-            } else {
-                final ClassInvocation ci = functionInvocation.getClassInvocation();
-                ci.resolvePromise().done(new DoneCallback<GeneratedClass>() {
-                    @Override
-                    public void onDone(final GeneratedClass result) {
-                        if (result.getFunction(functionDef) == null) {
-                            codeRegistrar.registerFunction(gf);
-                            result.addFunction(functionDef, gf);
-                        }
-                        gf.setClass(result);
-                    }
-                });
-            }
-            result = gf;
-            functionInvocation.setGenerated(result);
-            functionInvocation.generateDeferred().resolve(result);
-        } else {
-            result = (GeneratedFunction) functionInvocation.getGenerated();
-        }
-        _isDone = true;
-    }
+	@Override
+	public boolean isDone() {
+		return _isDone;
+	}
 
-    @Override
-    public boolean isDone() {
-        return _isDone;
-    }
-
-    public GeneratedFunction getResult() {
-        return result;
-    }
+	public GeneratedFunction getResult() {
+		return result;
+	}
 }
 
 //

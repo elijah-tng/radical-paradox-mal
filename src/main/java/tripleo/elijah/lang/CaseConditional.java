@@ -11,7 +11,7 @@
  */
 package tripleo.elijah.lang;
 
-import antlr.Token;
+import tripleo.vendor.antlr277.Token;
 import tripleo.elijah.contexts.CaseContext;
 import tripleo.elijah.contexts.SingleIdentContext;
 import tripleo.elijah.lang2.ElElementVisitor;

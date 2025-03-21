@@ -1,6 +1,6 @@
 package tripleo.elijah.ci;
 
-import antlr.Token;
+import tripleo.vendor.antlr277.Token;
 
 import java.util.List;
 

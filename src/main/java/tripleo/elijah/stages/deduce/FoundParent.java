@@ -6,7 +6,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.comp.i.ErrSink;
-import tripleo.elijah.diagnostic.Diagnostic;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.lang.types.OS_UserType;
 import tripleo.elijah.stages.deduce.zero.ITE_Zero;
@@ -14,6 +13,7 @@ import tripleo.elijah.stages.deduce.zero.PTE_Zero;
 import tripleo.elijah.stages.deduce.zero.VTE_Zero;
 import tripleo.elijah.stages.deduce.zero.Zero_PotentialTypes;
 import tripleo.elijah.stages.gen_fn.*;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
 import tripleo.elijah_fluffy.util.NotImplementedException;
 
 import java.util.ArrayList;
@@ -93,8 +93,8 @@ public class FoundParent implements BaseTableEntry.StatusListener {
                      * because we now have all the information necessary to do it 4. Hook up
                      * pass/fail callbacks
                      */
-                    final PTE_Zero zero = aPte.zero();
-                    final Promise<IElementHolder, Diagnostic, Void> bestP = zero.foundCounstructorPromise();
+                    final PTE_Zero                                    zero  = aPte.zero();
+                    final Promise<IElementHolder, ElDiagnostic, Void> bestP = zero.foundCounstructorPromise();
 
                     zero.calculateConstructor((GeneratedConstructor) result, ite, deduceTypes2);
 

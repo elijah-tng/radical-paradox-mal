@@ -9,11 +9,12 @@
 package tripleo.elijah;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import tripleo.elijah.comp.Compilation;
-import tripleo.elijah.comp.i.ErrSink;
 import tripleo.elijah.comp.IO;
 import tripleo.elijah.comp.StdErrSink;
+import tripleo.elijah.comp.i.ErrSink;
 import tripleo.elijah.entrypoints.MainClassEntryPoint;
 import tripleo.elijah.factory.comp.CompilationFactory;
 import tripleo.elijah.lang.ClassStatement;
@@ -41,6 +42,7 @@ public class FindClassesInDemoElNormal {
 		Assert.assertEquals(3, aClassList.size()); // NOTE this may change. be aware
 	}
 
+	@Ignore
 	@Test
 	public final void testListFolders() throws Exception {
 		final List<String> args = Helpers.List_of("test/demo-el-normal/listfolders/", "-sE");

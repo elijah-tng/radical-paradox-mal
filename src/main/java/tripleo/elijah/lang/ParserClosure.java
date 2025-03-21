@@ -17,6 +17,7 @@ package tripleo.elijah.lang;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.comp.Compilation;
 
+// FIXME this was removed elsewhere
 public class ParserClosure extends ProgramClosure {
 
     public final OS_Module module;

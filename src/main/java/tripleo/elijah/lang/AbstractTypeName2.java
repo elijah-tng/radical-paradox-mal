@@ -13,34 +13,40 @@ import java.util.LinkedHashSet;
 
 /*
  * Created on 5/4/2019 at 12:25
- *
- * $$Id$
- *
  */
 public abstract class AbstractTypeName2 implements NormalTypeName {
 
+    // README/QUESTION  prob better with HashSet.
+    //  tho by the time we get here, we should actually
+    //  use ImmSet or UnmodifiableSet (Set.of)
     protected final Collection<TypeModifiers> _ltm = new LinkedHashSet<TypeModifiers>();
-    protected TypeModifiers tm;
-    protected Qualident typeName;
+    protected Qualident typeName; // this should be EN_Name or whatever
 
     @Override
     public boolean isNull() {
-        // return tm == null && (typeName == null /*|| typeName.isNull()*/);
-        if (typeName == null) return false;
-        return _ltm.isEmpty() && typeName == null; // TODO check for correctness
+        if (typeName == null) {
+            return false;
+        }
+        // TODO check for correctness
+        //  we'll do this next
+        // idea says always false
+        return _ltm.isEmpty() && typeName == null;
     }
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (!(o instanceof final NormalTypeName that)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof final NormalTypeName that)) {
+            return false;
+        }
         return getConstant() == that.getConstant()
                 && getReference() == that.getReference()
                 && getOut() == that.getOut()
                 && getIn() == that.getIn()
-                &&
-                //				type == that.type &&
-                getModifiers().containsAll(that.getModifiers())
+                // && type == that.type
+                && getModifiers().containsAll(that.getModifiers())
                 && getName().equals(that.getName());
     }
 
@@ -64,6 +70,7 @@ public abstract class AbstractTypeName2 implements NormalTypeName {
         _ltm.add(TypeModifiers.REFPAR);
     }
 
+    // NOTE soon
     @Override
     public boolean getOut() {
         return _ltm.contains(TypeModifiers.OUTPAR);

@@ -1,10 +1,13 @@
 package tripleo.vendor.mal;
 
-import com.google.common.base.*;
-import org.apache.commons.lang3.*;
-import tripleo.vendor.mal.types.*;
+import com.google.common.base.Joiner;
+import tripleo.vendor.mal.types.MalList;
+import tripleo.vendor.mal.types.MalVal;
+import tripleo.vendor.org.apache.commons.lang3.StringEscapeUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class printer {
 

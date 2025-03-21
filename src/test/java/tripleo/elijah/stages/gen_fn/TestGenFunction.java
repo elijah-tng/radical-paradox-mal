@@ -28,7 +28,7 @@ import tripleo.elijah.lang.OS_Type;
 import tripleo.elijah.stages.deduce.DeducePhase;
 import tripleo.elijah.stages.deduce.FunctionMapHook;
 import tripleo.elijah.stages.instructions.InstructionName;
-import tripleo.elijah.work.WorkManager;
+import tripleo.elijah.work.DefaultWorkManager;
 import tripleo.elijah_fluffy.comp.CM_Preludes;
 
 import java.io.File;
@@ -97,7 +97,7 @@ public class TestGenFunction {
 
                 // Assert.assertEquals(2, lgf.size());
 
-                final WorkManager wm = new WorkManager();
+                final DefaultWorkManager wm = new DefaultWorkManager();
 
                 c.addFunctionMapHook(new FunctionMapHook() {
                     @Override

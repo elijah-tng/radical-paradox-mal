@@ -19,8 +19,8 @@ import tripleo.elijah.lang.types.OS_FuncExprType;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.instructions.IdentIA;
 import tripleo.elijah.stages.logging.ElLog;
+import tripleo.elijah.work.DefaultWorkManager;
 import tripleo.elijah.work.WorkList;
-import tripleo.elijah.work.WorkManager;
 import tripleo.elijah_fluffy.util.NotImplementedException;
 
 import java.util.ArrayList;
@@ -33,21 +33,21 @@ class Resolve_Variable_Table_Entry {
     private final Context ctx;
 
     private final DeduceTypes2 deduceTypes2;
-    private final @NotNull ElLog LOG;
-    private final @NotNull WorkManager wm;
-    private final @NotNull DeducePhase phase;
+    private final @NotNull ElLog              LOG;
+    private final @NotNull DefaultWorkManager wm;
+    private final @NotNull DeducePhase        phase;
     private final ErrSink errSink;
 
     public Resolve_Variable_Table_Entry(
             final BaseGeneratedFunction aGeneratedFunction, final Context aCtx, final DeduceTypes2 aDeduceTypes2) {
         generatedFunction = aGeneratedFunction;
-        ctx = aCtx;
-        deduceTypes2 = aDeduceTypes2;
+        ctx               = aCtx;
+        deduceTypes2      = aDeduceTypes2;
         //
-        LOG = deduceTypes2.LOG;
-        wm = deduceTypes2.wm;
+        LOG     = deduceTypes2.LOG;
+        wm      = deduceTypes2.wm;
         errSink = deduceTypes2.errSink;
-        phase = deduceTypes2.phase;
+        phase   = deduceTypes2.phase;
     }
 
     public void action(
@@ -129,7 +129,9 @@ class Resolve_Variable_Table_Entry {
                 if (el instanceof final VariableStatement variableStatement) {
                     action_VAR_pot_1_tableEntry_null(variableStatement);
                 }
-            } else throw new NotImplementedException();
+            } else {
+                throw new NotImplementedException();
+            }
         } catch (final ResolveError aResolveError) {
             errSink.reportDiagnostic(aResolveError);
         }
@@ -154,8 +156,12 @@ class Resolve_Variable_Table_Entry {
                         genCIForGenType2(genType);
                     }
                 }
-            } else assert false;
-        } else assert false;
+            } else {
+                assert false;
+            }
+        } else {
+            assert false;
+        }
     }
 
     public void setup_GenType(final OS_Element element, @NotNull final GenType aGt) {
@@ -220,7 +226,9 @@ class Resolve_Variable_Table_Entry {
             }
             setup_GenType(el, aGt);
         } else // TODO will fail on FunctionDef's
-        throw new IllegalStateException("Unknown parent");
+        {
+            throw new IllegalStateException("Unknown parent");
+        }
     }
 
     public void action_VAR_potsize_1_and_FuncExprType(
@@ -288,13 +296,17 @@ class Resolve_Variable_Table_Entry {
             // vte.typeDeferred().resolve(pot.genType); // this is wrong
         }
 
-        if (callable_pte != null) vte.setCallablePTE(callable_pte);
+        if (callable_pte != null) {
+            vte.setCallablePTE(callable_pte);
+        }
     }
 
     private @Nullable ProcTableEntry findProcTableEntry(
             @NotNull final BaseGeneratedFunction aGeneratedFunction, final IExpression aExpression) {
         for (@NotNull final ProcTableEntry procTableEntry : aGeneratedFunction.prte_list) {
-            if (procTableEntry.expression == aExpression) return procTableEntry;
+            if (procTableEntry.expression == aExpression) {
+                return procTableEntry;
+            }
         }
         return null;
     }
@@ -329,7 +341,9 @@ class Resolve_Variable_Table_Entry {
         if (attached != null) {
             switch (attached.getType()) {
                 case USER:
-                    if (tte.genType.getTypeName() == null) tte.genType.setTypeName(attached);
+                    if (tte.genType.getTypeName() == null) {
+                        tte.genType.setTypeName(attached);
+                    }
                     try {
                         tte.genType.copy(deduceTypes2.resolve_type(attached, ctx));
                         tte.setAttached(
@@ -339,13 +353,17 @@ class Resolve_Variable_Table_Entry {
                         LOG.err("Can't resolve argument type " + attached);
                         return;
                     }
-                    if (generatedFunction.fi.getClassInvocation() != null)
+                    if (generatedFunction.fi.getClassInvocation() != null) {
                         genNodeForGenType(tte.genType, generatedFunction.fi.getClassInvocation());
-                    else genCIForGenType(tte.genType);
+                    } else {
+                        genCIForGenType(tte.genType);
+                    }
                     vte.resolveType(tte.genType);
                     break;
                 case USER_CLASS:
-                    if (tte.genType.getResolved() == null) tte.genType.setResolved(attached);
+                    if (tte.genType.getResolved() == null) {
+                        tte.genType.setResolved(attached);
+                    }
                     // TODO genCI and all that -- Incremental?? (.increment())
                     vte.resolveType(tte.genType);
                     genCIForGenType2(tte.genType);
@@ -382,7 +400,9 @@ class Resolve_Variable_Table_Entry {
                     aGenType.setNode(result);
                 }
             });
-        } else throw new IllegalStateException("invalid invocation");
+        } else {
+            throw new IllegalStateException("invalid invocation");
+        }
     }
 
     /**
@@ -411,7 +431,9 @@ class Resolve_Variable_Table_Entry {
                     aGenType.setNode(result);
                 }
             });
-        } else throw new IllegalStateException("invalid invocation");
+        } else {
+            throw new IllegalStateException("invalid invocation");
+        }
     }
 
     /**
@@ -436,7 +458,9 @@ class Resolve_Variable_Table_Entry {
                     aGenType.setNode(result);
                 }
             });
-        } else throw new IllegalStateException("invalid invocation");
+        } else {
+            throw new IllegalStateException("invalid invocation");
+        }
     }
 }
 

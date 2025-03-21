@@ -4,12 +4,21 @@ import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.comp.*;
 import tripleo.elijah.comp.i.ICompilationAccess;
 import tripleo.elijah.comp.i.PipelineMember;
+import tripleo.elijah_fluffy.util.EventualExtract;
 
 public class EDR_ProcessRecord {
     public final AccessBus ab;
 
     public EDR_ProcessRecord(final @NotNull ICompilationAccess ca0) {
-        ab = new AccessBus(ca0.getCompilation());
+        final Compilation compilation = ca0.getCompilation();
+
+        final var abP = compilation.getStartup().getAccessBus();
+        if (abP.isPending()) {
+            final var ab1 = new AccessBus(compilation);
+            ab = ab1;
+        } else {
+            ab = EventualExtract.of(abP);
+        }
 
         ab.addPipelinePlugin(new GeneratePipelinePlugin());
         ab.addPipelinePlugin(new DeducePipelinePlugin());

@@ -8,12 +8,12 @@
  */
 package tripleo.elijah.lang;
 
-import tripleo.elijah.diagnostic.Locatable;
+import tripleo.elijah_fluffy.diagnostic.ElLocatable;
 
 /**
  * Created 8/16/20 2:16 AM
  */
-public interface TypeName extends Locatable {
+public interface TypeName extends ElLocatable {
     boolean isNull();
 
     Context getContext();

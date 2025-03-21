@@ -14,15 +14,15 @@
  */
 package tripleo.elijah.lang;
 
-import antlr.Token;
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.diagnostic.Locatable;
+import tripleo.elijah_fluffy.diagnostic.ElLocatable;
 import tripleo.elijah_fluffy.util.NotImplementedException;
 import tripleo.elijah_fluffy.util.SimplePrintLoggerToRemoveSoon;
+import tripleo.vendor.antlr277.Token;
 
 import java.io.File;
 
-public class NumericExpression implements IExpression, Locatable {
+public class NumericExpression implements IExpression, ElLocatable {
 
     final int carrier;
     OS_Type _type;

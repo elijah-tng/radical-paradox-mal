@@ -15,7 +15,6 @@ import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.comp.i.ErrSink;
-import tripleo.elijah.diagnostic.Diagnostic;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.lang.types.OS_UnknownType;
 import tripleo.elijah.lang.types.OS_UserType;
@@ -25,6 +24,7 @@ import tripleo.elijah.stages.instructions.InstructionArgument;
 import tripleo.elijah.stages.instructions.IntegerIA;
 import tripleo.elijah.stages.instructions.ProcIA;
 import tripleo.elijah.stages.logging.ElLog;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
 import tripleo.elijah_fluffy.util.Helpers;
 import tripleo.elijah_fluffy.util.NotImplementedException;
 
@@ -116,9 +116,9 @@ class Resolve_Ident_IA2 {
                                         foundElement.doFoundElement(el);
                                     }
                                 },
-                                new FailCallback<Diagnostic>() {
+                                new FailCallback<ElDiagnostic>() {
                                     @Override
-                                    public void onFail(final Diagnostic result) {
+                                    public void onFail(final ElDiagnostic result) {
                                         foundElement.doNoFoundElement();
                                     }
                                 });

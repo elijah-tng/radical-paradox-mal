@@ -10,9 +10,9 @@ package tripleo.elijah.lang;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tripleo.elijah.diagnostic.Locatable;
 import tripleo.elijah.lang2.ElElementVisitor;
 import tripleo.elijah.stages.deduce.DeduceTypeWatcher;
+import tripleo.elijah_fluffy.diagnostic.ElLocatable;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
 // Referenced classes of package pak:
 //			TypeRef, IExpression
 
-public class VariableStatement implements OS_Element, @NotNull Locatable {
+public class VariableStatement implements OS_Element, @NotNull ElLocatable {
 
     private final VariableSequence _parent;
     public DeduceTypeWatcher dtw;

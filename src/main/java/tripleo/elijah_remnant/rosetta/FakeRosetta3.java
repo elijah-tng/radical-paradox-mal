@@ -1,12 +1,12 @@
 package tripleo.elijah_remnant.rosetta;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.jdeferred2.DoneCallback;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.lang.OS_Module;
 import tripleo.elijah.stages.deduce.DeducePhase;
 import tripleo.elijah.stages.deduce.DeduceTypes2;
 import tripleo.elijah_fluffy.util.Eventual;
+import tripleo.vendor.org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class FakeRosetta3 {
             public void onDone(final DeduceTypes2 result) {
                 boolean f = false;
 
-                for (Pair<DoneCallback<?>, Boolean> p : FakeRosetta3$.called) {
+                for (final Pair<DoneCallback<?>, Boolean> p : FakeRosetta3$.called) {
                     if (p.getLeft() == result) {
                         p.setValue(true);
                         f = true;
@@ -49,7 +49,7 @@ public class FakeRosetta3 {
     }
 
     public static void ensure_all() {
-        for (var p : FakeRosetta3$.called) {
+        for (final var p : FakeRosetta3$.called) {
             if (!p.getRight()) {
                 System.err.println("~~ Didn't call: " + p.getLeft());
             }

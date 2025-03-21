@@ -9,7 +9,7 @@
 
 package tripleo.elijah.lang;
 
-import antlr.Token;
+import tripleo.vendor.antlr277.Token;
 import org.jetbrains.annotations.Contract;
 import tripleo.elijah.contexts.IfConditionalContext;
 

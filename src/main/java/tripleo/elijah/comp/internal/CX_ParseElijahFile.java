@@ -1,7 +1,7 @@
 package tripleo.elijah.comp.internal;
 
-import antlr.RecognitionException;
-import antlr.TokenStreamException;
+import tripleo.vendor.antlr277.RecognitionException;
+import tripleo.vendor.antlr277.TokenStreamException;
 import tripleo.elijah.Out;
 import tripleo.elijah.comp.Compilation;
 import tripleo.elijah.comp.IO;

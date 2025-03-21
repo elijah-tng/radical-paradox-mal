@@ -34,9 +34,9 @@ public class WlGenerateDefaultCtor implements WorkJob {
             @NotNull final GenerateFunctions aGenerateFunctions,
             final FunctionInvocation aFunctionInvocation,
             final ICodeRegistrar aCodeRegistrar) {
-        generateFunctions = aGenerateFunctions;
+        generateFunctions  = aGenerateFunctions;
         functionInvocation = aFunctionInvocation;
-        codeRegistrar = aCodeRegistrar;
+        codeRegistrar      = aCodeRegistrar;
     }
 
     @Override

@@ -1,16 +1,16 @@
 package tripleo.elijah_fluffy.comp;
 
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.ci.LibraryStatementPart;
 import tripleo.elijah.comp.Compilation;
 import tripleo.elijah.lang.OS_Module;
 
 public interface CM_Prelude {
-    OS_Module getModule();
+    @NotNull OS_Module getModule();
 
-    CM_Preludes getTag();
+    @NotNull CM_Preludes getTag();
 
-    LibraryStatementPart getLsp();
+    @NotNull LibraryStatementPart getLsp();
 
-    Compilation getCompilation();
-    // ??
+    @NotNull Compilation getCompilation();
 }

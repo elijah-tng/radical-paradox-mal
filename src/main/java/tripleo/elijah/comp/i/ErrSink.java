@@ -8,15 +8,15 @@
  */
 package tripleo.elijah.comp.i;
 
-import org.apache.commons.lang3.tuple.Pair;
 import tripleo.elijah.comp.StdErrSink;
-import tripleo.elijah.diagnostic.Diagnostic;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
+import tripleo.vendor.org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
 public interface ErrSink {
 
-    void exception(Exception exception);
+    void exception(Throwable exception);
 
     /* @ ensures errorCount() == \old errorCount + 1 */
     void reportError(String s);
@@ -27,16 +27,25 @@ public interface ErrSink {
 
     void info(String format);
 
-    void reportDiagnostic(Diagnostic diagnostic);
+    void reportDiagnostic(ElDiagnostic diagnostic);
 
-    Pair<StdErrSink.Desc, Object> _error(int aI);
+    Pair<StdErrSink.Desc, Object> _error(int index);
 
     List<Pair<StdErrSink.Desc, Object>> _errors();
+
+    void PrintErrors();
 
     enum Errors {
         ERROR,
         WARNING,
         INFO
+    }
+
+    enum Desc {
+        INFO_STRING,
+        WARNING_STRING,
+        EXCEPTION_STRING,
+        DIAGNOSTIC
     }
 }
 
