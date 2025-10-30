@@ -24,9 +24,10 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>tripleo.elijah</groupId>
-			<artifactId>elijah-cegont-upper</artifactId>
-			<version>0.1-prolific-remnant</version>
+			<groupId>com.github.elijah-tng</groupId>
+			<artifactId>cegont-upper</artifactId>
+			<!--<version>0.1-prolific-remnant</version>-->
+			<version>dc1063667e640230540167d9eb9e0ec562c26d8f</version>
 		</dependency>
 		<dependency>
 			<groupId>io.vavr</groupId>
@@ -244,16 +245,16 @@
 	</dependencies>
 
 	<repositories>
+		<!--
 		<repository>
 			<id>central</id>
 			<url>https://repo1.maven.org/maven2/</url>
 		</repository>
-		<!--
-				<repository>
-					<id>jitpack.io</id>
-					<url>https://jitpack.io</url>
-				</repository>
 		-->
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
 	</repositories>
 
 	<build>
