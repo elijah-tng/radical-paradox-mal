@@ -405,6 +405,7 @@ public class EDR_Compilation implements Compilation {
 
 	@Override
 	public void setPipelineLogic(final PipelineLogic aPipelineLogic) {
+		assert pipelineLogic == null || pipelineLogic == aPipelineLogic;
 		pipelineLogic = aPipelineLogic;
 	}
 
