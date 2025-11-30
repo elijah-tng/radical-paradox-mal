@@ -82,7 +82,6 @@
 			<artifactId>activej-net</artifactId>
 			<version>${activej.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>io.activej</groupId>
 			<artifactId>activej-inject</artifactId>
@@ -108,13 +107,6 @@
 			<artifactId>activej-common</artifactId>
 			<version>${activej.version}</version>
 		</dependency>
-		<!--
-						<dependency>
-								<groupId>io.activej</groupId>
-								<artifactId>activej-net</artifactId>
-								<version>${activej.version}</version>
-						</dependency>
-		-->
 		<dependency>
 			<groupId>io.activej</groupId>
 			<artifactId>activej-http</artifactId>
@@ -130,35 +122,23 @@
 			<artifactId>activej-launchers-http</artifactId>
 			<version>${activej.version}</version>
 		</dependency>
-		<!--
-				<dependency>
-					<groupId>io.activej</groupId>
-					<artifactId>activej-jmxapi</artifactId>
-					<version>${activej.version}</version>
-					<optional>true</optional>
-				</dependency>
-		-->
+
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>1.5.20</version>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-		<dependency>
+		<!--<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.20.0</version>
-		</dependency>
-
+		</dependency>-->
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
 			<artifactId>jna</artifactId>
 			<version>5.17.0</version>
 		</dependency>
-
-		<!-- https://search.maven.org/artifact/io.reactivex.rxjava3/rxjava/3.1.0/jar -->
 		<dependency>
 			<groupId>io.reactivex.rxjava3</groupId>
 			<artifactId>rxjava</artifactId>
@@ -166,54 +146,32 @@
 		</dependency>
 
 		<!--
-				<dependency>
-					<groupId>me.friwi</groupId>
-					<artifactId>jcefmaven</artifactId>
-					<version>127.3.1</version>
-				</dependency>
+		<dependency>
+			<groupId>me.friwi</groupId>
+			<artifactId>jcefmaven</artifactId>
+			<version>127.3.1</version>
+		</dependency>
 		-->
 
-		<!-- https://mvnrepository.com/artifact/org.reactivestreams/reactive-streams -->
 		<dependency>
 			<groupId>org.reactivestreams</groupId>
 			<artifactId>reactive-streams</artifactId>
 			<version>1.0.4</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>1.19.0</version> <!-- Use 1.6 for java 1.5 -->
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>2.0.17</version>
 		</dependency>
-
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>5.6.0</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.jetbrains/annotations -->
 		<dependency>
 			<groupId>org.jetbrains</groupId>
 			<artifactId>annotations</artifactId>
 			<version>26.0.2</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/junit/junit -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.2</version>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -226,6 +184,25 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>${guava.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>5.6.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>4.0.0-M1</version>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>

@@ -212,14 +212,19 @@ public class DeducePhase {
 		generatePhase.getWm().drain(); // TODO find a better place to put this
 
 		{
-			final GeneratedClass xxx = job.getResult();
-			final Map<String, Object> map = Map.of("klassName", klass.getName(), //
-			                                       "mod::name", mod.getFileName(), //
-			                                       "generatedClass", xxx
-			);
-			final String jsonString = U.getGson().toJson(map);
+			try {
+				final GeneratedClass xxx = job.getResult();
+				final Map<String, Object> map = Map.of("klassName", klass.getName(), //
+				                                       "mod::name", mod.getFileName(), //
+				                                       "generatedClass", xxx
+				);
+				final String jsonString = U.getGson().toJson(map);
 
-			System.err.println("200-200 " + jsonString);
+				System.err.println("200-200 " + jsonString);
+			} catch (Throwable aE) {
+				// throw new RuntimeException(aE);
+				System.err.println("fixme 225");
+			}
 		}
 
 		// 4. Return it

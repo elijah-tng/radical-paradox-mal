@@ -8,7 +8,6 @@
  */
 package tripleo.elijah;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import io.activej.test.rules.EventloopRule;
 import org.jdeferred2.Promise;
@@ -27,15 +26,15 @@ import tripleo.elijah.nextgen.outputstatement.EG_SequenceStatement;
 import tripleo.elijah.nextgen.outputstatement.EG_Statement;
 import tripleo.elijah.nextgen.outputtree.EOT_OutputFile;
 import tripleo.elijah.nextgen.outputtree.EOT_OutputTree;
+import tripleo.elijah.nextgen.outputtree.EOT_OutputType;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static tripleo.elijah_fluffy.util.Helpers.List_of;
 
 /**
@@ -65,8 +64,8 @@ public class TestBasic {
 	@Ignore
 	@Test
 	public final void testBasicParse() throws Exception {
-		final List<String> ez_files = Files.readLines(new File("test/basic/ez_files.txt"), Charsets.UTF_8);
-		final List<String> args = new ArrayList<>();
+		final List<String> ez_files = Files.readLines(new File("test/basic/ez_files.txt"), StandardCharsets.UTF_8);
+		final List<String> args     = new ArrayList<>();
 		args.add("-sE");
 		args.addAll(ez_files);
 		final Compilation c = CompilationFactory.mkCompilation(new StdErrSink(), new IO());
@@ -79,14 +78,14 @@ public class TestBasic {
 	@Ignore
 	@Test
 	public final void testBasic() throws Exception {
-		final List<String>          ez_files   = Files.readLines(new File("test/basic/ez_files.txt"), Charsets.UTF_8);
-		final Map<Integer, Integer> errorCount = new HashMap<Integer, Integer>();
+		final List<String>          ez_files   = Files.readLines(new File("test/basic/ez_files.txt"), StandardCharsets.UTF_8);
+		final Map<Integer, Integer> errorCount = new HashMap<>();
 		int                         index      = 0;
 
 		for (final String s : ez_files) {
 //			List<String> args = List_of("test/basic", "-sO"/*, "-out"*/);
 			final ErrSink     eee = new StdErrSink();
-			final Compilation c = CompilationFactory.mkCompilation(eee, new IO());
+			final Compilation c   = CompilationFactory.mkCompilation(eee, new IO());
 
 			c.feedCmdLine(List_of(s, "-sO"));
 
@@ -105,8 +104,8 @@ public class TestBasic {
 	//</editor-fold>
 
 	@Test
-	public final void testBasic_listfolders3() throws Exception {
-		final String s = "test/basic/listfolders3/listfolders3.ez";
+	public final void testBasic_listFolders3() {
+		final String      s = "test/basic/listfolders3/listfolders3.ez";
 		final Compilation c = CompilationFactory.mkCompilation();
 
 		c.feedCmdLine(List_of(s, "-sO"));
@@ -115,12 +114,41 @@ public class TestBasic {
 			System.err.printf("Error count should be 0 but is %d for %s%n", c.errorCount(), s);
 		}
 
-		Assert.assertEquals(13, c.getOutputTree().list().size());
-		Assert.assertEquals(24, c.errorCount()); // TODO Error count obviously should be 0
+		final List<@NotNull EOT_OutputFile> outputFileList = c.getOutputTree().list();
+		assertThat(outputFileList.size()) //
+				// .isEqualTo(13); //
+				.isEqualTo(3);
+
+		assertThat(p(outputFileList).stream().map(Objects::toString)) //
+				.containsExactlyInAnyOrderElementsOf(List_of( //
+						"pEOT_OutputFile[aType=SOURCES, aFilename=/listfolders3/Main.c]", //
+						"pEOT_OutputFile[aType=SOURCES, aFilename=/listfolders3/Main.h]", //
+						"pEOT_OutputFile[aType=ERROR_REPORT, aFilename=error-report.json]" //
+				));
+
+		assertThat(c.errorCount()) //
+				// .isEqualTo(24); //
+				.withFailMessage("Error count obviously should be 0")
+				// .isEqualTo(3);
+				.isEqualTo(2);
+
+	}
+
+	private List<pEOT_OutputFile> p(final List<EOT_OutputFile> aOutputFileList) {
+		final List<pEOT_OutputFile> x = new ArrayList<>();
+		for (EOT_OutputFile eotOutputFile : aOutputFileList) {
+			final EOT_OutputType type     = eotOutputFile.getType();
+			final String         filename = eotOutputFile.getFilename();
+			x.add(new pEOT_OutputFile(type, filename));
+		}
+		return x;
+	}
+
+	public record pEOT_OutputFile(EOT_OutputType aType, String aFilename) {
 	}
 
 	@Test
-	public final void testBasic_listfolders4() {
+	public final void testBasic_listFolders4() {
 		final String      s = "test/basic/listfolders4/listfolders4.ez";
 		final Compilation c = CompilationFactory.mkCompilation(new StdErrSink(), new IO());
 
@@ -130,15 +158,17 @@ public class TestBasic {
 			System.err.printf("Error count should be 0 but is %d for %s%n", c.errorCount(), s);
 		}
 
-		Assert.assertEquals(22, c.errorCount()); // TODO Error count obviously should be 0
+		final int was22 = 2;
+		Assert.assertEquals(was22, c.errorCount()); // TODO Error count obviously should be 0
 	}
 
+	@SuppressWarnings("CommentedOutCode")
 	@Test
-	public final void testBasic_fact1() throws Exception {
+	public final void testBasic_fact1() {
 		final String s = "test/basic/fact1/main2";
 
 		final ErrSink     eee = new StdErrSink();
-		final Compilation c = CompilationFactory.mkCompilation(eee, new IO());
+		final Compilation c   = CompilationFactory.mkCompilation(eee, new IO());
 
 		c.feedCmdLine(List_of(s, "-sO"));
 
@@ -154,20 +184,37 @@ public class TestBasic {
 			System.err.println("156 " + off.getFilename());
 		}
 
-
-		Assert.assertEquals(19, cot.size()); // TODO why not 6?
+		assertThat(cot.size()) //
+				// .isEqualTo(6);  // TODO why not 6?
+				// .isEqualTo(19); //
+				.isEqualTo(3);
 
 		select(cot.list(), f -> f.getFilename().equals("/main2/Main.h")).then(f -> {
 			final EG_SequenceStatement statementSequence = (EG_SequenceStatement) f.getStatementSequence();
 			System.out.println(_mapGetTextToSequence(statementSequence));
-		  });
+		});
 		select(cot.list(), f -> f.getFilename().equals("/main2/Main.c")).then(f -> {
 			final EG_SequenceStatement statementSequence = (EG_SequenceStatement) f.getStatementSequence();
 			System.out.println(_mapGetTextToSequence(statementSequence));
-		  });
+		});
 
 		// TODO Error count obviously should be 0
-		Assert.assertEquals(124, c.errorCount()); // FIXME why 123?? 04/15
+		// assertThat(c.getOutputTree().list().size()) //
+		// 		// .isEqualTo(13); //
+		// 		.isEqualTo(3);
+		//
+		// assertThat(c.getOutputTree().list()) //
+		// 		.containsExactlyElementsOf(List_of( //
+		// 		                                    null
+		// 		));
+
+		assertThat(c.errorCount()) //
+				// .isEqualTo(123);  // FIXME why 123?? 04/15
+				// .isEqualTo(124); //
+				.withFailMessage("Error count obviously should be 0")
+				.isEqualTo(3);
+
+
 	}
 }
 

@@ -65,30 +65,30 @@ public class EDR_Compilation implements Compilation {
 	private final          int                          _compilationNumber;
 	private final          ErrSink                      errSink;
 	private final          IO                           io;
-	private final List<ExecutorService__> es;
+	private final          List<ExecutorService__>      es;
 	private                PipelineLogic                pipelineLogic;
 	private                CompilerInstructionsObserver _cio;
 	private                EDR_CompilationRunner        __cr;
 	private                CompilerInstructions         rootCI;
 
 	public EDR_Compilation(final @NotNull ErrSink aErrSink, final IO aIO) {
-		errSink            = aErrSink;
-		io                 = aIO;
-		_compilationNumber = new Random().nextInt(Integer.MAX_VALUE);
-		es                 = new ArrayList<ExecutorService__>();
+		errSink             = aErrSink;
+		io                  = aIO;
+		_compilationNumber  = new Random().nextInt(Integer.MAX_VALUE);
+		es                  = new ArrayList<ExecutorService__>();
 		elLogs              = new LinkedList<>();
 		_m_comp_dir_promise = new Eventual<>();
-		pipelines          = new Pipeline(aErrSink);
-		__cb               = new CompilationBusElValue();
-		cfg                = new CompilationConfig();
-		_f                 = new Finally();
-		_repo              = new DefaultLivingRepo();
-		_cis               = new EDR_CIS();
-		mod                = new EDR_MOD();
-		use                = new EDR_USE(this);
-		_fluffyComp        = new FluffyCompImpl(this);
-		_startup           = new ProlificStartup2(this);
-		_output_tree       = new EOT_OutputTree();
+		pipelines           = new Pipeline(aErrSink);
+		__cb                = new CompilationBusElValue();
+		cfg                 = new CompilationConfig();
+		_f                  = new Finally();
+		_repo               = new DefaultLivingRepo();
+		_cis                = new EDR_CIS();
+		mod                 = new EDR_MOD();
+		use                 = new EDR_USE(this);
+		_fluffyComp         = new FluffyCompImpl(this);
+		_startup            = new ProlificStartup2(this);
+		_output_tree        = new EOT_OutputTree();
 	}
 
 	@Override
@@ -128,7 +128,11 @@ public class EDR_Compilation implements Compilation {
 		} else {
 			__cb.set((EDR_CompilationBus) ctl.getCB());
 			final var launcher = new ProlificCompilationLauncher(this, aStringList, ctl);
-			launcher.launch0();
+			try {
+				launcher.launch0();
+			} catch (Throwable aE) {
+				NotImplementedException.raise_stop();
+			}
 		}
 	}
 
@@ -421,11 +425,13 @@ public class EDR_Compilation implements Compilation {
 
 	@Override
 	public void hasInstructions(final @NotNull List<CompilerInstructions> cis) {
-		assert !cis.isEmpty();
+		if (!cis.isEmpty()) {
+			rootCI = cis.get(0);
 
-		rootCI = cis.get(0);
-
-		__cr.start(rootCI, cfg.do_out);
+			__cr.start(rootCI, cfg.do_out);
+		} else {
+			throw new AssertionError();
+		}
 	}
 
 	@Override

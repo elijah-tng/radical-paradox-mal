@@ -24,9 +24,9 @@ class ProlificCompilationLauncher extends Launcher {
     /*
      * This requires a little bit of study.
      */
+
     @Inject
     CompilationControllerActiveJService compilationControllerActiveJService;
-
     public ProlificCompilationLauncher(
             final @NotNull Compilation aCompilation,
             final @NotNull List<String> aStringList,
@@ -55,13 +55,14 @@ class ProlificCompilationLauncher extends Launcher {
             Eventloop.builder().withCurrentThread().build();
             final var launcher = this;
             launcher.launch(new String[0]);
-        } catch (final Exception aE) {
+        } catch (final Throwable aE) {
             compilation.getErrSink().exception(aE);
         }
     }
 
     @Inject
     private class CompilationControllerActiveJService implements Service {
+
         @Override
         public @NotNull CompletableFuture<?> start() {
             logProgress("|SERVICE STARTING|");
@@ -74,11 +75,15 @@ class ProlificCompilationLauncher extends Launcher {
             }
             return CompletableFuture.completedFuture(null);
         }
-
         @Override
         public CompletableFuture<?> stop() {
             logProgress("|SERVICE STOPPING|");
             return CompletableFuture.completedFuture(null);
         }
+    }
+
+    @Override
+    protected void onStop() throws Exception {
+        logProgress("|ON-STOP|");
     }
 }

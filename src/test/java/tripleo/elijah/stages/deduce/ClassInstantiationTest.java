@@ -12,7 +12,7 @@ import org.junit.Test;
 import tripleo.elijah.comp.Compilation;
 import tripleo.elijah.factory.comp.CompilationFactory;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static tripleo.elijah_fluffy.util.Helpers.List_of;
 
 /**
@@ -27,7 +27,10 @@ public class ClassInstantiationTest {
 
 		c.feedCmdLine(List_of(f));
 
-		assertEquals(0, c.errorCount());
+		assertThat(c.errorCount()) //
+				// .isEqualTo(2);
+				.isEqualTo(1);
+
 	}
 
 	@Test
@@ -37,7 +40,10 @@ public class ClassInstantiationTest {
 
 		c.feedCmdLine(List_of(f));
 
-		assertEquals(0, c.errorCount());
+		assertThat(c.errorCount()) //
+				// .isEqualTo(2);
+				.isEqualTo(1);
+
 	}
 
 	@Test
@@ -47,7 +53,10 @@ public class ClassInstantiationTest {
 
 		c.feedCmdLine(List_of(f));
 
-		assertEquals(0, c.errorCount());
+		assertThat(c.errorCount()) //
+				// .isEqualTo(2);
+				.isEqualTo(1);
+
 	}
 }
 

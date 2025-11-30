@@ -20,6 +20,7 @@ import tripleo.elijah.stages.gen_generic.GenerateResult;
 import tripleo.elijah.stages.logging.ElLog;
 import tripleo.elijah.work.DefaultWorkManager;
 import tripleo.elijah.work.WorkManager;
+import tripleo.elijah_fluffy.util.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,10 +51,11 @@ public class GeneratePipeline implements PipelineMember /*, AccessBus.AB_LgcList
 		Preconditions.checkNotNull(pipelineLogic);
 		Preconditions.checkNotNull(lgc);
 
-		assert lgc.size() > 0;
-
-		/*pipelineLogic.*/
-		generate(lgc, errSink, pipelineLogic.mods(), pipelineLogic.getVerbosity());
+		if (lgc.isEmpty()) {
+			NotImplementedException.raise_stop();
+		} else {/*pipelineLogic.*/
+			generate(lgc, errSink, pipelineLogic.mods(), pipelineLogic.getVerbosity());
+		}
 	}
 
 	protected void generate(

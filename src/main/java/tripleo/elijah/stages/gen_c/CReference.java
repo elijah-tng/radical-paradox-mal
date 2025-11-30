@@ -10,6 +10,7 @@
 package tripleo.elijah.stages.gen_c;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.lang.ConstructorDef;
 import tripleo.elijah.lang.IdentExpression;
 import tripleo.elijah.lang.OS_Module;
@@ -24,6 +25,10 @@ import tripleo.elijah.stages.instructions.IdentIA;
 import tripleo.elijah.stages.instructions.InstructionArgument;
 import tripleo.elijah.stages.instructions.IntegerIA;
 import tripleo.elijah.stages.instructions.ProcIA;
+import tripleo.elijah_fluffy.diagnostic.ElDiagnostic;
+import tripleo.elijah_fluffy.diagnostic.ExceptionDiagnostic;
+import tripleo.elijah_fluffy.util.Eventual;
+import tripleo.elijah_fluffy.util.EventualExtract;
 import tripleo.elijah_fluffy.util.Helpers;
 import tripleo.elijah_fluffy.util.NotImplementedException;
 
@@ -35,410 +40,431 @@ import static tripleo.elijah.stages.deduce.DeduceTypes2.to_int;
  * Created 1/9/21 7:12 AM
  */
 public class CReference {
-    private final GI_Repo _repo = new GI_Repo();
-    //
-    //
-    GeneratedClass _cheat = null;
-    private String rtext = null;
-    private List<String> args;
-    private List<Reference> refs;
-    //
-    //
+	private final GI_Repo _repo = new GI_Repo();
+	//
+	//
+	GeneratedClass _cheat = null;
+	private String          rtext = null;
+	private List<String>    args;
+	private List<Reference> refs;
+	//
+	//
 
-    @NotNull
-    static List<InstructionArgument> _getIdentIAPathList(@NotNull InstructionArgument oo) {
-        final List<InstructionArgument> s = new LinkedList<InstructionArgument>();
-        while (oo != null) {
-            if (oo instanceof IntegerIA) {
-                s.add(0, oo);
-                oo = null;
-            } else if (oo instanceof IdentIA) {
-                final IdentTableEntry ite1 = ((IdentIA) oo).getEntry();
-                s.add(0, oo);
-                oo = ite1.getBacklink();
-            } else if (oo instanceof ProcIA) {
-                //				final ProcTableEntry prte = ((ProcIA)oo).getEntry();
-                s.add(0, oo);
-                oo = null;
-            } else {
-                throw new IllegalStateException("Invalid InstructionArgument");
-            }
-        }
-        return s;
-    }
+	@NotNull
+	static List<InstructionArgument> _getIdentIAPathList(@NotNull InstructionArgument oo) {
+		final List<InstructionArgument> s = new LinkedList<InstructionArgument>();
+		while (oo != null) {
+			if (oo instanceof IntegerIA) {
+				s.add(0, oo);
+				oo = null;
+			} else if (oo instanceof IdentIA) {
+				final IdentTableEntry ite1 = ((IdentIA) oo).getEntry();
+				s.add(0, oo);
+				oo = ite1.getBacklink();
+			} else if (oo instanceof ProcIA) {
+				//				final ProcTableEntry prte = ((ProcIA)oo).getEntry();
+				s.add(0, oo);
+				oo = null;
+			} else {
+				throw new IllegalStateException("Invalid InstructionArgument");
+			}
+		}
+		return s;
+	}
 
-    public String getIdentIAPath(
-            final @NotNull IdentIA ia2, final Generate_Code_For_Method.AOG aog, final String aValue) {
-        final BaseGeneratedFunction generatedFunction = ia2.gf;
-        final List<InstructionArgument> s = _getIdentIAPathList(ia2);
-        refs = new ArrayList<Reference>(s.size());
+	public String getIdentIAPath(
+			final @NotNull IdentIA ia2, final Generate_Code_For_Method.AOG aog, final String aValue) {
+		final BaseGeneratedFunction     generatedFunction = ia2.gf;
+		final List<InstructionArgument> s                 = _getIdentIAPathList(ia2);
+		refs = new ArrayList<Reference>(s.size());
 
-        //
-        // TODO NOT LOOKING UP THINGS, IE PROPERTIES, MEMBERS
-        //
-        String text = "";
-        final List<String> sl = new ArrayList<String>();
-        for (int i = 0, sSize = s.size(); i < sSize; i++) {
-            final InstructionArgument ia = s.get(i);
-            if (ia instanceof IntegerIA) {
-                // should only be the first element if at all
-                assert i == 0;
-                final VariableTableEntry vte = generatedFunction.getVarTableEntry(to_int(ia));
+		//
+		// TODO NOT LOOKING UP THINGS, IE PROPERTIES, MEMBERS
+		//
+		String             text = "";
+		final List<String> sl   = new ArrayList<String>();
+		for (int i = 0, sSize = s.size(); i < sSize; i++) {
+			final InstructionArgument ia = s.get(i);
+			if (ia instanceof IntegerIA) {
+				// should only be the first element if at all
+				assert i == 0;
+				final VariableTableEntry vte = generatedFunction.getVarTableEntry(to_int(ia));
 
-                if (vte.getName().equals("a1")) {
-                    final GenType gt1 = vte.genType;
-                    final GenType gt2 = vte.type.genType;
-                    final GeneratedClass gc1 = (GeneratedClass) vte.genType.getNode();
+				if (vte.getName().equals("a1")) {
+					final GenType        gt1 = vte.genType;
+					final GenType        gt2 = vte.type.genType;
+					final GeneratedClass gc1 = (GeneratedClass) vte.genType.getNode();
 
-                    _cheat = gc1;
+					_cheat = gc1;
 
-                    // only gt1.node is not null
+					// only gt1.node is not null
 
-                    assert gc1.getCode() == 106;
-                    assert gc1.getName().equals("ConstString");
+					assert gc1.getCode() == 106;
+					assert gc1.getName().equals("ConstString");
 
-                    // gt2
+					// gt2
 
-                    assert gt2.getResolvedn() == null;
-                    assert gt2.getTypeName() instanceof OS_UserType;
-                    assert gt2.getNonGenericTypeName() instanceof RegularTypeName;
-                    assert gt2.getResolved() instanceof OS_FuncType; // wrong: should be usertype: GeneratedClass
-                    assert ((ClassInvocation) gt2.getCi()).resolvePromise().isResolved();
+					assert gt2.getResolvedn() == null;
+					assert gt2.getTypeName() instanceof OS_UserType;
+					assert gt2.getNonGenericTypeName() instanceof RegularTypeName;
+					assert gt2.getResolved() instanceof OS_FuncType; // wrong: should be usertype: GeneratedClass
+					assert ((ClassInvocation) gt2.getCi()).resolvePromise().isResolved();
 
-                    ((ClassInvocation) gt2.getCi())
-                            .resolvePromise()
-                            .then(
-                                    gc -> { // wrong: should be ConstString
-                                        assert gc.getCode() == 102;
-                                        assert gc.getKlass().getName().equals("Arguments");
-                                    });
+					((ClassInvocation) gt2.getCi())
+							.resolvePromise()
+							.then(
+									gc -> { // wrong: should be ConstString
+										assert gc.getCode() == 102;
+										assert gc.getKlass().getName().equals("Arguments");
+									});
 
-                    assert gt2.getFunctionInvocation() == null;
+					assert gt2.getFunctionInvocation() == null;
 
-                    final int y = 2;
-                }
+					final int y = 2;
+				}
 
-                text = "vv" + vte.getName();
-                addRef(vte.getName(), Ref.LOCAL);
-            } else if (ia instanceof IdentIA) {
-                final IdentTableEntry idte = ((IdentIA) ia).getEntry();
-                text = CRI_Ident.of(idte, ((IdentIA) ia).gf)
-                        .getIdentIAPath(i, sSize, aog, sl, aValue, refs::add, s, ia2, this);
-            } else if (ia instanceof ProcIA) {
-                final ProcTableEntry prte = generatedFunction.getProcTableEntry(to_int(ia));
-                text = getIdentIAPath_Proc(prte);
-            } else {
-                throw new NotImplementedException();
-            }
-            if (text != null) {
-                sl.add(text);
-            }
-        }
-        rtext = Helpers.String_join(".", sl);
-        return rtext;
-    }
+				text = "vv" + vte.getName();
+				addRef(vte.getName(), Ref.LOCAL);
+			} else if (ia instanceof IdentIA) {
+				final IdentTableEntry idte = ((IdentIA) ia).getEntry();
+				text = CRI_Ident.of(idte, ((IdentIA) ia).gf)
+						.getIdentIAPath(i, sSize, aog, sl, aValue, refs::add, s, ia2, this);
+			} else if (ia instanceof ProcIA) {
+				final ProcTableEntry prte = generatedFunction.getProcTableEntry(to_int(ia));
+				text = getIdentIAPath_Proc(prte);
+			} else {
+				throw new NotImplementedException();
+			}
+			if (text != null) {
+				sl.add(text);
+			}
+		}
+		rtext = Helpers.String_join(".", sl);
+		return rtext;
+	}
 
-    void addRef(final String text, final Ref type) {
-        refs.add(new Reference(text, type));
-    }
+	void addRef(final String text, final Ref type) {
+		refs.add(new Reference(text, type));
+	}
 
-    public String getIdentIAPath_Proc(final @NotNull ProcTableEntry aPrte) {
-        final String[]           text               = new String[1];
-        final FunctionInvocation functionInvocation = aPrte.getFunctionInvocation();
-        if (functionInvocation == null) {
-            throw new AssertionError();
-        }
-        final BaseGeneratedFunction generated = functionInvocation.getGenerated();
-        final IDeduceElement3       de_pte    = aPrte.getDeduceElement3();
+	public @Nullable String getIdentIAPath_Proc(final @NotNull ProcTableEntry aPrte) {
+		final Eventual<String> res = getIdentIAPath_Proc2(aPrte);
+		if (!res.isResolved()) {
+			System.err.println("[FIXME]");
+			return null;
+		}
+		return EventualExtract.of(res);
+	}
 
-        if (generated == null) {
-            throw new IllegalStateException();
-        }
+	public Eventual<String> getIdentIAPath_Proc2(final @NotNull ProcTableEntry aPrte) {
+		final Eventual<String>     res  = new Eventual<>();
+		final String[]             text = new String[1];
+		final FunctionInvocation[] done = new FunctionInvocation[1];
+		aPrte.onFunctionInvocation(functionInvocation -> {
+			done[0] = functionInvocation;
 
-        if (generated instanceof GeneratedConstructor) {
-            NotImplementedException.raise();
-            generated.onGenClass(genClass -> {
-                final IdentExpression constructorName = generated.getFD().getNameNode();
-                final String constructorNameText;
-                if (constructorName == ConstructorDef.emptyConstructorName) {
-                    constructorNameText = "";
-                } else {
-                    constructorNameText = constructorName.getText();
-                }
-                text[0] = String.format("ZC%d%s", genClass.getCode(), constructorNameText);
-                addRef(text[0], Ref.CONSTRUCTOR);
-            });
-            final GeneratedContainerNC genClass = (GeneratedContainerNC) generated.getGenClass();
-            if (genClass == null) {
-                final int y = 2;
-                // generated.setClass(genClass);
-            }
-        } else {
-            generated.onGenClass(genClass -> {
-                text[0] = String.format(
-                        "Z%d%s",
-                        genClass.getCode(), generated.getFD().getNameNode().getText());
-                addRef(text[0], Ref.FUNCTION);
-            });
-        }
+			final BaseGeneratedFunction generated = functionInvocation.getGenerated();
+			final IDeduceElement3       de_pte    = aPrte.getDeduceElement3();
 
-        return text[0];
-    }
+			if (generated == null) {
+				res.reject(new ExceptionDiagnostic(new IllegalStateException("generated == null")));
+				return;
+			}
 
-    /**
-     * Call before you call build
-     *
-     * @param sl3
-     */
-    public void args(final List<String> sl3) {
-        args = sl3;
-    }
+			if (generated instanceof GeneratedConstructor) {
+				NotImplementedException.raise();
+				generated.onGenClass(genClass -> {
+					final IdentExpression constructorName = generated.getFD().getNameNode();
+					final String          constructorNameText;
+					if (constructorName == ConstructorDef.emptyConstructorName) {
+						constructorNameText = "";
+					} else {
+						constructorNameText = constructorName.getText();
+					}
+					text[0] = String.format("ZC%d%s", genClass.getCode(), constructorNameText);
+					addRef(text[0], Ref.CONSTRUCTOR);
+				});
+				final GeneratedContainerNC genClass = (GeneratedContainerNC) generated.getGenClass();
+				if (genClass == null) {
+					NotImplementedException.raise_stop();
+					// generated.setClass(genClass);
+				}
+			} else {
+				generated.onGenClass(genClass -> {
+					text[0] = String.format(
+							"Z%d%s",
+							genClass.getCode(), generated.getFD().getNameNode().getText()
+					);
+					addRef(text[0], Ref.FUNCTION);
+				});
+			}
 
-    @NotNull
-    public String build() {
-        final BuildState st = new BuildState();
+		});
 
-        for (final Reference ref : refs) {
-            switch (ref.type) {
-                case LITERAL:
-                case DIRECT_MEMBER:
-                case INLINE_MEMBER:
-                case MEMBER:
-                case LOCAL:
-                case FUNCTION:
-                case PROPERTY_GET:
-                case PROPERTY_SET:
-                case CONSTRUCTOR:
-                    ref.buildHelper(st);
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + ref.type);
-            }
-            //			sl.add(text);
-        }
-        //		return Helpers.String_join("->", sl);
+		if (done[0] != null) {
+			res.resolve(text[0]);
+		} else {
+			res.reject(ElDiagnostic.withMessage("-1", "done[0] == null", ElDiagnostic.Severity.ERROR));
+		}
 
-        final StringBuilder sb = st.sb;
+		return res;
+	}
 
-        if (st.needs_comma && args != null && args.size() > 0) {
-            sb.append(", ");
-        }
+	/**
+	 * Call before you call build
+	 *
+	 * @param sl3
+	 */
+	public void args(final List<String> sl3) {
+		args = sl3;
+	}
 
-        if (st.open) {
-            if (args != null) {
-                sb.append(Helpers.String_join(", ", args));
-            }
-            sb.append(")");
-        }
+	@NotNull
+	public String build() {
+		final BuildState st = new BuildState();
 
-        return sb.toString();
-    }
+		for (final Reference ref : refs) {
+			switch (ref.type) {
+				case LITERAL:
+				case DIRECT_MEMBER:
+				case INLINE_MEMBER:
+				case MEMBER:
+				case LOCAL:
+				case FUNCTION:
+				case PROPERTY_GET:
+				case PROPERTY_SET:
+				case CONSTRUCTOR:
+					ref.buildHelper(st);
+					break;
+				default:
+					throw new IllegalStateException("Unexpected value: " + ref.type);
+			}
+			//			sl.add(text);
+		}
+		//		return Helpers.String_join("->", sl);
 
-    void addRef(final String text, final Ref type, final String aValue) {
-        refs.add(new Reference(text, type, aValue));
-    }
+		final StringBuilder sb = st.sb;
 
-    enum Ref {
-        // was:
-        // enum Ref {
-        // LOCAL, MEMBER, PROPERTY_GET, PROPERTY_SET, INLINE_MEMBER, CONSTRUCTOR,
-        // DIRECT_MEMBER, LITERAL, PROPERTY (removed), FUNCTION
-        // }
+		if (st.needs_comma && args != null && args.size() > 0) {
+			sb.append(", ");
+		}
 
-        // https://www.baeldung.com/a-guide-to-java-enums
-        LOCAL {
-            @Override
-            public void buildHelper(final Reference ref, final BuildState sb) {
-                final String text = "vv" + ref.text;
-                sb.appendText(text, false);
-            }
-        },
-        MEMBER {
-            @Override
-            public void buildHelper(final Reference ref, final @NotNull BuildState sb) {
-                final String text = "->vm" + ref.text;
+		if (st.open) {
+			if (args != null) {
+				sb.append(Helpers.String_join(", ", args));
+			}
+			sb.append(")");
+		}
 
-                final StringBuilder sb1 = new StringBuilder();
+		return sb.toString();
+	}
 
-                sb1.append(text);
-                if (ref.value != null) {
-                    sb1.append(" = ");
-                    sb1.append(ref.value);
-                    sb1.append(";");
-                }
+	void addRef(final String text, final Ref type, final String aValue) {
+		refs.add(new Reference(text, type, aValue));
+	}
 
-                sb.appendText(sb1.toString(), false);
-            }
-        },
-        PROPERTY_GET {
-            @Override
-            public void buildHelper(final Reference ref, final BuildState sb) {
-                final String text;
-                final String s = sb.toString();
-                text = String.format("%s%s)", ref.text, s);
-                sb.open = false;
-                //				if (!s.equals(""))
-                sb.needs_comma = false;
-                sb.appendText(text, true);
-            }
-        },
-        PROPERTY_SET {
-            @Override
-            public void buildHelper(final Reference ref, final BuildState sb) {
-                final String text;
-                final String s = sb.toString();
-                text = String.format("%s%s, %s);", ref.text, s, ref.value);
-                sb.open = false;
-                //				if (!s.equals(""))
-                sb.needs_comma = false;
-                sb.appendText(text, true);
-            }
-        },
-        INLINE_MEMBER {
-            @Override
-            public void buildHelper(final Reference ref, final BuildState sb) {
-                final String text = Emit.emit("/*219*/") + ".vm" + ref.text;
-                sb.appendText(text, false);
-            }
-        },
-        CONSTRUCTOR {
-            @Override
-            public void buildHelper(final Reference ref, final BuildState sb) {
-                final String text;
-                final @NotNull String s = sb.toString();
-                text = String.format("%s(%s", ref.text, s);
-                sb.open = false;
-                if (!s.equals("")) {
-                    sb.needs_comma = true;
-                }
-                sb.appendText(text + ")", true);
-            }
-        },
-        DIRECT_MEMBER {
-            @Override
-            public void buildHelper(final Reference ref, final @NotNull BuildState sb) {
-                final String text;
-                text = Emit.emit("/*124*/") + "vsc->vm" + ref.text;
+	enum Ref {
+		// was:
+		// enum Ref {
+		// LOCAL, MEMBER, PROPERTY_GET, PROPERTY_SET, INLINE_MEMBER, CONSTRUCTOR,
+		// DIRECT_MEMBER, LITERAL, PROPERTY (removed), FUNCTION
+		// }
 
-                final StringBuilder sb1 = new StringBuilder();
+		// https://www.baeldung.com/a-guide-to-java-enums
+		LOCAL {
+			@Override
+			public void buildHelper(final Reference ref, final BuildState sb) {
+				final String text = "vv" + ref.text;
+				sb.appendText(text, false);
+			}
+		},
+		MEMBER {
+			@Override
+			public void buildHelper(final Reference ref, final @NotNull BuildState sb) {
+				final String text = "->vm" + ref.text;
 
-                sb1.append(text);
-                if (ref.value != null) {
-                    sb1.append(" = ");
-                    sb1.append(ref.value);
-                    sb1.append(";");
-                }
+				final StringBuilder sb1 = new StringBuilder();
 
-                sb.appendText(sb1.toString(), false);
-            }
-        },
-        LITERAL {
-            @Override
-            public void buildHelper(final Reference ref, final BuildState sb) {
-                final String text = ref.text;
-                sb.appendText(text, false);
-            }
-        },
-        FUNCTION {
-            @Override
-            public void buildHelper(final Reference ref, final BuildState sb) {
-                final String text;
-                final String s = sb.toString();
-                text = String.format("%s(%s", ref.text, s);
-                sb.open = true;
-                if (!s.equals("")) {
-                    sb.needs_comma = true;
-                }
-                sb.appendText(text, true);
-            }
-        };
+				sb1.append(text);
+				if (ref.value != null) {
+					sb1.append(" = ");
+					sb1.append(ref.value);
+					sb1.append(";");
+				}
 
-        public abstract void buildHelper(final Reference ref, final BuildState sb);
-    }
+				sb.appendText(sb1.toString(), false);
+			}
+		},
+		PROPERTY_GET {
+			@Override
+			public void buildHelper(final Reference ref, final BuildState sb) {
+				final String text;
+				final String s = sb.toString();
+				text    = String.format("%s%s)", ref.text, s);
+				sb.open = false;
+				//				if (!s.equals(""))
+				sb.needs_comma = false;
+				sb.appendText(text, true);
+			}
+		},
+		PROPERTY_SET {
+			@Override
+			public void buildHelper(final Reference ref, final BuildState sb) {
+				final String text;
+				final String s = sb.toString();
+				text    = String.format("%s%s, %s);", ref.text, s, ref.value);
+				sb.open = false;
+				//				if (!s.equals(""))
+				sb.needs_comma = false;
+				sb.appendText(text, true);
+			}
+		},
+		INLINE_MEMBER {
+			@Override
+			public void buildHelper(final Reference ref, final BuildState sb) {
+				final String text = Emit.emit("/*219*/") + ".vm" + ref.text;
+				sb.appendText(text, false);
+			}
+		},
+		CONSTRUCTOR {
+			@Override
+			public void buildHelper(final Reference ref, final BuildState sb) {
+				final String          text;
+				final @NotNull String s = sb.toString();
+				text    = String.format("%s(%s", ref.text, s);
+				sb.open = false;
+				if (!s.equals("")) {
+					sb.needs_comma = true;
+				}
+				sb.appendText(text + ")", true);
+			}
+		},
+		DIRECT_MEMBER {
+			@Override
+			public void buildHelper(final Reference ref, final @NotNull BuildState sb) {
+				final String text;
+				text = Emit.emit("/*124*/") + "vsc->vm" + ref.text;
 
-    interface GenerateC_Statement {
-        String getText();
+				final StringBuilder sb1 = new StringBuilder();
 
-        GCR_Rule rule();
-    }
+				sb1.append(text);
+				if (ref.value != null) {
+					sb1.append(" = ");
+					sb1.append(ref.value);
+					sb1.append(";");
+				}
 
-    interface GCR_Rule {
-        String text();
-    }
+				sb.appendText(sb1.toString(), false);
+			}
+		},
+		LITERAL {
+			@Override
+			public void buildHelper(final Reference ref, final BuildState sb) {
+				final String text = ref.text;
+				sb.appendText(text, false);
+			}
+		},
+		FUNCTION {
+			@Override
+			public void buildHelper(final Reference ref, final BuildState sb) {
+				final String text;
+				final String s = sb.toString();
+				text    = String.format("%s(%s", ref.text, s);
+				sb.open = true;
+				if (!s.equals("")) {
+					sb.needs_comma = true;
+				}
+				sb.appendText(text, true);
+			}
+		};
 
-    interface GenerateC_Item {}
+		public abstract void buildHelper(final Reference ref, final BuildState sb);
+	}
 
-    static class Reference {
-        final String text;
-        final Ref type;
-        final String value;
+	interface GenerateC_Statement {
+		String getText();
 
-        public Reference(final String aText, final Ref aType, final String aValue) {
-            text  = aText;
-            type  = aType;
-            value = aValue;
-        }
+		GCR_Rule rule();
+	}
 
-        public Reference(final String aText, final Ref aType) {
-            text  = aText;
-            type  = aType;
-            value = null;
-        }
+	interface GCR_Rule {
+		String text();
+	}
 
-        public void buildHelper(final BuildState st) {
-            type.buildHelper(this, st);
-        }
-    }
+	interface GenerateC_Item {
+	}
 
-    private static final class BuildState {
-        StringBuilder sb = new StringBuilder();
-        boolean open = false, needs_comma = false;
+	static class Reference {
+		final String text;
+		final Ref    type;
+		final String value;
 
-        public void appendText(final String text, final boolean erase) {
-            if (erase) {
-                sb = new StringBuilder();
-            }
+		public Reference(final String aText, final Ref aType, final String aValue) {
+			text  = aText;
+			type  = aType;
+			value = aValue;
+		}
 
-            sb.append(text);
-        }
+		public Reference(final String aText, final Ref aType) {
+			text  = aText;
+			type  = aType;
+			value = null;
+		}
 
-        @Override
-        public String toString() {
-            return sb.toString();
-        }
-        // ABOVE 3a
-    }
+		public void buildHelper(final BuildState st) {
+			type.buildHelper(this, st);
+		}
+	}
 
-    class GI_ProcIA implements GenerateC_Item {
-        private final ProcIA carrier;
+	private static final class BuildState {
+		StringBuilder sb   = new StringBuilder();
+		boolean       open = false, needs_comma = false;
 
-        public GI_ProcIA(final ProcIA aProcIA) {
-            carrier = aProcIA;
-        }
-    }
+		public void appendText(final String text, final boolean erase) {
+			if (erase) {
+				sb = new StringBuilder();
+			}
 
-    private class GI_Module {
-        private final OS_Module carrier;
+			sb.append(text);
+		}
 
-        GI_Module(final OS_Module aCarrier) {
-            carrier = aCarrier;
-        }
-    }
+		@Override
+		public String toString() {
+			return sb.toString();
+		}
+		// ABOVE 3a
+	}
 
-    private class GI_Repo {
-        private final Map<Object, GenerateC_Item> items = new HashMap<>();
+	class GI_ProcIA implements GenerateC_Item {
+		private final ProcIA carrier;
 
-        public GenerateC_Item itemFor(final ProcIA aProcIA) {
-            final GI_ProcIA gi_proc;
-            if (items.containsKey(aProcIA)) {
-                gi_proc = (GI_ProcIA) items.get(aProcIA);
-            } else {
-                gi_proc = new GI_ProcIA(aProcIA);
-                items.put(aProcIA, gi_proc);
-            }
-            return gi_proc;
-        }
-    }
+		public GI_ProcIA(final ProcIA aProcIA) {
+			carrier = aProcIA;
+		}
+	}
+
+	private class GI_Module {
+		private final OS_Module carrier;
+
+		GI_Module(final OS_Module aCarrier) {
+			carrier = aCarrier;
+		}
+	}
+
+	private class GI_Repo {
+		private final Map<Object, GenerateC_Item> items = new HashMap<>();
+
+		public GenerateC_Item itemFor(final ProcIA aProcIA) {
+			final GI_ProcIA gi_proc;
+			if (items.containsKey(aProcIA)) {
+				gi_proc = (GI_ProcIA) items.get(aProcIA);
+			} else {
+				gi_proc = new GI_ProcIA(aProcIA);
+				items.put(aProcIA, gi_proc);
+			}
+			return gi_proc;
+		}
+	}
 }
 
 //
