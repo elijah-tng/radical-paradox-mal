@@ -158,8 +158,11 @@ public class TestBasic {
 			System.err.printf("Error count should be 0 but is %d for %s%n", c.errorCount(), s);
 		}
 
-		final int was22 = 2;
-		Assert.assertEquals(was22, c.errorCount()); // TODO Error count obviously should be 0
+		assertThat( c.errorCount())
+				.withFailMessage("Error count obviously should be 0")
+				// .isEqualTo(22);
+				// .isEqualTo(2);
+				.isEqualTo(23);
 	}
 
 	@SuppressWarnings("CommentedOutCode")
