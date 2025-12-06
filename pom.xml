@@ -231,7 +231,7 @@
 						<configuration>
 							<sources>
 								<source>src-mal/java/</source>
-								<source>src-cef/java/</source>
+								<!--<source>src-cef/java/</source>-->
 								<!--<source>src/generated/</source>-->
 							</sources>
 						</configuration>
