@@ -28,79 +28,118 @@
 			<artifactId>cegont-upper</artifactId>
 			<version>dc1063667e640230540167d9eb9e0ec562c26d8f</version>
 		</dependency>
-<!--
 		<dependency>
 			<groupId>io.vavr</groupId>
 			<artifactId>vavr</artifactId>
 			<version>0.10.7</version>
 		</dependency>
--->
 
-<!--
 		<dependency>
 			<groupId>org.pcollections</groupId>
 			<artifactId>pcollections</artifactId>
 			<version>5.0.0</version>
 		</dependency>
--->
 
-<!--
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.13.2</version>
 		</dependency>
--->
 
 
+		<dependency>
+			<groupId>io.activej</groupId>
+			<artifactId>activej-net</artifactId>
+			<version>${activej.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.activej</groupId>
+			<artifactId>activej-inject</artifactId>
+			<version>${activej.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.activej</groupId>
+			<artifactId>activej-launcher</artifactId>
+			<version>${activej.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.activej</groupId>
+			<artifactId>activej-csp</artifactId>
+			<version>${activej.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.activej</groupId>
+			<artifactId>activej-test</artifactId>
+			<version>${activej.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.activej</groupId>
+			<artifactId>activej-common</artifactId>
+			<version>${activej.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.activej</groupId>
+			<artifactId>activej-http</artifactId>
+			<version>${activej.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.activej</groupId>
+			<artifactId>activej-eventloop</artifactId>
+			<version>${activej.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.activej</groupId>
+			<artifactId>activej-launchers-http</artifactId>
+			<version>${activej.version}</version>
+		</dependency>
 
-<!--
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>1.5.20</version>
 			<scope>test</scope>
 		</dependency>
--->
-
+		<!--<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.20.0</version>
+		</dependency>-->
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
 			<artifactId>jna</artifactId>
 			<version>5.17.0</version>
 		</dependency>
-
-<!--
 		<dependency>
 			<groupId>io.reactivex.rxjava3</groupId>
 			<artifactId>rxjava</artifactId>
 			<version>3.1.12</version>
 		</dependency>
--->
-<!--
+
 		<dependency>
 			<groupId>org.reactivestreams</groupId>
 			<artifactId>reactive-streams</artifactId>
 			<version>1.0.4</version>
 		</dependency>
--->
-
-<!--
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>1.19.0</version>
 		</dependency>
--->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>2.0.17</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.jetbrains</groupId>
 			<artifactId>annotations</artifactId>
 			<version>26.0.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.spotbugs</groupId>
+			<artifactId>spotbugs-annotations</artifactId>
+			<version>4.9.8</version>
 		</dependency>
 
 		<dependency>
@@ -140,9 +179,26 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.5.4</version>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.6.1</version>
+
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src-mal/java/</source>
+								<!--<source>src-cef/java/</source>-->
+								<!--<source>src/generated/</source>-->
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 
 			<plugin>
@@ -210,6 +266,37 @@
 					</plugin>
 				</plugins>
 			</reporting>
+		</profile>
+		<profile>
+			<id>roaster</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation> <!--lazy-->
+			<dependencyManagement>
+				<dependencies>
+					<dependency>
+						<groupId>org.jboss.forge.roaster</groupId>
+						<artifactId>roaster-api</artifactId>
+						<version>2.30.1.Final</version>
+					</dependency>
+					<dependency>
+						<groupId>org.jboss.forge.roaster</groupId>
+						<artifactId>roaster-jdt</artifactId>
+						<version>2.30.1.Final</version>
+					</dependency>
+				</dependencies>
+			</dependencyManagement>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.forge.roaster</groupId>
+					<artifactId>roaster-api</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.jboss.forge.roaster</groupId>
+					<artifactId>roaster-jdt</artifactId>
+					<scope>compile</scope> <!--optional,provided?-->
+				</dependency>
+			</dependencies>
 		</profile>
 	</profiles>
 </project>
