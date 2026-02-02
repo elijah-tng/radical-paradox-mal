@@ -1,8 +1,8 @@
-package tripleo.vendor.mal;
+package mal;
 
 import com.google.common.base.Joiner;
-import tripleo.vendor.mal.types.MalList;
-import tripleo.vendor.mal.types.MalVal;
+import mal.types.MalList;
+import mal.types.MalVal;
 import tripleo.vendor.org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;

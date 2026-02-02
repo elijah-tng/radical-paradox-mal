@@ -1,6 +1,6 @@
-package tripleo.vendor.mal;
+package mal;
 
-import tripleo.vendor.mal.env.*;
+import mal.env.*;
 
 import java.util.*;
 

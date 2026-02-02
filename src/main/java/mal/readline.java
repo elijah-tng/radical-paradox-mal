@@ -1,4 +1,4 @@
-package tripleo.vendor.mal;
+package mal;
 
 import com.google.common.io.*;
 import com.sun.jna.*;

@@ -1,7 +1,7 @@
-package tripleo.vendor.mal;
+package mal;
 
 import com.google.common.collect.*;
-import tripleo.vendor.mal.types.*;
+import mal.types.*;
 
 import java.io.*;
 import java.util.*;
@@ -10,9 +10,9 @@ public class core {
 	public static ImmutableMap<String, MalVal> ns;
 
 	// Local references for convenience
-	static MalConstant Nil = tripleo.vendor.mal.types.Nil;
-	static MalConstant True = tripleo.vendor.mal.types.True;
-	static MalConstant False = tripleo.vendor.mal.types.False;
+	static MalConstant Nil = types.Nil;
+	static MalConstant True = types.True;
+	static MalConstant False = types.False;
 
 	// Errors/Exceptions
 	static MalFunction mal_throw = new MalFunction() {

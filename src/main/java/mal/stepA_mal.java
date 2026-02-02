@@ -1,7 +1,7 @@
-package tripleo.vendor.mal;
+package mal;
 
-import tripleo.vendor.mal.env.Env;
-import tripleo.vendor.mal.types.*;
+import mal.env.Env;
+import mal.types.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -304,8 +304,8 @@ public class stepA_mal {
 		final Env repl_env = new Env(null);
 
 		{
-			for (final String key : tripleo.vendor.mal.core.ns.keySet()) {
-				repl_env.set(new MalSymbol(key), tripleo.vendor.mal.core.ns.get(key));
+			for (final String key : core.ns.keySet()) {
+				repl_env.set(new MalSymbol(key), core.ns.get(key));
 			}
 			repl_env.set(new MalSymbol("eval"), new MalFunction() {
 				public MalVal apply(final MalList args) throws MalThrowable {
