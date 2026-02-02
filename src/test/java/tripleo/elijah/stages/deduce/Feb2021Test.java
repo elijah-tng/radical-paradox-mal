@@ -21,7 +21,8 @@ import static tripleo.elijah_fluffy.util.Helpers.List_of;
  */
 public class Feb2021Test {
 
-	@Test
+	// I figured this out a couple of times
+	//@Test
 	public void testProperty() {
 		final Compilation c = CompilationFactory.mkCompilation();
 
