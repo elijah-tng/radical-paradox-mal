@@ -2,11 +2,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tripleo.elijah</groupId>
-	<artifactId>elijah-prolific-remnant</artifactId>
+	<artifactId>elijah-prolific-remnant-mal</artifactId>
 	<packaging>jar</packaging>
 	<version>0.1-prolific-remnant</version>
-	<name>eljc-prolific-remnant</name>
-	<url>http://github.com/elijah-team/prolific-remnant/</url>
+	<name>eljc-prolific-remnant-mal</name>
+	<url>http://elijah-team.github.io/prolific-remnant/mal/</url>
 
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
@@ -33,77 +33,41 @@
 			<artifactId>cegont-upper</artifactId>
 			<version>dc1063667e640230540167d9eb9e0ec562c26d8f</version>
 		</dependency>
+<!--
 		<dependency>
 			<groupId>io.vavr</groupId>
 			<artifactId>vavr</artifactId>
 			<version>0.10.7</version>
 		</dependency>
+-->
 
+<!--
 		<dependency>
 			<groupId>org.pcollections</groupId>
 			<artifactId>pcollections</artifactId>
 			<version>5.0.0</version>
 		</dependency>
+-->
 
+<!--
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.13.2</version>
 		</dependency>
+-->
 
 
-		<dependency>
-			<groupId>io.activej</groupId>
-			<artifactId>activej-net</artifactId>
-			<version>${activej.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.activej</groupId>
-			<artifactId>activej-inject</artifactId>
-			<version>${activej.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.activej</groupId>
-			<artifactId>activej-launcher</artifactId>
-			<version>${activej.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.activej</groupId>
-			<artifactId>activej-csp</artifactId>
-			<version>${activej.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.activej</groupId>
-			<artifactId>activej-test</artifactId>
-			<version>${activej.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.activej</groupId>
-			<artifactId>activej-common</artifactId>
-			<version>${activej.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.activej</groupId>
-			<artifactId>activej-http</artifactId>
-			<version>${activej.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.activej</groupId>
-			<artifactId>activej-eventloop</artifactId>
-			<version>${activej.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.activej</groupId>
-			<artifactId>activej-launchers-http</artifactId>
-			<version>${activej.version}</version>
-		</dependency>
 
+<!--
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>1.5.20</version>
 			<scope>test</scope>
 		</dependency>
+-->
+
 
 		<!-- left for e/n/p
 		<dependency>
@@ -118,37 +82,36 @@
 			<version>b9b3817070f078f36a29c4024cf62995df07d61c</version>
 		</dependency>
 
+		<!--
 		<dependency>
 			<groupId>io.reactivex.rxjava3</groupId>
 			<artifactId>rxjava</artifactId>
 			<version>3.1.12</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.reactivestreams</groupId>
 			<artifactId>reactive-streams</artifactId>
 			<version>1.0.4</version>
 		</dependency>
+		-->
+
+		<!--
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>1.19.0</version>
 		</dependency>
+		-->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>2.0.17</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.jetbrains</groupId>
 			<artifactId>annotations</artifactId>
 			<version>26.0.2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.github.spotbugs</groupId>
-			<artifactId>spotbugs-annotations</artifactId>
-			<version>4.9.8</version>
 		</dependency>
 
 		<dependency>
@@ -189,6 +152,12 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.5.4</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<version>3.9.0</version>
 			</plugin>
@@ -210,6 +179,10 @@
 				<artifactId>maven-source-plugin</artifactId>
 				<version>3.3.1</version>
 				<configuration>
+					<!--
+					<outputDirectory>/absolute/path/to/the/output/directory</outputDirectory>
+					<finalName>filename-of-generated-jar-file</finalName>
+					-->
 					<attach>true</attach>
 				</configuration>
 				<executions>
@@ -248,37 +221,6 @@
 					</plugin>
 				</plugins>
 			</reporting>
-		</profile>
-		<profile>
-			<id>roaster</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation> <!--lazy-->
-			<dependencyManagement>
-				<dependencies>
-					<dependency>
-						<groupId>org.jboss.forge.roaster</groupId>
-						<artifactId>roaster-api</artifactId>
-						<version>2.30.1.Final</version>
-					</dependency>
-					<dependency>
-						<groupId>org.jboss.forge.roaster</groupId>
-						<artifactId>roaster-jdt</artifactId>
-						<version>2.30.1.Final</version>
-					</dependency>
-				</dependencies>
-			</dependencyManagement>
-			<dependencies>
-				<dependency>
-					<groupId>org.jboss.forge.roaster</groupId>
-					<artifactId>roaster-api</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>org.jboss.forge.roaster</groupId>
-					<artifactId>roaster-jdt</artifactId>
-					<scope>compile</scope> <!--optional,provided?-->
-				</dependency>
-			</dependencies>
 		</profile>
 	</profiles>
 </project>
