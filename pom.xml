@@ -26,7 +26,6 @@
 		<dependency>
 			<groupId>com.github.elijah-tng</groupId>
 			<artifactId>cegont-upper</artifactId>
-			<!--<version>0.1-prolific-remnant</version>-->
 			<version>dc1063667e640230540167d9eb9e0ec562c26d8f</version>
 		</dependency>
 		<dependency>
@@ -129,16 +128,20 @@
 			<version>1.5.20</version>
 			<scope>test</scope>
 		</dependency>
-		<!--<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.20.0</version>
-		</dependency>-->
+
+		<!-- left for e/n/p
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
 			<artifactId>jna</artifactId>
 			<version>5.17.0</version>
 		</dependency>
+		-->
+		<dependency>
+			<groupId>com.github.elijah-tng</groupId>
+			<artifactId>radical-paradox-mal</artifactId>
+			<version>b9b3817070f078f36a29c4024cf62995df07d61c</version>
+		</dependency>
+
 		<dependency>
 			<groupId>io.reactivex.rxjava3</groupId>
 			<artifactId>rxjava</artifactId>
@@ -208,29 +211,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>3.6.1</version>
-
-				<executions>
-					<execution>
-						<id>add-source</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>src-mal/java/</source>
-								<!--<source>src-cef/java/</source>-->
-								<!--<source>src/generated/</source>-->
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
