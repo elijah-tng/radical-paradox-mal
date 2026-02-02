@@ -1,0 +1,6 @@
+// package tripleo.elijah_prolific.comp_signals;
+//
+// public interface CSS2_Signal {
+//     void trigger(Compilation compilation, Object payload);
+//     interface Compilation{}
+// }
