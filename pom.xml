@@ -12,46 +12,42 @@
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<jacoco.version>0.8.6</jacoco.version>
-		<downloadSources>true</downloadSources>
 		<guava.version>33.5.0-jre</guava.version>
-		<buffers.version>0.0.3</buffers.version>
-		<range.version>0.0.3b</range.version>
 		<maven-site-plugin.version>3.7.1</maven-site-plugin.version>
 		<maven-javadoc-plugin.version>3.0.0-M1</maven-javadoc-plugin.version>
-		<!--<scala.version>2.12</scala.version>-->
 		<activej.version>6.0-rc2</activej.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.github.elijah-tng</groupId>
-			<artifactId>radical-paradox-annot</artifactId>
-			<version>37e35731274869b641b9a0b93281935bbc9fd2c9</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.elijah-tng</groupId>
 			<artifactId>cegont-upper</artifactId>
-			<version>dc1063667e640230540167d9eb9e0ec562c26d8f</version>
+			<version>67d41a389ce069bf8c4ef14f867a16722e188bc5</version>
 		</dependency>
+		<!--
 		<dependency>
 			<groupId>io.vavr</groupId>
 			<artifactId>vavr</artifactId>
 			<version>0.10.7</version>
 		</dependency>
+		-->
 
 		<dependency>
 			<groupId>org.pcollections</groupId>
 			<artifactId>pcollections</artifactId>
-			<version>5.0.0</version>
+			<version>5.0.0</version> <!--??-->
 		</dependency>
 
+		<!--
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.13.2</version>
 		</dependency>
+		-->
 
 
+		<!--
 		<dependency>
 			<groupId>io.activej</groupId>
 			<artifactId>activej-net</artifactId>
@@ -97,68 +93,62 @@
 			<artifactId>activej-launchers-http</artifactId>
 			<version>${activej.version}</version>
 		</dependency>
+		-->
 
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.5.20</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- left for e/n/p
+		<!--<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.20.0</version>
+		</dependency>-->
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
 			<artifactId>jna</artifactId>
 			<version>5.17.0</version>
 		</dependency>
-		-->
 		<dependency>
-			<groupId>com.github.elijah-tng</groupId>
-			<artifactId>radical-paradox-mal</artifactId>
-			<version>b9b3817070f078f36a29c4024cf62995df07d61c</version>
-		</dependency>
-
-		<!--
-		<dependency>
-		-->
-		<dependency>
-			<groupId>com.github.elijah-tng</groupId>
-			<artifactId>radical-paradox-mal</artifactId>
-			<version>b9b3817070f078f36a29c4024cf62995df07d61c</version>
-		</dependency>
-
-		<!--
 			<groupId>io.reactivex.rxjava3</groupId>
 			<artifactId>rxjava</artifactId>
 			<version>3.1.12</version>
 		</dependency>
+		<!--
 		<dependency>
 			<groupId>org.reactivestreams</groupId>
 			<artifactId>reactive-streams</artifactId>
 			<version>1.0.4</version>
 		</dependency>
+		-->
+		<!--
 		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>1.19.0</version>
+		<groupId>commons-codec</groupId>
+		<artifactId>commons-codec</artifactId>
+		<version>1.19.0</version>
 		</dependency>
 		-->
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>2.0.17</version>
 		</dependency>
 		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>2.0.17</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.jetbrains</groupId>
 			<artifactId>annotations</artifactId>
 			<version>26.0.2</version>
 		</dependency>
 
+		<!--
 		<dependency>
 			<groupId>com.github.spotbugs</groupId>
 			<artifactId>spotbugs-annotations</artifactId>
 			<version>4.9.8</version>
 		</dependency>
+		-->
 
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -172,18 +162,20 @@
 			<version>4.13.2</version>
 			<scope>test</scope>
 		</dependency>
+		<!--
 		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>5.6.0</version>
-			<scope>test</scope>
+		<groupId>org.easymock</groupId>
+		<artifactId>easymock</artifactId>
+		<version>5.6.0</version>
+		<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.assertj</groupId>
-			<artifactId>assertj-core</artifactId>
-			<version>4.0.0-M1</version>
-			<scope>test</scope>
+		<groupId>org.assertj</groupId>
+		<artifactId>assertj-core</artifactId>
+		<version>4.0.0-M1</version>
+		<scope>test</scope>
 		</dependency>
+		-->
 
 	</dependencies>
 
@@ -196,28 +188,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>3.6.1</version>
-
-				<executions>
-					<execution>
-						<id>add-source</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>src-mal/java/</source>
-								<!--<source>src-cef/java/</source>-->
-								<!--<source>src/generated/</source>-->
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -230,7 +200,6 @@
 				<version>3.5.4</version>
 			</plugin>
 
-			<!-- To use the plugin goals in your POM or parent POM -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
@@ -240,7 +209,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>3.3.1</version>
+				<version>3.4.0</version>
 				<configuration>
 					<!--
 					<outputDirectory>/absolute/path/to/the/output/directory</outputDirectory>
@@ -260,7 +229,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-
 				<version>3.14.1</version>
 
 				<configuration>
@@ -288,8 +256,8 @@
 		<profile>
 			<id>roaster</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation> <!--lazy-->
+				<activeByDefault>false</activeByDefault>
+			</activation>
 			<dependencyManagement>
 				<dependencies>
 					<dependency>
