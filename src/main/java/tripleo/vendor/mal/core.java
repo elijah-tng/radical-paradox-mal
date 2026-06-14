@@ -1,7 +1,7 @@
-package mal;
+package tripleo.vendor.mal;
 
 import com.google.common.collect.*;
-import mal.types.*;
+import tripleo.vendor.mal.types.*;
 
 import java.io.*;
 import java.util.*;
